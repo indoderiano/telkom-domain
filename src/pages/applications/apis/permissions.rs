@@ -50,50 +50,111 @@ impl Component for Permissions {
                 style="font-size: 14px;"
             >
 
-                <div>
-                    <div
-                        class="fs-4 fw-bold"
-                    >
-                        {"List of Permissions (Scopes)"}
-                    </div>
-                    <p>{"These are all the permissions (scopes) that this API uses."}</p>
-                </div>
+                <div class="mb-4">
 
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
+                    <div>
                         <div
-                            class="d-flex"
+                            class="fs-4 fw-bold"
                         >
-                            <div
-                                class="flex-fill fw-bold"
-                            >
-                                {"Permission"}
-                            </div>
-                            <div
-                                class="flex-fill fw-bold"
-                            >
-                                {"Description"}
-                            </div>
+                            {"Add a Permissions (Scope)"}
                         </div>
-                    </li>
-                    { self.view_list() }
-                    // <li class="list-group-item">
-                    //     <div
-                    //         class="d-flex"
-                    //     >
-                    //         <div
-                    //             class="flex-fill"
-                    //         >
-                    //             {"read:client_grants"}
-                    //         </div>
-                    //         <div
-                    //             class="flex-fill"
-                    //         >
-                    //             {"Read Client Grants"}
-                    //         </div>
-                    //     </div>
-                    // </li>
-                </ul>
+                        <p>{"Define the permissions (scopes) that this API uses."}</p>
+                    </div>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item border-bottom-0">
+                            <div
+                                class="d-flex"
+                            >
+                                <div
+                                    class="flex-fill fw-bold"
+                                >
+                                    {"Permission"}
+                                </div>
+                                <div
+                                    class="flex-fill fw-bold"
+                                >
+                                    {"Description"}
+                                </div>
+                                <div
+                                    class="flex-shrink-1"
+                                    style="min-width: 81px;"
+                                >
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div
+                                class="d-flex"
+                            >
+                                <div
+                                    class="flex-fill pe-2"
+                                >
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                    />
+                                </div>
+                                <div
+                                    class="flex-fill pe-2"
+                                >
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                    />
+                                </div>
+                                <div
+                                    class="flex-shrink-1"
+                                    style="min-width: 81px;"
+                                >
+                                    <button type="button" class="btn btn-outline-secondary">
+                                        <i class="bi bi-plus-lg me-1"></i>
+                                        <span>{ "Add" }</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                        
+                    </ul>
+                </div>
+                
+                <div>
+                    <div>
+                        <div
+                            class="fs-4 fw-bold"
+                        >
+                            {"List of Permissions (Scopes)"}
+                        </div>
+                        <p>{"These are all the permissions (scopes) that this API uses."}</p>
+                    </div>
+            
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div
+                                class="d-flex"
+                            >
+                                <div
+                                    class="flex-fill fw-bold"
+                                >
+                                    {"Permission"}
+                                </div>
+                                <div
+                                    class="flex-fill fw-bold"
+                                >
+                                    {"Description"}
+                                </div>
+                                <div
+                                    class="flex-shrink-1"
+                                    style="min-width: 81px;"
+                                >
+                                </div>
+                            </div>
+                        </li>
+                        { self.view_list() }
+                        
+                    </ul>
+                </div>
 
             </div>
         }
@@ -117,6 +178,14 @@ impl Permissions {
                             class="flex-fill"
                         >
                             { scope.description.clone() }
+                        </div>
+                        <div
+                            class="flex-shrink-1"
+                            style="min-width: 81px;"
+                        >
+                            <button type="button" class="btn btn-outline-secondary">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </div>
                     </div>
                 </li>
