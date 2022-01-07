@@ -4,13 +4,18 @@ use yew::{
     services::{
         ConsoleService,
         fetch::{FetchService, FetchTask, Request, Response},
+        storage::{ StorageService, Area },
     }
 };
 use crate::types::{
-	api::{ ApiDetails, ResponseApiDetails },
+	api::{ ApiDetails, ResponseApiDetails, Scope },
 	ResponseMessage,
 };
 use crate::configs::server::API_URL;
+use crate::types::{
+    LocalStorage,
+    LOCALSTORAGE_KEY,
+};
 
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
@@ -19,24 +24,167 @@ pub struct PermissionsProps {
 }
 pub struct Permissions {
     api_details: ApiDetails,
+    scopes: Vec<Scope>,
+    new_scope: Scope,
+    access_token: String,
+    fetch_task: Option<FetchTask>,
+    link: ComponentLink<Self>,
+    loading_add_permission: bool,
+    error_add_permission: Option<String>,
+    loading_delete_permission: bool,
+    error_delete_permission: Option<String>,
+    error_request_api_details: Option<String>,
 }
 
-pub enum Msg {}
+enum DataPermissionAdd {
+    Value,
+    Description,
+}
+
+enum StateError {
+    AddPermission,
+    DeletePermission,
+    RequestApiDetails,
+}
+
+pub enum Msg {
+    Input(String, DataPermissionAdd),
+    AddPermission,
+    RequestApiDetails,
+    GetApiDetails(ApiDetails),
+    ResponseError(String, StateError),
+}
 
 impl Component for Permissions {
     type Message = Msg;
     type Properties = PermissionsProps;
 
-    fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
-        ConsoleService::info(&format!("Permissions props, api details = {:?}", props.api_details));
+    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        // ConsoleService::info(&format!("Permissions props, api details = {:?}", props.api_details));
+
+        let storage = StorageService::new(Area::Local).expect("storage was disabled");
+        let localstorage_data = {
+            if let Json(Ok(data)) = storage.restore(LOCALSTORAGE_KEY) {
+                data
+            } else {
+                LocalStorage {
+                    username: None,
+                    email: None,
+                    token: None,
+                }
+            }
+        };
+
+        let mut access_token = String::from("");
+        if localstorage_data.token.is_some() {
+            access_token = localstorage_data.token.unwrap();
+        } else {
+
+        }
+
 
         Permissions {
-            api_details: props.api_details,
+            api_details: props.api_details.clone(),
+            scopes: props.api_details.scopes.clone(),
+            new_scope: Scope {
+                value: "".to_string(),
+                description: "".to_string(),
+            },
+            access_token,
+            fetch_task: None,
+            link,
+            loading_add_permission: false,
+            error_add_permission: None,
+            loading_delete_permission: false,
+            error_delete_permission: None,
+            error_request_api_details: None,
         }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        true
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        match msg {
+            Msg::Input(input, data) => {
+                match data {
+                    DataPermissionAdd::Value => {
+                        self.new_scope.value = input;
+                    }
+                    DataPermissionAdd::Description => {
+                        self.new_scope.description = input;
+                    }
+                }
+                true
+            }
+            Msg::AddPermission => {
+                let mut new_api_details = self.api_details.clone();
+                new_api_details.scopes.push(self.new_scope.clone());
+                let request = Request::patch(format!("{}/api/v2/resource-server/{}", API_URL, self.api_details.resource_server_id.clone()))
+                    .header("Content-Type", "application/json")
+                    .header("access_token", self.access_token.clone())
+                    .body(Json(&new_api_details))
+                    .expect("Could not build request.");
+                let callback = self.link.callback(
+                    |response: Response<Json<Result<ApiDetails, anyhow::Error>>>| {
+                        let Json(data) = response.into_body();
+                        match data {
+                            Ok(response) => {
+                                Msg::RequestApiDetails
+                            }
+                            Err(error) => {
+                                Msg::ResponseError(error.to_string(), StateError::AddPermission)
+                            }
+                        }
+                    }
+                );
+                let task = FetchService::fetch(request, callback).expect("failed to start request");
+                self.fetch_task = Some(task);
+                self.error_add_permission = None;
+                self.loading_add_permission = true;
+                true
+            }
+            Msg::RequestApiDetails => {
+                self.error_request_api_details = None;
+                self.loading_add_permission = false;
+                let request = Request::get(format!("{}/api/v2/resource-server/{}", API_URL, self.api_details.resource_server_id))
+                    .header("access_token", self.access_token.clone())
+                    .body(Nothing)
+                    .expect("Could not build request.");
+                let callback = 
+                    self.link.callback(|response: Response<Json<Result<ApiDetails, anyhow::Error>>>| {
+                        let Json(data) = response.into_body();
+                        match data {
+                            Ok(dataok) => {
+                                Msg::GetApiDetails(dataok)
+                            }
+                            Err(error) => {
+                                Msg::ResponseError(error.to_string(), StateError::RequestApiDetails)
+                            }
+                        }
+                    });
+                let task = FetchService::fetch(request, callback).expect("failed to start request");
+                self.fetch_task = Some(task);
+                true
+            }
+            Msg::GetApiDetails(data) => {
+                self.api_details = data;
+                true
+            }
+            Msg::ResponseError(message, state) => {
+                match state {
+                    StateError::AddPermission => {
+                        self.loading_add_permission = false;
+                        self.error_add_permission = Some(message);
+                    }
+                    StateError::DeletePermission => {
+                        self.loading_delete_permission = false;
+                        self.error_delete_permission = Some(message);
+                    }
+                    StateError::RequestApiDetails => {
+                        self.error_request_api_details = Some(message);
+                    }
+                }
+                true
+            }
+        }
     }
 
     fn change(&mut self, _: Self::Properties) -> ShouldRender {
@@ -62,7 +210,7 @@ impl Component for Permissions {
                     </div>
 
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item border-bottom-0">
+                        <li class="list-group-item border-bottom-0 pb-0">
                             <div
                                 class="d-flex"
                             >
@@ -94,6 +242,8 @@ impl Component for Permissions {
                                     <input
                                         type="text"
                                         class="form-control"
+                                        value={ self.new_scope.value.clone() }
+                                        oninput=self.link.callback(|data: InputData| Msg::Input(data.value, DataPermissionAdd::Value))
                                     />
                                 </div>
                                 <div
@@ -102,15 +252,27 @@ impl Component for Permissions {
                                     <input
                                         type="text"
                                         class="form-control"
+                                        value={ self.new_scope.description.clone() }
+                                        oninput=self.link.callback(|data: InputData| Msg::Input(data.value, DataPermissionAdd::Description))
                                     />
                                 </div>
                                 <div
                                     class="flex-shrink-1"
                                     style="min-width: 81px;"
                                 >
-                                    <button type="button" class="btn btn-outline-secondary">
-                                        <i class="bi bi-plus-lg me-1"></i>
-                                        <span>{ "Add" }</span>
+                                    <button
+                                        type="button"
+                                        class=format!("btn {} btn-outline-secondary position-relative", if self.loading_add_permission {"loading"} else {""} )
+                                        onclick=self.link.callback(|_| Msg::AddPermission)
+                                        disabled={ if self.loading_add_permission {true} else {false} }
+                                    >
+                                        <div class="telkom-label">
+                                            <i class="bi bi-plus-lg me-1"></i>
+                                            <span>{ "Add" }</span>
+                                        </div>
+                                        <div class="telkom-spinner telkom-center">
+                                            <div class="spinner-border spinner-border-sm" role="status"/>
+                                        </div>
                                     </button>
                                 </div>
                             </div>
@@ -128,6 +290,19 @@ impl Component for Permissions {
                         </div>
                         <p>{"These are all the permissions (scopes) that this API uses."}</p>
                     </div>
+
+                    {
+                        if self.error_request_api_details.is_some() {
+                            html! {
+                                <div class="alert alert-warning mb-5" role="alert">
+                                    <i class="bi bi-exclamation-triangle me-2"></i>
+                                    { self.error_request_api_details.clone().unwrap() }
+                                </div>
+                            }
+                        } else {
+                            html! {}
+                        }
+                    }
             
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
