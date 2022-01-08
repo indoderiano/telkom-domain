@@ -41,6 +41,7 @@ enum DataPermissionAdd {
     Description,
 }
 
+#[derive(Debug, Clone, Copy)]
 enum StateError {
     AddPermission,
     DeletePermission,
@@ -50,6 +51,8 @@ enum StateError {
 pub enum Msg {
     Input(String, DataPermissionAdd),
     AddPermission,
+    DeletePermission(usize),
+    RequestUpdateApiDetails(ApiDetails, StateError),
     RequestApiDetails,
     GetApiDetails(ApiDetails),
     ResponseError(String, StateError),
@@ -115,35 +118,64 @@ impl Component for Permissions {
                 true
             }
             Msg::AddPermission => {
+                // VALIDATION
+                if self.new_scope.value.is_empty() || self.new_scope.description.is_empty() {
+                    self.link.send_message(Msg::ResponseError("Input is empty".to_string(), StateError::AddPermission));
+                    return false
+                }
+
                 let mut new_api_details = self.api_details.clone();
                 new_api_details.scopes.push(self.new_scope.clone());
+                self.link.send_message(Msg::RequestUpdateApiDetails(new_api_details, StateError::AddPermission));
+                self.error_add_permission = None;
+                self.loading_add_permission = true;
+                false
+            }
+            Msg::DeletePermission(index_delete) => {
+                let new_scopes = self.api_details.scopes
+                .clone()
+                .iter()
+                .enumerate()
+                .filter(|(index, _data)| {
+                    *index != index_delete
+                })
+                .map(|(index, data)| {
+                    data.clone()
+                })
+                .collect::<Vec<Scope>>();
+
+                let mut new_api_details = self.api_details.clone();
+                new_api_details.scopes = new_scopes;
+                
+                self.link.send_message(Msg::RequestUpdateApiDetails(new_api_details, StateError::DeletePermission));
+                self.error_delete_permission = None;
+                self.loading_delete_permission = true;
+                false
+            }
+            Msg::RequestUpdateApiDetails(new_api_details, state) => {
                 let request = Request::patch(format!("{}/api/v2/resource-server/{}", API_URL, self.api_details.resource_server_id.clone()))
                     .header("Content-Type", "application/json")
                     .header("access_token", self.access_token.clone())
                     .body(Json(&new_api_details))
                     .expect("Could not build request.");
                 let callback = self.link.callback(
-                    |response: Response<Json<Result<ApiDetails, anyhow::Error>>>| {
+                    move |response: Response<Json<Result<ApiDetails, anyhow::Error>>>| {
                         let Json(data) = response.into_body();
                         match data {
                             Ok(response) => {
                                 Msg::RequestApiDetails
                             }
                             Err(error) => {
-                                Msg::ResponseError(error.to_string(), StateError::AddPermission)
+                                Msg::ResponseError(error.to_string(), state.clone())
                             }
                         }
                     }
                 );
                 let task = FetchService::fetch(request, callback).expect("failed to start request");
                 self.fetch_task = Some(task);
-                self.error_add_permission = None;
-                self.loading_add_permission = true;
                 true
             }
             Msg::RequestApiDetails => {
-                self.error_request_api_details = None;
-                self.loading_add_permission = false;
                 let request = Request::get(format!("{}/api/v2/resource-server/{}", API_URL, self.api_details.resource_server_id))
                     .header("access_token", self.access_token.clone())
                     .body(Nothing)
@@ -165,6 +197,17 @@ impl Component for Permissions {
                 true
             }
             Msg::GetApiDetails(data) => {
+                // DEFAULT STATE
+                self.loading_add_permission = false;
+                self.loading_delete_permission = false;
+                self.fetch_task = None;
+                
+                // CLEAR INPUT
+                self.new_scope = Scope {
+                    value: "".to_string(),
+                    description: "".to_string(),
+                };
+
                 self.api_details = data;
                 true
             }
@@ -244,6 +287,7 @@ impl Component for Permissions {
                                         class="form-control"
                                         value={ self.new_scope.value.clone() }
                                         oninput=self.link.callback(|data: InputData| Msg::Input(data.value, DataPermissionAdd::Value))
+                                        disabled={ self.loading_add_permission }
                                     />
                                 </div>
                                 <div
@@ -254,6 +298,7 @@ impl Component for Permissions {
                                         class="form-control"
                                         value={ self.new_scope.description.clone() }
                                         oninput=self.link.callback(|data: InputData| Msg::Input(data.value, DataPermissionAdd::Description))
+                                        disabled={ self.loading_add_permission }
                                     />
                                 </div>
                                 <div
@@ -279,6 +324,19 @@ impl Component for Permissions {
                         </li>
                         
                     </ul>
+
+                    {
+                        if self.error_add_permission.is_some() {
+                            html! {
+                                <div class="alert alert-warning mb-5" role="alert">
+                                    <i class="bi bi-exclamation-triangle me-2"></i>
+                                    { self.error_add_permission.clone().unwrap() }
+                                </div>
+                            }
+                        } else {
+                            html! {}
+                        }
+                    }
                 </div>
                 
                 <div>
@@ -303,32 +361,55 @@ impl Component for Permissions {
                             html! {}
                         }
                     }
-            
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <div
-                                class="d-flex"
-                            >
-                                <div
-                                    class="flex-fill fw-bold"
-                                >
-                                    {"Permission"}
+
+                    {
+                        if self.error_delete_permission.is_some() {
+                            html! {
+                                <div class="alert alert-warning mb-5" role="alert">
+                                    <i class="bi bi-exclamation-triangle me-2"></i>
+                                    { self.error_delete_permission.clone().unwrap() }
                                 </div>
+                            }
+                        } else {
+                            html! {}
+                        }
+                    }
+                    
+                    <div class=format!("position-relative {}", if self.loading_delete_permission {"loading"} else {""} )>
+                        <ul
+                            class="list-group list-group-flush telkom-label apis-permissions"
+                        >
+                            <li class="list-group-item">
                                 <div
-                                    class="flex-fill fw-bold"
+                                    class="d-flex"
                                 >
-                                    {"Description"}
+                                    <div
+                                        class="flex-fill fw-bold"
+                                    >
+                                        {"Permission"}
+                                    </div>
+                                    <div
+                                        class="flex-fill fw-bold"
+                                    >
+                                        {"Description"}
+                                    </div>
+                                    <div
+                                        class="flex-shrink-1"
+                                        style="min-width: 81px;"
+                                    >
+                                    </div>
                                 </div>
-                                <div
-                                    class="flex-shrink-1"
-                                    style="min-width: 81px;"
-                                >
-                                </div>
-                            </div>
-                        </li>
-                        { self.view_list() }
-                        
-                    </ul>
+                            </li>
+
+                            { self.view_list() }
+
+                        </ul>
+
+                        <div class="telkom-spinner telkom-center">
+                            <div class="spinner-border spinner-border-sm" role="status"/>
+                        </div>
+
+                    </div>
                 </div>
 
             </div>
@@ -338,7 +419,11 @@ impl Component for Permissions {
 
 impl Permissions {
     fn view_list (&self) -> Vec<Html> {
-        self.api_details.scopes.clone().iter().map(|scope| {
+        self.api_details.scopes
+        .clone()
+        .iter()
+        .enumerate()
+        .map(|(index, scope)| {
             html! {
                 <li class="list-group-item">
                     <div
@@ -358,7 +443,18 @@ impl Permissions {
                             class="flex-shrink-1"
                             style="min-width: 81px;"
                         >
-                            <button type="button" class="btn btn-outline-secondary">
+                            // <button
+                            //     type="button"
+                            //     class="btn btn-outline-secondary"
+                            // >
+                            //     <i class="bi bi-trash"></i>
+                            // </button>
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary"
+                                onclick=self.link.callback( move |_| Msg::DeletePermission(index.clone()))
+                                disabled={ self.loading_delete_permission }
+                            >
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>

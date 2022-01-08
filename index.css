@@ -110,16 +110,21 @@
   transition: visibility 0s linear 0s, opacity .15s linear;
 }
 
-.btn .telkom-spinner {
+.telkom-spinner {
   display: none;
 }
 .btn.loading .telkom-label {
   opacity: 0;
 }
-.btn.loading .telkom-spinner {
+.loading .telkom-spinner {
   display: block;
 }
 
+
+/*  */
+.loading .apis-permissions {
+  opacity: .4;
+}
 
 
 @media (min-width: 1280px) {

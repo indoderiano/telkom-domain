@@ -390,7 +390,7 @@ impl Component for ApisHome {
                                     type="button"
                                     class=format!("btn {} btn-primary position-relative", if self.loading_create_api {"loading"} else {""} )
                                     onclick=self.link.callback(|_| Msg::Create)
-                                    disabled={ if self.loading_create_api {true} else {false} }
+                                    disabled={ self.loading_create_api }
                                 >
                                     <div class="telkom-label">
                                       {"Create"}
