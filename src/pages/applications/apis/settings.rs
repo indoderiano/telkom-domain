@@ -118,7 +118,7 @@ impl Component for ApisSettings {
                 true
             }
             Msg::RequestApiDetails => {
-                let request = Request::get(format!("https://evening-cliffs-55855.herokuapp.com/api/v2/resource-server/{}", self.resource_server_id))
+                let request = Request::get(format!("{}/api/v2/resource-server/{}", API_URL, self.resource_server_id))
                     // .header("Content-Type", "application/json")
                     .header("access_token", self.access_token.clone())
                     .body(Nothing)
@@ -274,7 +274,7 @@ impl ApisSettings {
                     </div>
                 </div>
 
-                <DevelopersNote message="Only the following tabs are working, 'Settings'"/>
+                <DevelopersNote message="Only the following tabs are working, 'Settings', 'Permissions'"/>
 
                 <div
                     class="mb-4"

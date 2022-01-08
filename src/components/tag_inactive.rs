@@ -9,7 +9,7 @@ impl Component for TagInactive {
     type Message = Msg;
     type Properties = ();
 
-    fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
+    fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
         TagInactive {}
     }
 

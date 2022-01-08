@@ -22,45 +22,116 @@
 
 <body>
 
-  <div class="dropdown">
-    <button class="form-select" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      Dropdown button
-    </button>
-    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1">
-      <li><a class="dropdown-item" href="#">Action</a></li>
-      <li><a class="dropdown-item" href="#">Another action</a></li>
-      <li><a class="dropdown-item" href="#">Something else here</a></li>
-    </ul>
-  </div>
-  
-    
-  <!-- <select class="form-select" aria-label="Default select example">
-    <option selected>Open this select menu</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-  </select> -->
-
   <div
-    class="d-inline-block m-2"
+      style="font-size: 14px;"
   >
-    <label
-        class="btn btn-outline-secondary align-middle"
-        style="font-size: 12px;"
-        for="btn-check-outlined"
-    >
-        <label
-            class="form-check-label text-dark"
-            for="inlineCheckbox1"
-        >role</label>
-        <button
-          type="button"
-          class="btn-close ms-1"
-          style="font-size: 9px;"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-    </label>
+
+    <div class="mb-4">
+
+      <div>
+          <div
+              class="fs-4 fw-bold"
+          >
+              {"Add a Permissions (Scope)"}
+          </div>
+          <p>{"Define the permissions (scopes) that this API uses."}</p>
+      </div>
+
+      <ul class="list-group list-group-flush">
+          <li class="list-group-item border-bottom-0">
+              <div
+                  class="d-flex"
+              >
+                  <div
+                      class="flex-fill fw-bold"
+                  >
+                      {"Permission"}
+                  </div>
+                  <div
+                      class="flex-fill fw-bold"
+                  >
+                      {"Description"}
+                  </div>
+                  <div
+                        class="flex-shrink-1"
+                        style="min-width: 81px;"
+                    >
+                    </div>
+                </div>
+          </li>
+
+          <li class="list-group-item">
+              <div
+                  class="d-flex"
+              >
+                  <div
+                      class="flex-fill pe-2"
+                  >
+                    <input
+                      type="password"
+                      id="inputPassword5"
+                      class="form-control"
+                      aria-describedby="passwordHelpBlock"
+                    />
+                  </div>
+                  <div
+                      class="flex-fill me-2"
+                  >
+                  <input
+                    type="password"
+                    id="inputPassword5"
+                    class="form-control me-2"
+                    aria-describedby="passwordHelpBlock"
+                    />
+                  </div>
+                  <div
+                      class="flex-shrink-1"
+                  >
+                      <span class="min-width: 81px;">
+                        <button type="button" class="btn btn-outline-secondary">
+                            <i class="bi bi-trash"></i>
+                            <!-- <span>Add</span> -->
+                        </button>
+                      </span>
+                  </div>
+              </div>
+          </li>
+          
+      </ul>
+    </div>
+    
+    <div>
+      <div>
+          <div
+              class="fs-4 fw-bold"
+          >
+              {"List of Permissions (Scopes)"}
+          </div>
+          <p>{"These are all the permissions (scopes) that this API uses."}</p>
+      </div>
+  
+      <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+              <div
+                  class="d-flex"
+              >
+                  <div
+                      class="flex-fill fw-bold"
+                  >
+                      {"Permission"}
+                  </div>
+                  <div
+                      class="flex-fill fw-bold"
+                  >
+                      {"Description"}
+                  </div>
+              </div>
+          </li>
+          
+      </ul>
+    </div>
+
+
   </div>
 
 </body>
