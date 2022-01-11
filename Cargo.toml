@@ -26,6 +26,7 @@ state = { version = "0.5", features = ["tls"] }
 getting-started = { path = "./src/pages/getting-started" }
 router = { path = "./src/router" }
 types = { path = "./src/types" }
+store = { path = "./src/store" }
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3"
@@ -43,4 +44,5 @@ members = [
   "src/pages/getting-started",
   "src/router",
   "src/types",
+  "src/store",
 ]

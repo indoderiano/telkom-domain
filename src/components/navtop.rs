@@ -4,7 +4,7 @@ use crate::components::{
     logo2::Logo2,
 };
 use yewdux::dispatch::Dispatcher;
-use crate::store::reducer_account::{
+use store::{
     AppDispatch,
     DataAccountAction,
     // DataAccount,

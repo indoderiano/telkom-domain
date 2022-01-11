@@ -9,7 +9,7 @@ use yew::services::storage::{
     Area,
 };
 
-use crate::store::reducer_account::{
+use store::{
     AppDispatch,
     DataAccountAction,
     // DataAccount,

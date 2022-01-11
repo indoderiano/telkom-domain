@@ -1,6 +1,6 @@
 // use crate::app::AppRoute;
 use router::AppRoute;
-use crate::store::reducer_account::AppDispatch;
+use store::AppDispatch;
 use yew::prelude::*;
 use yew::services::ConsoleService;
 use yew_router::components::RouterAnchor;

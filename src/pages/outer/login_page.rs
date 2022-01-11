@@ -10,7 +10,7 @@ use yew_router::components::RouterAnchor;
 // use crate::app::AppRoute;
 use router::AppRoute;
 use yewtil::NeqAssign;
-use crate::store::reducer_account::{
+use store::{
     AppDispatch,
     DataAccountAction,
     // DataAccount,
