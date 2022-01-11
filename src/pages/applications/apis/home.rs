@@ -10,17 +10,17 @@ use yew::services::{
 };
 // use crate::app::AppRoute;
 use router::AppRoute;
-use crate::types::{
+use types::{
     api::{ ApiTitle, ApiCreate },
     ResponseMessage,
+    LocalStorage,
+    LOCALSTORAGE_KEY,
 };
 use crate::components::{
     loading2::Loading2,
 };
 
 use crate::configs::server::API_URL;
-use crate::types::LocalStorage;
-use crate::types::LOCALSTORAGE_KEY;
 
 
 // #[derive(Clone, Debug, Eq, PartialEq, Properties)]

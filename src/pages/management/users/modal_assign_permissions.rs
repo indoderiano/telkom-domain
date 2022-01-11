@@ -13,7 +13,7 @@ use crate::components::{
     developers_note::DevelopersNote,
 };
 use crate::configs::server::API_URL;
-use crate::types::{
+use types::{
     users::{ UserPermissions },
     api::{ ApiTitle, Scope },
     ResponseMessage,

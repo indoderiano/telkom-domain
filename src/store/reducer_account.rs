@@ -1,7 +1,7 @@
 use yewdux::prelude::*;
 use yew::services::ConsoleService;
 
-use crate::types::{
+use types::{
     ResponseLogin
 };
 

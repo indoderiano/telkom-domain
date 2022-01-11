@@ -11,7 +11,7 @@ use serde::{
     Serialize,
 };
 use crate::configs::server::API_URL;
-use crate::types::ResponseMessage;
+use types::ResponseMessage;
 
 
 enum RegisterData {

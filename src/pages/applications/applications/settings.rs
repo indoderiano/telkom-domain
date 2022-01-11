@@ -12,16 +12,16 @@ use router::AppRoute;
 use super::tab_connection::ConnectionTab;
 use super::tab_settings::TabSettings;
 use yew::services::ConsoleService;
-use crate::types::application::{ AppDetails, RefreshToken, 
-    SigningKeys,
-    JwtConfiguration };
+use types::{
+    application::{ AppDetails, RefreshToken, SigningKeys, JwtConfiguration },
+    LocalStorage,
+    LOCALSTORAGE_KEY,
+};
 use crate::components::{
     loading2::Loading2,
     developers_note::DevelopersNote,
 };
 
-use crate::types::LocalStorage;
-use crate::types::LOCALSTORAGE_KEY;
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
 pub struct AppsSettingsProps {

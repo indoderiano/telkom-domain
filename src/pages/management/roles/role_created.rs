@@ -1,6 +1,10 @@
 // use crate::app::AppRoute;
 use router::AppRoute;
-use crate::types::roles::Role;
+use types::{
+    roles::Role,
+    LocalStorage,
+    LOCALSTORAGE_KEY,
+};
 use yew::{
     format::{Json, Nothing},
     prelude::*,
@@ -10,11 +14,7 @@ use yew::{
         ConsoleService,
     },
 };
-
 use serde::Serialize;
-
-use crate::types::LocalStorage;
-use crate::types::LOCALSTORAGE_KEY;
 
 use crate::components::{
     loading2::Loading2,

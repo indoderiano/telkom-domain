@@ -10,7 +10,7 @@ use serde::{
     // Deserialize,
     Serialize,
 };
-use crate::types::settings::{
+use types::settings::{
     TenantSettings,
     ErrorPage,
 };

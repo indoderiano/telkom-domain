@@ -21,7 +21,12 @@ use crate::store::reducer_account::{
     DataAccountAction,
     // DataAccount,
 };
-use crate::types::ResponseLogin;
+// use crate::types::ResponseLogin;
+use types::{
+    ResponseLogin,
+    LocalStorage,
+    LOCALSTORAGE_KEY,
+};
 
 use getting_started::GettingStarted;
 
@@ -57,8 +62,6 @@ use crate::pages::{
 
 use crate::components::{navtop::Navtop, sidebar::Sidebar};
 
-use crate::types::LocalStorage;
-use crate::types::LOCALSTORAGE_KEY;
 
 // #[derive(Switch, Clone)]
 // pub enum AppRoute {

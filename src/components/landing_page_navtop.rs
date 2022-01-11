@@ -14,9 +14,10 @@ use crate::store::reducer_account::{
     DataAccountAction,
     // DataAccount,
 };
-use crate::types::{
-    ResponseLogin,
-};
+// use crate::types::{
+//     ResponseLogin,
+// };
+use types::ResponseLogin;
 
 pub struct LandingPageNavTop {
     dispatch: AppDispatch,

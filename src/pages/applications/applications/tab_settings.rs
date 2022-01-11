@@ -13,18 +13,15 @@ use crate::components::{
   developers_note::DevelopersNote,
   tag_inactive::TagInactive,
 };
-// use crate::app::AppRoute;
-
-use crate::types::LocalStorage;
-use crate::types::LOCALSTORAGE_KEY;
 
 use yew_router::{agent::RouteRequest::ChangeRoute, service::RouteService, prelude::*};
-use crate::types::{
-	application::{ AppDetails, RefreshToken,
-     SigningKeys,
-    JwtConfiguration  },
+use types::{
+	application::{ AppDetails, RefreshToken, SigningKeys, JwtConfiguration },
 	ResponseMessage,
+  LocalStorage,
+  LOCALSTORAGE_KEY,
 };
+
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
 pub struct AppsTabSettingsProps {

@@ -9,17 +9,17 @@ use yew::{
 
 // use crate::app::AppRoute;
 use router::AppRoute;
-use crate::types::{
+use types::{
     application::{AppList, AppCreate},
     ResponseMessage,
+    LocalStorage,
+    LOCALSTORAGE_KEY,
 };
 use yew::services::ConsoleService;
 use yew_router::components::RouterAnchor;
 
 use crate::components::loading2::Loading2;
 
-use crate::types::LocalStorage;
-use crate::types::LOCALSTORAGE_KEY;
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
 pub struct AppProps {

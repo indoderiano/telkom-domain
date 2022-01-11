@@ -6,7 +6,7 @@ use yew::{
 use yew::services::ConsoleService;
 use crate::components::loading2::Loading2;
 use crate::configs::server::API_URL;
-use crate::types::users::{UserLogDetails, ResponseUserLogLists};
+use types::users::{UserLogDetails, ResponseUserLogLists};
 
 
 pub struct UserTabHistory {

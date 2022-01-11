@@ -5,7 +5,7 @@ use super::tab_users::TabUsers;
 use router::AppRoute;
 use crate::components::loading2::Loading2;
 use crate::configs::server::API_URL;
-use crate::types::roles::Role;
+use types::roles::Role;
 use yew::{
     format::{Json, Nothing},
     prelude::*,

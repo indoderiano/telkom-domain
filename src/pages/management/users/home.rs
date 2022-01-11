@@ -1,8 +1,10 @@
 // use crate::app::AppRoute;
 use router::AppRoute;
-use crate::types::{
+use types::{
     users::{ResponseUsersList, UserCreate, UserTitle},
     ResponseMessage,
+    LocalStorage,
+    LOCALSTORAGE_KEY,
 };
 use yew::{
     format::{Json, Nothing},
@@ -14,8 +16,6 @@ use yew::{
     },
 };
 use yew_router::components::RouterAnchor;
-use crate::types::LocalStorage;
-use crate::types::LOCALSTORAGE_KEY;
 
 use crate::components::{
     loading2::Loading2,

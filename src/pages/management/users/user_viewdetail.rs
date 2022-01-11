@@ -12,7 +12,11 @@ use crate::components::{
     developers_note::DevelopersNote,
 };
 use crate::configs::server::API_URL;
-use crate::types::users::{UserDetails};
+use types::{
+    users::{UserDetails},
+    LocalStorage,
+    LOCALSTORAGE_KEY,
+};
 use yew::{
     format::{Json, Nothing},
     prelude::*,
@@ -23,8 +27,6 @@ use yew::{
     },
 };
 use yew_router::components::RouterAnchor;
-use crate::types::LocalStorage;
-use crate::types::LOCALSTORAGE_KEY;
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
 pub struct UserSettingsProps {

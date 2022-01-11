@@ -6,7 +6,7 @@ use yew::{
         fetch::{FetchService, FetchTask, Request, Response},
     }
 };
-use crate::types::{
+use types::{
 	api::{ ApiDetails, ResponseApiDetails, Application },
 	ResponseMessage,
 };

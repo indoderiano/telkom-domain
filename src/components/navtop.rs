@@ -17,7 +17,8 @@ use yew::services::{
     ConsoleService,
     storage::{ StorageService, Area },
 };
-use crate::types::LOCALSTORAGE_KEY;
+// use crate::types::LOCALSTORAGE_KEY;
+use types::LOCALSTORAGE_KEY;
 
 pub struct Navtop {
     dispatch: AppDispatch,

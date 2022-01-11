@@ -7,15 +7,13 @@ use yew::{
         storage::{ StorageService, Area },
     }
 };
-use crate::types::{
+use types::{
 	api::{ ApiDetails, ResponseApiDetails, Scope },
 	ResponseMessage,
-};
-use crate::configs::server::API_URL;
-use crate::types::{
     LocalStorage,
     LOCALSTORAGE_KEY,
 };
+use crate::configs::server::API_URL;
 
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]

@@ -11,7 +11,7 @@ use serde::Serialize;
 use crate::components::loading2::Loading2;
 use crate::pages::management::users::modal_assign_permissions::ModalAssignPermissions;
 use crate::configs::server::API_URL;
-use crate::types::{
+use types::{
     users::{UserPermissions},
     api::{ ApiTitle, Scope },
     ResponseMessage,

@@ -13,7 +13,7 @@ use crate::components::{
     developers_note::DevelopersNote,
 };
 use crate::configs::server::API_URL;
-use crate::types::{
+use types::{
     roles::Role,
     users::{ UserRole },
     ResponseMessage,

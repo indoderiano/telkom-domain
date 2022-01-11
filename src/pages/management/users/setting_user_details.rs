@@ -10,7 +10,7 @@ use yew::{
 };
 use yew_router::service::RouteService;
 
-use crate::types::{
+use types::{
     users::{ResponseUserDetails, UserDetails},
     LocalStorage, ResponseMessage, LOCALSTORAGE_KEY,
 };

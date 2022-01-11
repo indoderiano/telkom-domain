@@ -16,7 +16,7 @@ use crate::store::reducer_account::{
     // DataAccount,
 };
 use crate::configs::server::API_URL;
-use crate::types::{
+use types::{
     ResponseLogin,
     LocalStorage,
     LOCALSTORAGE_KEY,

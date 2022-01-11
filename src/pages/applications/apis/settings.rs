@@ -15,14 +15,16 @@ use yew::services::{
     storage::{ StorageService, Area },
 };
 
-use crate::types::api::{ ApiDetails, ResponseApiDetails };
+use types::{
+    api::{ ApiDetails, ResponseApiDetails },
+    LocalStorage,
+    LOCALSTORAGE_KEY,
+};
 use crate::configs::server::API_URL;
 use crate::components::{
     loading2::Loading2,
     developers_note::DevelopersNote,
 };
-use crate::types::LocalStorage;
-use crate::types::LOCALSTORAGE_KEY;
 
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
