@@ -4,7 +4,8 @@ use yew::{
     services::fetch::{FetchService, FetchTask, Request, Response},
 };
 use yew_router::components::RouterAnchor;
-use crate::app::AppRoute;
+// use crate::app::AppRoute;
+use router::AppRoute;
 use super::quickstart::Quickstart;
 use super::tab_settings::TabSettings;
 use super::permissions::Permissions;

@@ -2,7 +2,8 @@ use yew::prelude::*;
 use yewdux::prelude::*;
 use yewtil::NeqAssign;
 use yew_router::components::RouterAnchor;
-use crate::app::AppRoute;
+// use crate::app::AppRoute;
+use router::AppRoute;
 use yew::services::storage::{
     StorageService,
     Area,

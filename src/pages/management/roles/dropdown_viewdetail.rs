@@ -1,7 +1,8 @@
 use super::tab_permission::TabPermissions;
 use super::tab_setting::TabSettings;
 use super::tab_users::TabUsers;
-use crate::app::AppRoute;
+// use crate::app::AppRoute;
+use router::AppRoute;
 use crate::components::loading2::Loading2;
 use crate::configs::server::API_URL;
 use crate::types::roles::Role;

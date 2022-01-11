@@ -5,7 +5,8 @@ use super::setting_user_json::UserTabRawJson;
 use super::setting_user_auth_app::UserTabAuthorizedApp;
 use super::setting_user_permissions::UserTabPermissions;
 use super::setting_user_roles::UserTabRoles;
-use crate::app::AppRoute;
+// use crate::app::AppRoute;
+use router::AppRoute;
 use crate::components::{
     loading2::Loading2,
     developers_note::DevelopersNote,

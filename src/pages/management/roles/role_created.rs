@@ -1,4 +1,5 @@
-use crate::app::AppRoute;
+// use crate::app::AppRoute;
+use router::AppRoute;
 use crate::types::roles::Role;
 use yew::{
     format::{Json, Nothing},

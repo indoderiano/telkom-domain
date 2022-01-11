@@ -7,7 +7,8 @@ use yew::{
     },
 };
 use yew_router::components::RouterAnchor;
-use crate::app::AppRoute;
+// use crate::app::AppRoute;
+use router::AppRoute;
 use super::tab_connection::ConnectionTab;
 use super::tab_settings::TabSettings;
 use yew::services::ConsoleService;

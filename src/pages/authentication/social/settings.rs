@@ -1,6 +1,7 @@
 use yew::prelude::*;
 use yew_router::components::RouterAnchor;
-use crate::app::AppRoute;
+// use crate::app::AppRoute;
+use router::AppRoute;
 use super::applications::SocialApplications;
 use super::tab_settings::TabSettings;
 

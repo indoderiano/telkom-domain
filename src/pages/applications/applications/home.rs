@@ -7,7 +7,8 @@ use yew::{
     },
 };
 
-use crate::app::AppRoute;
+// use crate::app::AppRoute;
+use router::AppRoute;
 use crate::types::{
     application::{AppList, AppCreate},
     ResponseMessage,

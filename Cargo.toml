@@ -23,6 +23,9 @@ anyhow = "1.0.42"
 css-in-rust = { version = "^0.5.0", features = ["yew_integration"] }
 state = { version = "0.5", features = ["tls"] }
 
+getting-started = { path = "./src/pages/getting-started" }
+router = { path = "./src/router" }
+
 [dev-dependencies]
 wasm-bindgen-test = "0.3"
 
@@ -30,4 +33,12 @@ wasm-bindgen-test = "0.3"
 version = "0.3.4"
 features = [
   'KeyboardEvent',
+]
+
+
+[workspace]
+
+members = [
+  "src/pages/getting-started",
+  "src/router",
 ]
