@@ -254,7 +254,7 @@ impl Component for TabSettings {
                 self.loading_delete_api = false;
                 self.fetch_task = None;
                 self.route_service.set_route(&format!("/{}/apis", "tenant_id_not_from_reducer"), ());
-                self.router_agent.send(ChangeRoute(AppRoute::ApisHome {tenant_id: self.tenant_id.clone()}.into()));
+                self.router_agent.send(ChangeRoute(AppRoute::ApisHome.into()));
                 true
             }
             Msg::Ignore => {true}
