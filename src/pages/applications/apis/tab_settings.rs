@@ -6,9 +6,12 @@ use yew::{
         fetch::{FetchService, FetchTask, Request, Response, StatusCode},
         storage::{ StorageService, Area },
     },
-    
+    agent::Bridged, Bridge, ComponentLink,
 };
-use yew_router::service::RouteService;
+
+use crate::app::AppRoute;
+
+use yew_router::{agent::RouteRequest::ChangeRoute, service::RouteService, prelude::*};
 use crate::types::{
 	api::{ ApiDetails, ResponseApiDetails },
 };
@@ -19,6 +22,7 @@ use crate::types::LOCALSTORAGE_KEY;
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
 pub struct ApisTabSettingsProps {
     pub api_details: ApiDetails,
+    pub tenant_id: String,
 }
 
 pub enum StateError {
@@ -58,6 +62,8 @@ pub struct TabSettings {
     error_delete_api: Option<String>,
     route_service: RouteService,
     access_token: String,
+    router_agent: Box<dyn Bridge<RouteAgent>>,
+    tenant_id: String,
 }
 
 pub enum Msg {
@@ -67,6 +73,7 @@ pub enum Msg {
     ResponseError(String, StateError),
     Delete,
     RedirectToApi,
+    Ignore,
 }
 
 impl Component for TabSettings {
@@ -104,7 +111,6 @@ impl Component for TabSettings {
 
         TabSettings {
             api_details: props.api_details,
-            link,
             fetch_task: None,
             loading_update_api: false,
 		    error_update_api: None,
@@ -112,6 +118,9 @@ impl Component for TabSettings {
             error_delete_api: None,
             route_service: RouteService::new(),
             access_token,
+            router_agent: RouteAgent::bridge(link.callback(|_| Msg::Ignore)),
+            link,
+            tenant_id: props.tenant_id,
         }
     }
 
@@ -245,8 +254,10 @@ impl Component for TabSettings {
                 self.loading_delete_api = false;
                 self.fetch_task = None;
                 self.route_service.set_route(&format!("/{}/apis", "tenant_id_not_from_reducer"), ());
+                self.router_agent.send(ChangeRoute(AppRoute::ApisHome {tenant_id: self.tenant_id.clone()}.into()));
                 true
             }
+            Msg::Ignore => {true}
         }
     }
 
@@ -256,6 +267,7 @@ impl Component for TabSettings {
 
     fn view(&self) -> Html {
         let ApiDetails {
+            tenant_id,
             resource_server_id,
             name,
             is_system: _,
