@@ -7,7 +7,9 @@ use yew::{
         storage::{ StorageService, Area }
     },
 };
+use serde::Serialize;
 use crate::components::loading2::Loading2;
+use crate::pages::management::users::modal_assign_roles::ModalAssignRoles;
 use crate::configs::server::API_URL;
 use crate::types::{
     users::{ UserRole, UserDetails },
@@ -144,44 +146,73 @@ impl Component for UserTabRoles {
                 true
             }
             Msg::Delete => {
-                // remove role from vector
-                let new_roles: Vec<UserRole> = self.user_roles
-                .iter()
-                .enumerate()
-                .filter(|(i, e)| {
-                    if self.index_role_delete.is_some() {
-                        *i != self.index_role_delete.unwrap()
-                    } else {
-                        true
-                    }
-                })
-                .map(|(_s, x)| {
-                    x.clone()
-                })
-                .collect();
-                ConsoleService::info(&format!("new permissions = {:?}", new_roles));
 
-                let request = Request::delete(format!("{}/users/tenant_id/users/auth0|7CYXV0aDAlN0M2MTM3MTIyMTAxY2VmYTAwNzM0NzRmYmI/roles", API_URL))
-                    .header("access_token", "telkomidtelkomdomain")
-                    .header("Content-Type", "application/json")
-                    .body(Json(&new_roles))
-                    .expect("Could not build request");
-                let callback = self.link.callback(|response: Response<Json<Result<ResponseMessage, anyhow::Error>>>| {
-                    let Json(data) = response.into_body();
-                    match data {
-                        Ok(dataok) => {
-                            ConsoleService::info(&format!("{:?}", dataok));
-                            Msg::RequestUserRoles
-                        }
-                        Err(error) => {
-                            ConsoleService::info(&error.to_string());
-                            Msg::ResponseError(error.to_string(), StateError::Delete)
-                        }
+                // VALIDATION
+                if self.index_role_delete.is_some() {
+                    #[derive(Serialize, Debug, Clone, PartialEq)]
+                    struct DataRemoveRoles {
+                        roles: Vec<String>
                     }
-                });
-                let task = FetchService::fetch(request, callback).expect("failed to start request");
-                self.loading_delete_roles = true;
-                self.fetch_task = Some(task);
+    
+                    let data_remove_roles = DataRemoveRoles {
+                        roles: vec![
+                            self.user_roles[self.index_role_delete.unwrap()].id.clone()
+                        ]
+                    };
+
+                    let request = Request::delete(format!("{}/api/v2/users/{}/roles", API_URL, self.user_details.user_id.clone()))
+                        .header("access_token", self.access_token.clone())
+                        .header("Content-Type", "application/json")
+                        .body(Json(&data_remove_roles))
+                        .expect("Could not build request");
+                    let callback = self.link.callback(|response: Response<Json<Result<(), anyhow::Error>>>| {
+                        // let Json(data) = response.into_body();
+                        let (meta, Json(data)) = response.into_parts();
+                        let status_number = meta.status.as_u16();
+                        
+                        match status_number {
+                            204 => {
+                                Msg::RequestUserRoles
+                            }
+                            _ => {
+                                match data {
+                                    Ok(dataok) => {
+                                        // ConsoleService::info(&format!("{:?}", dataok));
+                                        Msg::RequestUserRoles
+                                    }
+                                    Err(error) => {
+                                        ConsoleService::info(&error.to_string());
+                                        Msg::ResponseError(error.to_string(), StateError::Delete)
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    let task = FetchService::fetch(request, callback).expect("failed to start request");
+                    self.loading_delete_roles = true;
+                    self.fetch_task = Some(task);
+                } else {
+                    self.link.send_message(Msg::ResponseError("No roles have been selected".to_string(), StateError::Delete))
+                }
+
+                // remove role from vector
+                // let new_roles: Vec<UserRole> = self.user_roles
+                // .iter()
+                // .enumerate()
+                // .filter(|(i, e)| {
+                //     if self.index_role_delete.is_some() {
+                //         *i != self.index_role_delete.unwrap()
+                //     } else {
+                //         true
+                //     }
+                // })
+                // .map(|(_s, x)| {
+                //     x.clone()
+                // })
+                // .collect();
+                // ConsoleService::info(&format!("new roles = {:?}", new_roles));
+
+                
                 true
             }
             Msg::ResponseError(message, state) => {
@@ -222,7 +253,15 @@ impl Component for UserTabRoles {
                         <p>{"All Roles assigned to this User."}</p>
                     </div>
                     <div class="col d-flex justify-content-end">
-                        <button type="button" class="btn btn-primary">{"Assign Roles"}</button>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#assignRoles"
+                            // onclick=self.link.callback(|_| Msg::RequestApis)
+                        >
+                            {"Assign Roles"}
+                        </button>
                     </div>
                 </div>
 
@@ -270,6 +309,7 @@ impl Component for UserTabRoles {
                 }
             </div>
 
+            // MODAL DELETE ROLE
             <div
                 class=format!("modal fade {}", if self.show_modal_delete_role {"show"} else {""})
                 // id="exampleModal"
@@ -353,7 +393,12 @@ impl Component for UserTabRoles {
                     </div>
                 </div>
             </div>
+
+            // MODAL ASSIGN ROLES
+            <ModalAssignRoles user_roles=self.user_roles.clone() user_id=self.user_details.user_id.clone() />
         </div>
+
+
         <div
             class=format!("modal-backdrop fade {}", if self.show_modal_delete_role {"show"} else {""})
             onclick=self.link.callback(move |_| Msg::ShowModalDeleteRole(false, None))

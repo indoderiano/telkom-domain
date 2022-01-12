@@ -153,78 +153,43 @@ impl Component for UserTabHistory {
                                 <th scope="col">{"From"}</th>
                             </tr>
                         </thead>
-                        {
-                            if self.loading_get_user_logs {
-                                html! {
-                                    <div style="position: relative; margin-top:8rem;">
-                                        <Loading2 width = 45 />
-                                    </div>
-                                }
-                            } else if self.error_user_log_list.is_some() {
-                                html! {
-                                    <tr>
-                                        <div class="alert alert-warning mb-5" role="alert">
-                                        <i class="bi bi-exclamation-triangle me-2"></i>
-                                        { self.error_user_log_list.clone().unwrap() }
-                                        </div>
-                                    </tr>
-                                }
-                            } else {
-                                html! {
-                                    <>
-                                        {self.view_user_log_history()}
-                                    </>
+                        <tbody>
+
+                            {
+                                if !self.loading_get_user_logs && !self.error_user_log_list.is_some() {
+                                    html! {
+                                        <>
+                                            {self.view_user_log_history()}
+                                        </>
+                                    } 
+                                } else {
+                                    html! {}
                                 }
                             }
-                        }
-                        // <tbody>
-                        //     <tr>
-                        //         <th scope="row"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13a688" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></th>
-                        //         <td><a href="">{"Success Logout"}</a></td>
-                        //         <td>{"12 minutes ago"}</td>
-                        //         <td>{"My NextJs App"}</td>
-                        //         <td>{"google-oauth2"}</td>
-                        //         <td>
-                        //             <p class="m-0">{"IP: 36.96.215.66"}</p>
-                        //             <p class="m-0">{"Tangerang, Indonesia"}</p>
-                        //         </td>
-                        //     </tr>
-                        //     <tr>
-                        //         <th scope="row"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13a688" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></th>
-                        //         <td><a href="">{"Success Login"}</a></td>
-                        //         <td>{"15 minutes ago"}</td>
-                        //         <td>{"My NextJs App"}</td>
-                        //         <td>{"google-oauth2"}</td>
-                        //         <td>
-                        //             <p class="m-0">{"IP: 36.96.215.66"}</p>
-                        //             <p class="m-0">{"Tangerang, Indonesia"}</p>
-                        //         </td>
-                        //     </tr>
-                        //     <tr>
-                        //             <th scope="row"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13a688" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></th>
-                        //             <td><a href="">{"Success Signup"}</a></td>
-                        //             <td>{"15 minutes ago"}</td>
-                        //             <td>{"My NextJs App"}</td>
-                        //             <td>{"google-oauth2"}</td>
-                        //             <td>
-                        //                 <p class="m-0">{"IP: 36.96.215.66"}</p>
-                        //                 <p class="m-0">{"Tangerang, Indonesia"}</p>
-                        //             </td>
-                        //     </tr>
-                        //      <tr>
-                        //         <th scope="row"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13a688" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></th>
-                        //         <td><a href="">{"Success Exchange"}</a></td>
-                        //         <td>{"18 minutes ago"}</td>
-                        //         <td>{"My NextJs App"}</td>
-                        //         <td>{"N/A"}</td>
-                        //         <td>
-                        //             <p class="m-0">{"IP: 36.96.215.66"}</p>
-                        //             <p class="m-0">{"Tangerang, Indonesia"}</p>
-                        //         </td>
-                        //         </tr>
-                        // </tbody>     
+
+
+
+                        </tbody>     
                     </table>
-                   
+                        
+                    {
+                        if self.loading_get_user_logs {
+                            html! {
+                                <div style="position: relative; margin-top:4rem;">
+                                    <Loading2 width = 45 />
+                                </div>
+                            }
+                        } else if self.error_user_log_list.is_some() {
+                            html!{
+                                <div class="alert alert-warning mb-5" role="alert">
+                                    <i class="bi bi-exclamation-triangle me-2"></i>
+                                    { self.error_user_log_list.clone().unwrap() }
+                                </div>
+                            }
+                        } else {
+                            html! {}
+                        }
+                    }
                     
                 </div>
                 

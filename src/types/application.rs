@@ -84,7 +84,7 @@ impl AppCreate {
     pub fn new() -> AppCreate {
         AppCreate {
             name: String::from(""),
-            app_type: String::from("Single Page Application"),
+            app_type: String::from("spa"),
             // signing_alg: String::from("RS256"),
         }
     }

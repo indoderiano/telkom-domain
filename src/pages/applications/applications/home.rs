@@ -59,160 +59,6 @@ pub enum Msg {
     ResponseError(String, StateError),
 }
 
-impl ApplicationHome {
-    fn view_app_list(&self) -> Vec<Html> {
-        type Anchor = RouterAnchor<AppRoute>;
-        let tenant_id = &self.tenant_id;
-        self.app_list.iter().map(|app| {
-            html! {
-                <>
-                    <div>
-                            <div
-                                class="d-flex border-bottom border-1 list-hover"
-                            >
-                            <div
-                                class="p-3 d-flex"
-                                style="width: 40%;"
-                            >
-                                <div
-                                    style="flex: 0 0 auto; width: 40px; height: 40px; background-color: #eff0f2;"
-                                    class="d-flex justify-content-center align-items-center rounded me-3"
-                                >
-                                    <img
-                                        src={"https://cdn.auth0.com/manhattan/versions/1.3226.0/assets/non_interactive.svg"} style=" color: transparent;
-                                        width: 100%;
-                                        height: 100%;
-                                        object-fit: cover;
-                                        text-align: center;
-                                        text-indent: 10000px;"
-                                    />
-                                </div>
-
-                                <div
-                                    class="d-grid"
-                                    style="min-width: 40px;"
-                                >
-                                    <Anchor route=AppRoute::ApplicationSettings { tenant_id: tenant_id.clone(), app_id: app.client_id.clone() } >
-                                            <a
-                                                class="fw-bold mb-0"
-                                                style=" white-space: nowrap;
-                                                        text-overflow: ellipsis;
-                                                        overflow: hidden;
-                                                        font-size: 14px;
-                                                        text-decoration: none;" 
-                                                href="#">
-                                                { &app.name }
-                                            </a>
-                                        </Anchor>
-                                    <p
-                                        class="mb-0 text-muted"
-                                        style=" white-space: nowrap;
-                                                text-overflow: ellipsis;
-                                                overflow: hidden;
-                                                font-size: 14px;"
-                                    >
-                                        { &app.app_type }
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div
-                                class="p-3 d-flex flex-fill align-items-center text-muted"
-                            >
-                                <span
-                                    style="font-size: 14px; margin-right: 8px; white-space: nowrap;"
-                                >
-                                {"Client ID:"}
-                                </span>
-                                <div
-                                    class="rounded"
-                                    style=" background-color: #eff0f2;
-                                            white-space: nowrap;
-                                            text-overflow: ellipsis;
-                                            overflow: hidden;
-                                            font-size: 14px;
-                                            padding: 2px 6px;
-                                            font-family: 'Roboto Mono', monospace;"
-                                >
-                                    { &app.client_id }
-                                </div>
-                                <i
-                                    class="bi bi-files ms-1"
-                                >
-                                </i>
-                            </div>
-
-                            <div
-                                class="p-3 d-flex align-items-center dropdown"
-                            >
-                                <button
-                                    type="button"
-                                    style="flex: 0 0 auto; width: 30px; height: 30px;"
-                                    class="btn d-flex justify-content-center align-items-center rounded border" role="button"
-                                    id="dropdownMenuButton1"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
-                                    <i
-                                        class="bi bi-three-dots"
-                                    >
-                                    </i>
-                                </button>
-                                <ul
-                                    class="dropdown-menu"
-                                    aria-labelledby="dropdownMenuButton1"
-                                >
-                                    <li>
-                                        <Anchor route=AppRoute::ApplicationSettings { tenant_id: tenant_id.clone(), app_id: app.client_id.clone() }classes="dropdown-item fs-7">
-                                            {"Settings"}
-                                        </Anchor>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </>
-            }
-        })
-        .collect()
-    }
-
-    fn view_app_list_empty(&self) -> Html {
-        html! {
-            <div style="
-                display: flex;
-                text-align: center;
-                align-items: center;
-                flex-direction: column;
-                margin-top: 60px;
-                padding: 40px;
-                border-radius: 6px;
-                border: 1px solid #e3e4e6;"
-            >
-
-                <img width="150" height=""
-                    src="https://assets-global.website-files.com/60058af53d79fbd8e14841ea/602e971e34a1e12c00b8c9ab_sso.svg"
-                />
-
-                <h4
-                    style="padding-top: 20px;"
-                >
-                    {"You don't have any App yet."}
-                </h4>
-                <button
-                    type="button"
-                    class="btn btn-primary mt-3 d-flex align-items-center"
-                    // data-bs-toggle="modal"
-                    // data-bs-target="#exampleModal"
-                    // onclick=self.link.callback(|_| {Msg::ShowModalCreate(true)})
-                >
-                    <i class="bi bi-plus me-2" style="margin-left: -5px;"></i>
-                    <span>{"Create APP"}</span>
-                </button>
-            </div>
-        }
-    }
-}
 
 impl Component for ApplicationHome {
     type Message = Msg;
@@ -676,3 +522,162 @@ impl Component for ApplicationHome {
         }
     }
 }
+
+
+
+
+impl ApplicationHome {
+    fn view_app_list(&self) -> Vec<Html> {
+        type Anchor = RouterAnchor<AppRoute>;
+        let tenant_id = &self.tenant_id;
+        self.app_list.iter().map(|app| {
+            html! {
+                <>
+                    <div>
+                            <div
+                                class="d-flex border-bottom border-1 list-hover"
+                            >
+                            <div
+                                class="p-3 d-flex"
+                                style="width: 40%;"
+                            >
+                                <div
+                                    style="flex: 0 0 auto; width: 40px; height: 40px; background-color: #eff0f2;"
+                                    class="d-flex justify-content-center align-items-center rounded me-3"
+                                >
+                                    <img
+                                        src={"https://cdn.auth0.com/manhattan/versions/1.3226.0/assets/non_interactive.svg"} style=" color: transparent;
+                                        width: 100%;
+                                        height: 100%;
+                                        object-fit: cover;
+                                        text-align: center;
+                                        text-indent: 10000px;"
+                                    />
+                                </div>
+
+                                <div
+                                    class="d-grid"
+                                    style="min-width: 40px;"
+                                >
+                                    <Anchor route=AppRoute::ApplicationSettings { tenant_id: tenant_id.clone(), app_id: app.client_id.clone() } >
+                                            <a
+                                                class="fw-bold mb-0"
+                                                style=" white-space: nowrap;
+                                                        text-overflow: ellipsis;
+                                                        overflow: hidden;
+                                                        font-size: 14px;
+                                                        text-decoration: none;" 
+                                                href="#">
+                                                { &app.name }
+                                            </a>
+                                        </Anchor>
+                                    <p
+                                        class="mb-0 text-muted"
+                                        style=" white-space: nowrap;
+                                                text-overflow: ellipsis;
+                                                overflow: hidden;
+                                                font-size: 14px;"
+                                    >
+                                        { &app.app_type }
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div
+                                class="p-3 d-flex flex-fill align-items-center text-muted"
+                            >
+                                <span
+                                    style="font-size: 14px; margin-right: 8px; white-space: nowrap;"
+                                >
+                                {"Client ID:"}
+                                </span>
+                                <div
+                                    class="rounded"
+                                    style=" background-color: #eff0f2;
+                                            white-space: nowrap;
+                                            text-overflow: ellipsis;
+                                            overflow: hidden;
+                                            font-size: 14px;
+                                            padding: 2px 6px;
+                                            font-family: 'Roboto Mono', monospace;"
+                                >
+                                    { &app.client_id }
+                                </div>
+                                <i
+                                    class="bi bi-files ms-1"
+                                >
+                                </i>
+                            </div>
+
+                            <div
+                                class="p-3 d-flex align-items-center dropdown"
+                            >
+                                <button
+                                    type="button"
+                                    style="flex: 0 0 auto; width: 30px; height: 30px;"
+                                    class="btn d-flex justify-content-center align-items-center rounded border" role="button"
+                                    id="dropdownMenuButton1"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    <i
+                                        class="bi bi-three-dots"
+                                    >
+                                    </i>
+                                </button>
+                                <ul
+                                    class="dropdown-menu"
+                                    aria-labelledby="dropdownMenuButton1"
+                                >
+                                    <li>
+                                        <Anchor route=AppRoute::ApplicationSettings { tenant_id: tenant_id.clone(), app_id: app.client_id.clone() }classes="dropdown-item fs-7">
+                                            {"Settings"}
+                                        </Anchor>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            }
+        })
+        .collect()
+    }
+
+    fn view_app_list_empty(&self) -> Html {
+        html! {
+            <div style="
+                display: flex;
+                text-align: center;
+                align-items: center;
+                flex-direction: column;
+                margin-top: 60px;
+                padding: 40px;
+                border-radius: 6px;
+                border: 1px solid #e3e4e6;"
+            >
+
+                <img width="150" height=""
+                    src="https://assets-global.website-files.com/60058af53d79fbd8e14841ea/602e971e34a1e12c00b8c9ab_sso.svg"
+                />
+
+                <h4
+                    style="padding-top: 20px;"
+                >
+                    {"You don't have any App yet."}
+                </h4>
+                <button
+                    type="button"
+                    class="btn btn-primary mt-3 d-flex align-items-center"
+                    // data-bs-toggle="modal"
+                    // data-bs-target="#exampleModal"
+                    // onclick=self.link.callback(|_| {Msg::ShowModalCreate(true)})
+                >
+                    <i class="bi bi-plus me-2" style="margin-left: -5px;"></i>
+                    <span>{"Create APP"}</span>
+                </button>
+            </div>
+        }
+    }
+}
+

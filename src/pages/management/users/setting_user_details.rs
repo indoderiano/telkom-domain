@@ -1,23 +1,18 @@
+use serde::{Deserialize, Serialize};
 use yew::{
-    prelude::*,
     format::{Json, Nothing},
+    prelude::*,
     services::{
-        ConsoleService,
         fetch::{FetchService, FetchTask, Request, Response},
-        storage::{ StorageService, Area }
+        storage::{Area, StorageService},
+        ConsoleService,
     },
 };
 use yew_router::service::RouteService;
-use serde::{
-    Deserialize,
-    Serialize,
-};
 
 use crate::types::{
-    users::{ UserDetails, ResponseUserDetails},
-    ResponseMessage,
-    LocalStorage,
-    LOCALSTORAGE_KEY,
+    users::{ResponseUserDetails, UserDetails},
+    LocalStorage, ResponseMessage, LOCALSTORAGE_KEY,
 };
 
 use crate::configs::server::API_URL;
@@ -27,7 +22,7 @@ pub struct UsersTabSettingProps {
     pub user_details: UserDetails,
 }
 
-pub enum Data{
+pub enum Data {
     UserId,
     Picture,
     CreatedAt,
@@ -38,7 +33,7 @@ pub enum Data{
     LoginsCount,
 }
 
-pub enum StateError{
+pub enum StateError {
     Blocked,
     Delete,
 }
@@ -70,7 +65,7 @@ impl Component for UserTabDetails {
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         // ConsoleService::info(&format!("this s fn create {:?}", props.user_details));
-        
+
         // LOCALSTORAGE RESOURCE
         // https://github.com/yewstack/yew/issues/1287
         // GET LOCALSTORAGE
@@ -98,9 +93,8 @@ impl Component for UserTabDetails {
         if let Some(_) = localstorage_data.token {
             access_token = localstorage_data.token.unwrap();
         } else {
-            
         }
-        
+
         UserTabDetails {
             user_details: props.user_details,
             link,
@@ -122,11 +116,10 @@ impl Component for UserTabDetails {
                         self.user_details.user_id = input;
                     }
                     Data::Picture => {
-                        self.user_details.picture = input;   
+                        self.user_details.picture = input;
                     }
                     Data::CreatedAt => {
                         self.user_details.created_at = input;
-                       
                     }
                     Data::UpdatedAt => {
                         self.user_details.updated_at = input;
@@ -140,14 +133,13 @@ impl Component for UserTabDetails {
                     Data::LastLogin => {
                         self.user_details.last_login = input;
                     }
-                    Data::LoginsCount =>{
-                       if input.is_empty() {
-                           self.user_details.logins_count = 0;
-                       } else {
-                           self.user_details.logins_count = input.parse::<u32>().unwrap();
-                       }
+                    Data::LoginsCount => {
+                        if input.is_empty() {
+                            self.user_details.logins_count = 0;
+                        } else {
+                            self.user_details.logins_count = input.parse::<u32>().unwrap();
+                        }
                     }
-
                 }
                 true
             }
@@ -158,7 +150,7 @@ impl Component for UserTabDetails {
                 self.loading_update_user = false;
                 self.error_update_user = None;
                 true
-            },
+            }
             Msg::ResponseError(message, state) => {
                 match state {
                     StateError::Blocked => {
@@ -175,51 +167,61 @@ impl Component for UserTabDetails {
                 true
             }
             Msg::Delete => {
-                let request = Request::delete(format!("{}/api/v2/users/{}", API_URL, self.user_details.user_id.clone()))
-                    .header("access_token", self.access_token.clone())
-                    .body(Nothing)
-                    .expect("Could not build request.");
-                let callback = self.link.callback(|response: Response<Json<Result<()
-                    // StatusCode
-                    , anyhow::Error>>>| {
+                let request = Request::delete(format!(
+                    "{}/api/v2/users/{}",
+                    API_URL,
+                    self.user_details.user_id.clone()
+                ))
+                .header("access_token", self.access_token.clone())
+                .body(Nothing)
+                .expect("Could not build request.");
+                let callback = self.link.callback(
+                    |response: Response<
+                        Json<
+                            Result<
+                                (), // StatusCode
+                                anyhow::Error,
+                            >,
+                        >,
+                    >| {
+                        let (meta, Json(data)) = response.into_parts();
 
-                    let (meta, Json(data)) = response.into_parts();
+                        let status_number = meta.status.as_u16();
 
-                    let status_number = meta.status.as_u16();
-
-                    match status_number {
-                        204 => {
-                            ConsoleService::info("status code is 204");
-                            ConsoleService::info("user is deleted");
-                            Msg::RedirectToUser
-                        }
-                        _ => {
-                            ConsoleService::info("status code is not 204");
-                            match data {
-                                Ok(dataok) => {
-                                    ConsoleService::info(&format!("{:?}", dataok));
-                                    Msg::RedirectToUser
-                                }
-                                Err(error) => {
-                                    ConsoleService::info(&error.to_string());
-                                    Msg::ResponseError(error.to_string(), StateError::Delete)
+                        match status_number {
+                            204 => {
+                                ConsoleService::info("status code is 204");
+                                ConsoleService::info("user is deleted");
+                                Msg::RedirectToUser
+                            }
+                            _ => {
+                                ConsoleService::info("status code is not 204");
+                                match data {
+                                    Ok(dataok) => {
+                                        ConsoleService::info(&format!("{:?}", dataok));
+                                        Msg::RedirectToUser
+                                    }
+                                    Err(error) => {
+                                        ConsoleService::info(&error.to_string());
+                                        Msg::ResponseError(error.to_string(), StateError::Delete)
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    // let Json(data) = response.into_body();
-                    // match data {
-                    //     Ok(dataok) => {
-                    //         ConsoleService::info(&format!("{:?}", dataok));
-                    //         Msg::RedirectToUser
-                    //     }
-                    //     Err(error) => {
-                    //         ConsoleService::info(&error.to_string());
-                    //         Msg::ResponseError(error.to_string(), StateError::Delete)
-                    //     }
-                    // }
-                });
+                        // let Json(data) = response.into_body();
+                        // match data {
+                        //     Ok(dataok) => {
+                        //         ConsoleService::info(&format!("{:?}", dataok));
+                        //         Msg::RedirectToUser
+                        //     }
+                        //     Err(error) => {
+                        //         ConsoleService::info(&error.to_string());
+                        //         Msg::ResponseError(error.to_string(), StateError::Delete)
+                        //     }
+                        // }
+                    },
+                );
                 let task = FetchService::fetch(request, callback).expect("failed to start request");
                 self.loading_delete_user = true;
                 self.fetch_task = Some(task);
@@ -228,43 +230,46 @@ impl Component for UserTabDetails {
             Msg::RedirectToUser => {
                 self.loading_delete_user = false;
                 self.fetch_task = None;
-                self.route_service.set_route(&format!("/{}/users", "tenant_id_not_from_reducer"), ());
+                self.route_service
+                    .set_route(&format!("/{}/users", "tenant_id_not_from_reducer"), ());
                 true
             }
             Msg::Block(state) => {
                 #[derive(Serialize, Debug, Clone)]
                 struct BlockedUser {
-                    blocked : bool
+                    blocked: bool,
                 }
-                let blocked_user = BlockedUser{
-                    blocked : state
-                };
+                let blocked_user = BlockedUser { blocked: state };
                 ConsoleService::info(&format!("{:?}", blocked_user.clone()));
 
-                let request = Request::patch(format!("{}/api/v2/users/{}", API_URL, self.user_details.user_id.clone()))
-                    .header("Content-Type", "application/json")
-                    .header("access_token", self.access_token.clone())
-                    .body(Json(&blocked_user))
-                    .expect("Could not build request.");
-                let callback = self.link.callback(|response: Response<Json<Result<UserDetails, anyhow::Error>>>| {
-                    let Json(data) = response.into_body();
-                    match data {
-                        Ok(dataok) => {
-                            ConsoleService::info(&format!("{:?}", dataok));
-                            Msg::GetUserDetails(dataok)
+                let request = Request::patch(format!(
+                    "{}/api/v2/users/{}",
+                    API_URL,
+                    self.user_details.user_id.clone()
+                ))
+                .header("Content-Type", "application/json")
+                .header("access_token", self.access_token.clone())
+                .body(Json(&blocked_user))
+                .expect("Could not build request.");
+                let callback = self.link.callback(
+                    |response: Response<Json<Result<UserDetails, anyhow::Error>>>| {
+                        let Json(data) = response.into_body();
+                        match data {
+                            Ok(dataok) => {
+                                ConsoleService::info(&format!("{:?}", dataok));
+                                Msg::GetUserDetails(dataok)
+                            }
+                            Err(error) => {
+                                Msg::ResponseError(error.to_string(), StateError::Blocked)
+                            }
                         }
-                        Err(error) => {
-                            Msg::ResponseError(error.to_string(), StateError::Blocked)
-                        }
-                    }
-                });
+                    },
+                );
                 let task = FetchService::fetch(request, callback).expect("failed to start request");
                 self.loading_update_user = true;
                 self.fetch_task = Some(task);
                 true
-
             }
-            
         }
     }
 
@@ -286,7 +291,7 @@ impl Component for UserTabDetails {
             app_metadata: _,
             user_metadata: _,
             picture,
-            name:_,
+            name: _,
             nickname: _,
             multifactor: _,
             last_ip,
@@ -299,13 +304,13 @@ impl Component for UserTabDetails {
         html! {
             <>
             <div class="mt-4">
-                <div class="card">
+                <div class="card p-3">
                     <div class="card-body">
-                        <div class="container">
+                        <div>
                             <div class="row">
                                 <div class="col-4 col-md-4 col-lg-4">
                                     <p class="text-muted mb-1">{"Name"}</p>
-                                    <p class="mb-1">{given_name}<span>{family_name}</span></p>
+                                    <p class="mb-1">{format!("{} {}", given_name, family_name)}</p>
                                     <a href="">{"Edit"}</a>
                                 </div>
                                 <div class="col-4 col-md-4 col-lg-4">
@@ -349,9 +354,9 @@ impl Component for UserTabDetails {
                     </div>
                 </div>
         </div>
-        
+
         <div class="mt-4">
-            <div class="card">
+            <div class="card p-3">
                 <div class="card-body">
                     <p class="fw-bold">{"Multi-Factor Authentication"}</p>
                     <div class="p-4" style="background-color: rgb(239,240,242)">
@@ -362,37 +367,37 @@ impl Component for UserTabDetails {
         </div>
 
         <div class="mt-4">
-            <div class="card">
+            <div class="card p-3">
                 <div class="card-body p-4">
                     <p class="fw-bold fs-4">{"Identity Provider Attributes"}</p>
                     <div class="mb-3">
                         <label class="form-label fw-bold">{"user_id"}</label>
-                        <input 
-                            type="text" 
-                            class="form-control" 
+                        <input
+                            type="text"
+                            class="form-control"
                             aria-label="readonly input example"
-                            value={user_id} 
+                            value={user_id}
                             readonly=true
                             oninput=self.link.callback(|data: InputData| Msg::InputText(data.value, Data::UserId))
                         />
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">{"picture"}</label>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             class="form-control"
-                            aria-label="readonly input example" 
-                            value={picture} 
+                            aria-label="readonly input example"
+                            value={picture}
                             readonly=true
                             oninput=self.link.callback(|data: InputData| Msg::InputText(data.value, Data::Picture))
                         />
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">{"created_at"}</label>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             class="form-control"
-                            aria-label="readonly input example" 
+                            aria-label="readonly input example"
                             value={created_at.clone()}
                             readonly=true
                             oninput=self.link.callback(|data: InputData| Msg::InputText(data.value, Data::CreatedAt))
@@ -400,11 +405,11 @@ impl Component for UserTabDetails {
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">{"updated_at"}</label>
-                        <input 
-                            type="text" 
-                            class="form-control" 
+                        <input
+                            type="text"
+                            class="form-control"
                             aria-label="readonly input example"
-                            value={updated_at} 
+                            value={updated_at}
                             readonly=true
                             oninput=self.link.callback(|data: InputData| Msg::InputText(data.value, Data::UpdatedAt))
                         />
@@ -415,53 +420,53 @@ impl Component for UserTabDetails {
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">{"blocked"}</label>
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            value="false" 
-                            aria-label="readonly input example" 
+                        <input
+                            type="text"
+                            class="form-control"
+                            value="false"
+                            aria-label="readonly input example"
                             readonly=true
                         />
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">{"last_password_reset"}</label>
-                        <input 
-                            class="form-control" 
-                            type="text" 
-                            value="2021-10-09T04:43:28.300Z" 
-                            aria-label="readonly input example" 
+                        <input
+                            class="form-control"
+                            type="text"
+                            value="2021-10-09T04:43:28.300Z"
+                            aria-label="readonly input example"
                             readonly=true
                         />
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">{"last_ip"}</label>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             class="form-control"
-                            value={last_ip} 
-                            aria-label="readonly input example" 
+                            value={last_ip}
+                            aria-label="readonly input example"
                             readonly=true
                             oninput=self.link.callback(|data: InputData| Msg::InputText(data.value, Data::LastIp))
                         />
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">{"last_logins"}</label>
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            value={last_login.clone()} 
-                            aria-label="readonly input example" 
+                        <input
+                            type="text"
+                            class="form-control"
+                            value={last_login.clone()}
+                            aria-label="readonly input example"
                             readonly=true
                             oninput=self.link.callback(|data: InputData| Msg::InputText(data.value, Data::LastLogin))
                         />
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">{"logins_count"}</label>
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            value={logins_count.to_string()} 
-                            aria-label="readonly input example" 
+                        <input
+                            type="text"
+                            class="form-control"
+                            value={logins_count.to_string()}
+                            aria-label="readonly input example"
                             readonly=true
                             oninput=self.link.callback(|data: InputData| Msg::InputText(data.value, Data::LoginsCount))
                         />
@@ -478,7 +483,7 @@ impl Component for UserTabDetails {
                             <p class="p-0 m-0">{"The user will be removed and it will no longer have access to your applications"}</p>
                         </div>
                         <div class="col-2 col-sm-2 p-0 d-flex align-items-center justify-content-center">
-                            
+
                             <button
                                 type="button"
                                 class=format!("btn {} btn-danger position-relative", if self.loading_delete_user {"loading"} else {""} )
@@ -510,7 +515,7 @@ impl Component for UserTabDetails {
             </div>
 
 
-            
+
             {
                 if blocked {
                     html!{
@@ -522,7 +527,7 @@ impl Component for UserTabDetails {
                                         <p class="p-0 m-0">{"The user will be unblocked for logging into your applications."}</p>
                                     </div>
                                     <div class="col-2 col-sm-2 p-0 d-flex align-items-center justify-content-center">
-                                        
+
                                         <button
                                             type="button"
                                             class=format!("btn {} btn-danger position-relative", if self.loading_update_user {"loading"} else {""} )
@@ -563,7 +568,7 @@ impl Component for UserTabDetails {
                                         <p class="p-0 m-0">{"The user will be blocked for logging into your applications."}</p>
                                     </div>
                                     <div class="col-2 col-sm-2 p-0 d-flex align-items-center justify-content-center">
-                                        
+
                                         <button
                                             type="button"
                                             class=format!("btn {} btn-danger position-relative", if self.loading_update_user {"loading"} else {""} )
@@ -619,6 +624,4 @@ impl Component for UserTabDetails {
             </>
         }
     }
-
-
 }

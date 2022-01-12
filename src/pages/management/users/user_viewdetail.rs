@@ -6,7 +6,10 @@ use super::setting_user_auth_app::UserTabAuthorizedApp;
 use super::setting_user_permissions::UserTabPermissions;
 use super::setting_user_roles::UserTabRoles;
 use crate::app::AppRoute;
-use crate::components::loading2::Loading2;
+use crate::components::{
+    loading2::Loading2,
+    developers_note::DevelopersNote,
+};
 use crate::configs::server::API_URL;
 use crate::types::users::{UserDetails};
 use yew::{
@@ -164,13 +167,17 @@ impl Component for UserViewDetail {
         let tenant_id = String::from("tenant_id_not_from_reducer");
         html! {
             <>
-                <div class="container mx-auto py-5 px-4" style="max-width: 1048px">
-                    <div>
-                        <a href="" class="text-muted">
-                            <i class="bi bi-arrow-left me-2"></i>
-                            <span><Anchor route=AppRoute::UsersManagement {tenant_id: tenant_id}>{"Back to users"}</Anchor></span>
-                        </a>
-                    </div>
+                <div
+                    class="container mx-auto py-5 px-4"
+                    style="max-width: 1048px"
+                >
+                    <Anchor
+                        route=AppRoute::UsersManagement {tenant_id: tenant_id}
+                        classes="text-decoration-none domain-link-dark"
+                    >
+                        <i class="bi bi-arrow-left me-2"></i>
+                        {"Back to Users"}
+                    </Anchor>
                     {
                         if self.fetch_task.is_some() {
                             html! {
@@ -219,22 +226,83 @@ impl UserViewDetail {
 
         html! {
             <>
-                <div class="mt-2">
+                <div class="mt-2 mb-5">
                     <div class="row">
                         <div class="col">
-                            <p class="mb-0" style="font-size: 32px; font-weight: bold">
-                                {email}
-                            </p>
-                            <p class="text-muted">
-                                {"user_id : "}
-                                <span> <code style="background-color: beige; color: black">{user_id}</code></span>
-                            </p>
+
+
+
+
+                            <div
+                                class="d-flex mt-3"
+                            >
+                                <div
+                                    style="flex: 0 0 auto; width: 64px; height: 64px; background-color: #eff0f2;"
+                                    class="d-flex justify-content-center align-items-center rounded me-4"
+                                >
+                                    <i class="bi bi-person-fill fs-1"></i>
+                                </div>
+            
+                                <div
+                                    class="d-flex flex-column"
+                                >
+                                    <h2>{ email }</h2>
+                                    <div
+                                        class="text-muted"
+                                    >
+                                        <span>
+                                            { "user_id" }
+                                        </span>
+                                        <span
+                                            class="rounded ms-2"
+                                            style="
+                                                background-color: #eff0f2;
+                                                white-space: nowrap;
+                                                text-overflow: ellipsis;
+                                                overflow: hidden;
+                                                font-size: 14px;
+                                                padding: 2px 6px;
+                                                font-family: 'Roboto Mono', monospace;
+                                            "
+                                        >
+                                            { user_id }
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+                            // <p class="mb-0" style="font-size: 32px; font-weight: bold">
+                            //     { email }
+                            // </p>
+                            // <p class="text-muted mb-0">
+                            //     { "user_id : " }
+                            //     <span> <code style="background-color: beige; color: black">{user_id}</code></span>
+                            // </p>
+
                         </div>
                         <div class="col-auto">
                             <div class="dropdown">
-                                <a class="btn btn-primary dropdown-toggle mt-3" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                {"Actions"}
-                                 </a>
+                                <button
+                                    class="btn btn-primary dropdown-toggle mt-3 position-relative"
+                                    role="button"
+                                    id="dropdownMenuLink"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                    disabled={true}
+                                >
+                                    {"Actions"}
+                                    <span
+                                        class="position-absolute top-0 translate-middle-y badge rounded-pill bg-warning"
+                                        style="left: 10px;"    
+                                    >
+                                        { "Inactive" }
+                                    </span>
+                                 </button>
 
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                     <li>
@@ -273,144 +341,147 @@ impl UserViewDetail {
 
                 </div>
 
+                <DevelopersNote message="Only the following tabs are working, 'Details', 'Permissions', and 'Roles'"/>
 
-                <ul class="nav nav-tabs" id="myTab" role="tablist" style="font-size:13px;">
-                            <li
-                                onclick = self.link.callback(|_|Msg::ChangeContent(Content::UserTabDetails))
-                                class="nav-item">
-                                <button
-                                    class={
-                                        match self.content {
-                                            Content::UserTabDetails => "nav-link active",
-                                            _ => "nav-link"
-                                        }
-                                    }
-                                    id="user-details-tab"
-                                    data-bs-toggle="tab"
-                                    data-bs-target="#detailtab"
-                                    type="button" role="tab"
-                                    aria-controls="detailtab"
-                                    aria-selected="true">{"Details"}
-                                </button>
-                            </li>
-                            <li
-                                onclick =self.link.callback(|_|Msg::ChangeContent(Content::UserTabDevices))
-                                class="nav-item" role="presentation">
-                                <button
-                                    class={
-                                        match self.content {
-                                            Content::UserTabDevices => "nav-link active",
-                                            _ => "nav-link"
-                                        }
-                                    }
-                                    id="user-devices-tab"
-                                    data-bs-toggle="tab"
-                                    data-bs-target="#devicetab"
-                                    type="button" role="tab"
-                                    aria-controls="devicetab"
-                                    aria-selected="false">{"Devices"}
-                                </button>
-                            </li>
-                            <li 
-                                onclick = self.link.callback(|_| Msg::ChangeContent(Content::UserTabHistory))
-                                class="nav-item" 
-                                role="presentation">
-                                <button 
-                                    class={
-                                        match self.content {
-                                            Content::UserTabHistory => "nav-link active",
-                                            _ => "nav-link"
-                                        }
-                                    }
-                                    id="user-history-tab" 
-                                    data-bs-toggle="tab" 
-                                    data-bs-target="#historytab" 
-                                    type="button" role="tab" 
-                                    aria-controls="historytab" 
-                                    aria-selected="false">{"History"}
-                                </button>
-                            </li>
-                            <li 
-                                onclick = self.link.callback(|_|Msg::ChangeContent(Content::UserTabRawJson))
-                                class="nav-item" 
-                                role="presentation">
-                                <button 
-                                    class={
-                                        match self.content {
-                                            Content::UserTabRawJson => "nav-link active",
-                                            _ => "nav-link"
-                                        }
-                                    } 
-                                    id="rawjson-tab" 
-                                    data-bs-toggle="tab" 
-                                    data-bs-target="#rawjsontab" 
-                                    type="button" 
-                                    role="tab" 
-                                    aria-controls="rawjsontab" 
-                                    aria-selected="false">{"RAW JSON"}
-                                </button>
-                            </li>
-                            <li 
-                                onclick = self.link.callback(|_|Msg::ChangeContent(Content::UserTabAuthorizedApp))
-                                class="nav-item" 
-                                role="presentation">
-                                <button 
-                                    class= {
-                                        match self.content {
-                                            Content::UserTabAuthorizedApp => "nav-link active",
-                                            _ => "nav-link"
-                                        }
 
-                                    } 
-                                    id="authorapp-tab" 
-                                    data-bs-toggle="tab" 
-                                    data-bs-target="#authorapptab" 
-                                    type="button" 
-                                    role="tab" 
-                                    aria-controls="authorapptab" 
-                                    aria-selected="false">{"Authorized Applications"}
-                                </button>
-                            </li>
-                            <li 
-                                onclick = self.link.callback(|_| Msg::ChangeContent(Content::UserTabPermissions))
-                                class="nav-item" 
-                                role="presentation">
-                                <button 
-                                    class= {
-                                        match self.content {
-                                            Content::UserTabPermissions => "nav-link active",
-                                            _ => "nav-link"
-                                        }
-                                    } 
-                                    id="permission-tab" 
-                                    data-bs-toggle="tab" 
-                                    data-bs-target="#permissiontab" 
-                                    type="button" 
-                                    role="tab" 
-                                    aria-controls="permissiontab" 
-                                    aria-selected="false">{"Permissions"}
-                                </button>
-                            </li>
-                            <li 
-                                onclick = self.link.callback(|_|Msg::ChangeContent(Content::UserTabRoles))
-                                class="nav-item" 
-                                role="presentation">
-                                <button 
-                                    class= {
-                                        match self.content {
-                                            Content::UserTabRoles => "nav-link active",
-                                            _ => "nav-link"
-                                        }
-                                    }
-                                    id="roles-tab" 
-                                    data-bs-toggle="tab" 
-                                    data-bs-target="#rolestab" 
-                                    type="button" 
-                                    role="tab" 
-                                    aria-controls="roles" 
-                                    aria-selected="false">{"Roles"}
-                                </button>
-                            </li>
+                <ul class="nav nav-tabs" id="myTab" role="tablist" style="font-size:14px;">
+                    <li
+                        onclick = self.link.callback(|_|Msg::ChangeContent(Content::UserTabDetails))
+                        class="nav-item fw-bold">
+                        <button
+                            class={
+                                match self.content {
+                                    Content::UserTabDetails => "nav-link active",
+                                    _ => "nav-link"
+                                }
+                            }
+                            id="user-details-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#detailtab"
+                            type="button" role="tab"
+                            aria-controls="detailtab"
+                            aria-selected="true">{"Details"}
+                        </button>
+                    </li>
+                    <li
+                        onclick =self.link.callback(|_|Msg::ChangeContent(Content::UserTabDevices))
+                        class="nav-item fw-bold"
+                        role="presentation"
+                    >
+                        <button
+                            class={
+                                match self.content {
+                                    Content::UserTabDevices => "nav-link active",
+                                    _ => "nav-link"
+                                }
+                            }
+                            id="user-devices-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#devicetab"
+                            type="button" role="tab"
+                            aria-controls="devicetab"
+                            aria-selected="false">{"Devices"}
+                        </button>
+                    </li>
+                    <li 
+                        onclick = self.link.callback(|_| Msg::ChangeContent(Content::UserTabHistory))
+                        class="nav-item fw-bold" 
+                        role="presentation">
+                        <button 
+                            class={
+                                match self.content {
+                                    Content::UserTabHistory => "nav-link active",
+                                    _ => "nav-link"
+                                }
+                            }
+                            id="user-history-tab" 
+                            data-bs-toggle="tab" 
+                            data-bs-target="#historytab" 
+                            type="button" role="tab" 
+                            aria-controls="historytab" 
+                            aria-selected="false">{"History"}
+                        </button>
+                    </li>
+                    <li 
+                        onclick = self.link.callback(|_|Msg::ChangeContent(Content::UserTabRawJson))
+                        class="nav-item" 
+                        role="presentation">
+                        <button 
+                            class={
+                                match self.content {
+                                    Content::UserTabRawJson => "nav-link active",
+                                    _ => "nav-link"
+                                }
+                            } 
+                            id="rawjson-tab" 
+                            data-bs-toggle="tab" 
+                            data-bs-target="#rawjsontab" 
+                            type="button" 
+                            role="tab" 
+                            aria-controls="rawjsontab" 
+                            aria-selected="false">{"RAW JSON"}
+                        </button>
+                    </li>
+                    <li 
+                        onclick = self.link.callback(|_|Msg::ChangeContent(Content::UserTabAuthorizedApp))
+                        class="nav-item" 
+                        role="presentation">
+                        <button 
+                            class= {
+                                match self.content {
+                                    Content::UserTabAuthorizedApp => "nav-link active",
+                                    _ => "nav-link"
+                                }
+                            } 
+                            id="authorapp-tab" 
+                            data-bs-toggle="tab" 
+                            data-bs-target="#authorapptab" 
+                            type="button" 
+                            role="tab" 
+                            aria-controls="authorapptab" 
+                            aria-selected="false">{"Authorized Applications"}
+                        </button>
+                    </li>
+                    <li 
+                        onclick = self.link.callback(|_| Msg::ChangeContent(Content::UserTabPermissions))
+                        class="nav-item" 
+                        role="presentation">
+                        <button 
+                            class= {
+                                match self.content {
+                                    Content::UserTabPermissions => "nav-link active",
+                                    _ => "nav-link"
+                                }
+                            } 
+                            id="permission-tab" 
+                            data-bs-toggle="tab" 
+                            data-bs-target="#permissiontab" 
+                            type="button" 
+                            role="tab" 
+                            aria-controls="permissiontab" 
+                            aria-selected="false">{"Permissions"}
+                        </button>
+                    </li>
+                    <li 
+                        onclick = self.link.callback(|_|Msg::ChangeContent(Content::UserTabRoles))
+                        class="nav-item" 
+                        role="presentation">
+                        <button 
+                            class= {
+                                match self.content {
+                                    Content::UserTabRoles => "nav-link active",
+                                    _ => "nav-link"
+                                }
+                            }
+                            id="roles-tab" 
+                            data-bs-toggle="tab" 
+                            data-bs-target="#rolestab" 
+                            type="button" 
+                            role="tab" 
+                            aria-controls="roles" 
+                            aria-selected="false">{"Roles"}
+                        </button>
+                    </li>
                 </ul>
 
                 {

@@ -240,7 +240,7 @@ pub struct GetLogsByUserLocationInfo {
 
 #[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq)]
 pub struct UserRole{
-    pub id: u32,
+    pub id: String,
     pub name: String,
     pub description: String,
 }

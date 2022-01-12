@@ -14,7 +14,10 @@ use yew::services::ConsoleService;
 use crate::types::application::{ AppDetails, RefreshToken, 
     SigningKeys,
     JwtConfiguration };
-use crate::components::loading2::Loading2;
+use crate::components::{
+    loading2::Loading2,
+    developers_note::DevelopersNote,
+};
 
 use crate::types::LocalStorage;
 use crate::types::LOCALSTORAGE_KEY;
@@ -327,6 +330,9 @@ impl ApplicationSettings {
                         </div>
                     </div>
                 </div>
+
+
+                <DevelopersNote message="Only the following tab is working, 'Settings'"/>
 
                 <div
                     class="mb-4"

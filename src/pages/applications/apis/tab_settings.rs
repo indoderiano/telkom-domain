@@ -313,7 +313,8 @@ impl Component for TabSettings {
                                       class="form-control bg-input-grey"
                                       aria-label="Dollar amount (with dot and two decimal places)"
                                       value={resource_server_id}
-                                      oninput=self.link.callback(|data: InputData| Msg::InputText(data.value, Data::ResourceServerId))
+                                      disabled={true}
+                                    //   oninput=self.link.callback(|data: InputData| Msg::InputText(data.value, Data::ResourceServerId))
                                   />   
                               </div>
                               <p>
@@ -331,7 +332,6 @@ impl Component for TabSettings {
                                   <input
                                       type="text"
                                       class="form-control bg-input-grey"
-                                      aria-label="Dollar amount (with dot and two decimal places)"
                                       value={name}
                                       oninput=self.link.callback(|data: InputData| Msg::InputText(data.value, Data::Name))
                                   />   
@@ -432,7 +432,7 @@ impl Component for TabSettings {
                               </p>
                               <div class="input-group mb-2">
                                   <input
-                                      type="text"
+                                      type="number"
                                       class="form-control bg-input-grey"
                                       aria-label="Dollar amount (with dot and two decimal places)"
                                       value={token_lifetime_for_web.to_string()}
@@ -458,13 +458,38 @@ impl Component for TabSettings {
                                   {"Signing Algorithm"}
                               </p>
                               <div class="input-group mb-2">
-                                  <input
-                                      type="text"
-                                      class="form-control bg-input-grey"
-                                      aria-label="Dollar amount (with dot and two decimal places)"
-                                      value={signing_alg}
-                                      oninput=self.link.callback(|data: InputData| Msg::InputText(data.value, Data::SigningAlg))
-                                  />
+                                    <select
+                                        class="form-select mb-2"
+                                        aria-label="Default select example"
+                                        onchange=self.link.callback(|e| {
+                                            if let ChangeData::Select(select) = e {
+                                                let value = select.value();
+                                                Msg::InputText(value, Data::SigningAlg)
+                                            } else {
+                                                Msg::InputText("No value".to_string(), Data::SigningAlg)
+                                            }
+                                        })
+                                    >
+                                        <option
+                                            value="RS256"
+                                            selected={if signing_alg == "RS256".to_string() {true} else {false}}
+                                        >
+                                            {"RS256"}
+                                        </option>
+                                        <option
+                                            value="HS256"
+                                            selected={if signing_alg == "HS256".to_string() {true} else {false}}
+                                        >
+                                            {"HS256"}
+                                        </option>
+                                    </select>
+                                //   <input
+                                //       type="text"
+                                //       class="form-control bg-input-grey"
+                                //       aria-label="Dollar amount (with dot and two decimal places)"
+                                //       value={signing_alg}
+                                //       oninput=self.link.callback(|data: InputData| Msg::InputText(data.value, Data::SigningAlg))
+                                //   />
                               </div>
                               <p>
                                   {"Algorithm to be used when signing the "}
@@ -510,24 +535,6 @@ impl Component for TabSettings {
                               </div>
                               <p class="text-color-disabled">
                                   {"If this setting is enabled, RBAC authorization policies will be enforced for this API. Role and permission assignments will be evaluated during the login transaction."}
-                              </p>
-                          </div>
-                          <div
-                              class="mb-4"
-                          >
-                              <p class="mb-2 fw-bold">
-                                  {"Add Permissions in the Access Token"}
-                              </p>
-                              <div class="form-check form-switch fs-3 mb-4">
-                                  <input
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    checked=false
-                                    // onclick=self.link.callback(|_| Msg::InputText(String::from("none"), Data::PermissionAccToken))
-                                />
-                              </div>
-                              <p class="text-color-disabled">
-                                  {"If this setting is enabled, the Permissions claim will be added to the access token. Only available if RBAC is enabled for this API."}
                               </p>
                           </div>
                       </div>

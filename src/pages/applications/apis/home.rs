@@ -22,10 +22,10 @@ use crate::types::LocalStorage;
 use crate::types::LOCALSTORAGE_KEY;
 
 
-#[derive(Clone, Debug, Eq, PartialEq, Properties)]
-pub struct ApisProps {
-    pub tenant_id: String,
-}
+// #[derive(Clone, Debug, Eq, PartialEq, Properties)]
+// pub struct ApisProps {
+//     pub tenant_id: String,
+// }
 
 pub enum StateError {
     ApiList,
@@ -39,7 +39,7 @@ pub enum DataApiCreate {
 }
 
 pub struct ApisHome {
-    tenant_id: String,
+    // tenant_id: String,
     fetch_task: Option<FetchTask>,
     link: ComponentLink<Self>,
     loading_get_api: bool,
@@ -64,10 +64,10 @@ pub enum Msg {
 
 impl Component for ApisHome {
     type Message = Msg;
-    type Properties = ApisProps;
+    type Properties = ();
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        ConsoleService::info(&format!("Apis home props, tenant id = {}", props.tenant_id));
+        // ConsoleService::info(&format!("Apis home props, tenant id = {}", props.tenant_id));
 
         let storage = StorageService::new(Area::Local).expect("storage was disabled");
         
@@ -94,7 +94,7 @@ impl Component for ApisHome {
 
         let api_create = ApiCreate::new();
         ApisHome {
-            tenant_id: props.tenant_id,
+            // tenant_id: props.tenant_id,
             fetch_task: None,
             link,
             loading_get_api: false,
@@ -390,7 +390,7 @@ impl Component for ApisHome {
                                     type="button"
                                     class=format!("btn {} btn-primary position-relative", if self.loading_create_api {"loading"} else {""} )
                                     onclick=self.link.callback(|_| Msg::Create)
-                                    disabled={ if self.loading_create_api {true} else {false} }
+                                    disabled={ self.loading_create_api }
                                 >
                                     <div class="telkom-label">
                                       {"Create"}
@@ -432,7 +432,7 @@ impl Component for ApisHome {
 impl ApisHome {
     fn view_api_list (&self) -> Vec<Html> {
         type Anchor = RouterAnchor<AppRoute>;
-        let tenant_id = &self.tenant_id;
+        // let tenant_id = &self.tenant_id;
         self.api_list.iter().map(|api| {
             html! {
                 <div>
@@ -465,7 +465,7 @@ impl ApisHome {
                                     "
                                 >
                                     <Anchor
-                                        route=AppRoute::ApisSettings { tenant_id: tenant_id.clone(), resource_server_id: api.resource_server_id.clone() }
+                                        route=AppRoute::ApisSettings { resource_server_id: api.resource_server_id.clone() }
                                         classes="text-decoration-none fw-bold mb-0"
                                     >
                                             // {"Auth0 Management API"}
@@ -531,7 +531,7 @@ impl ApisHome {
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <li>
-                                    <Anchor route=AppRoute::ApisSettings { tenant_id: tenant_id.clone(), resource_server_id: api.resource_server_id.clone() } classes="dropdown-item fs-7">
+                                    <Anchor route=AppRoute::ApisSettings { resource_server_id: api.resource_server_id.clone() } classes="dropdown-item fs-7">
                                         {"Settings"}
                                     </Anchor>
                                 </li>

@@ -16,7 +16,10 @@ use yew_router::components::RouterAnchor;
 use crate::types::LocalStorage;
 use crate::types::LOCALSTORAGE_KEY;
 
-use crate::components::loading2::Loading2;
+use crate::components::{
+    loading2::Loading2,
+    developers_note::DevelopersNote,
+};
 use crate::configs::server::API_URL;
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
@@ -384,8 +387,10 @@ impl Component for UsersManagement {
                         }
                     </div>
 
+
                     <div class="mt-5">
-                        <div class="row">
+                        <DevelopersNote message="Feature Search and Filter are not yet implemented"/>
+                        <div class="row" style="opacity: .7;">
                             <div class="col-md col-lg">
                                 <div class="input-group flex-nowrap">
                                     <span class="input-group-text" id="addon-wrapping"><i class="bi bi-search"></i></span>
@@ -416,12 +421,15 @@ impl Component for UsersManagement {
                             </div>
                         </div>
                     </div>
+
+                    <DevelopersNote message="Error handling (when token is expired) is not yet implemented"/>
                     {
                         if self.loading_get_user {
+                        // if true {
                             html! {
                                 <div
                                     // class="d-flex align-items-center justify-content-center"
-                                    style="position: relative; margin-top: 4rem;"
+                                    style="margin-top: 4rem;"
                                 >
                                     <Loading2 width=45 />
                                 </div>
@@ -756,9 +764,13 @@ impl UsersManagement {
 
         self.user_list.iter().map(|user| {
             html! {
-                <tr>
+                <tr
+                    class="align-middle"
+                >
                     <th scope="row">
-                        <div>
+                        <div
+                            class="pt-2 pb-2"
+                        >
                             <p
                                 class="m-0"
                                 style="
@@ -776,94 +788,97 @@ impl UsersManagement {
                                     { &user.name }
                                 </Anchor>
                             </p>
-                            <p class="text-muted overflow-hidden">{&user.email}</p>
+                            <p class="text-muted overflow-hidden m-0">{&user.email}</p>
                         </div>
                     </th>
-                                    <td>{&user.identities[0].connection}</td>
-                                    <td>{&user.logins_count}</td>
-                                    <td>{&user.last_login}</td>
-                                    <td>
-                                        <button type="button" style="flex: 0 0 auto; width: 30px; height: 30px;" class="btn d-flex justify-content-center align-items-center rounded border" role="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="bi bi-three-dots"></i>
-                                        </button>
-                                        <ul class="dropdown-menu pt-1" aria-labelledby="dropdownMenuButton1">
-                                            <li class="p-1 text-muted" style="font-size:13px;">
-                                                <Anchor route=AppRoute::UserViewDetail {tenant_id: tenant_id.clone(), user_id: user.user_id.clone(), id:1 } classes="dropdown-item">
-                                                    {"View Details"}
-                                                </Anchor>
-                                            </li>
-                                            <li>
-                                                <hr class="dropdown-divider"/>
-                                            </li>
-                                            <li class="p-1 text-muted">
-                                                        <div class="ms-1 d-flex flex-row inline-block align-items-center" style="font-size:13px;" >
-                                                            <i class="bi bi-person-check"></i>
-                                                            <span data-bs-toggle="modal" data-bs-target="#assignRoles">
-                                                            <a class="dropdown-item" href="#">
-                                                                {"Assign Roles"}
-                                                            </a>
-                                                        </span>
-                                                        </div>
-                                            </li>
-                                            <li class="p-1 text-muted" style="font-size:13px;">
-                                                        <div class="ms-1 d-flex flex-row inline-block align-items-center">
-                                                            <i class="bi bi-check2-square"></i>
-                                                            <span data-bs-toggle="modal" data-bs-target="#assignPermissions">
-                                                                <a class="dropdown-item" href="#" >
-                                                                    {"Assign Permissions"}
-                                                                </a>
-                                                            </span>
-                                                        </div>
-                                            </li>
-                                            <li class="p-1 text-muted" style="font-size:13px;">
-                                                <div class="ms-1 d-flex flex-row inline-block align-items-center">
-                                                    <i class="bi bi-envelope "></i>
-                                                    <span  data-bs-toggle="modal" data-bs-target="#resendConfirmation">
-                                                        <a class="dropdown-item" href="#">
-                                                            {"Send Verification Email "}
-                                                        </a>
-                                                    </span>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <hr class="dropdown-divider"/>
-                                            </li>
-                                            <li class="p-1 text-muted" style="font-size:13px;" data-bs-toggle="modal" data-bs-target="#changeEmail">
+                    <td>{&user.identities[0].connection}</td>
+                    <td>{&user.logins_count}</td>
+                    <td>{&user.last_login}</td>
+                    <td>
+                        <button type="button" style="flex: 0 0 auto; width: 30px; height: 30px;" class="btn d-flex justify-content-center align-items-center rounded border" role="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots"></i>
+                        </button>
+                        <ul class="dropdown-menu pt-1" aria-labelledby="dropdownMenuButton1">
+                            <li class="p-1" style="font-size: 13px;">
+                                <DevelopersNote message="Not yet implemented"/>
+                            </li>
+                            <li class="p-1 text-muted" style="font-size:13px;">
+                                <Anchor route=AppRoute::UserViewDetail {tenant_id: tenant_id.clone(), user_id: user.user_id.clone(), id:1 } classes="dropdown-item">
+                                    {"View Details"}
+                                </Anchor>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li class="p-1 text-muted">
+                                        <div class="ms-1 d-flex flex-row inline-block align-items-center" style="font-size:13px;" >
+                                            <i class="bi bi-person-check"></i>
+                                            <span data-bs-toggle="modal" data-bs-target="#assignRoles">
+                                            <a class="dropdown-item" href="#">
+                                                {"Assign Roles"}
+                                            </a>
+                                        </span>
+                                        </div>
+                            </li>
+                            <li class="p-1 text-muted" style="font-size:13px;">
+                                        <div class="ms-1 d-flex flex-row inline-block align-items-center">
+                                            <i class="bi bi-check2-square"></i>
+                                            <span data-bs-toggle="modal" data-bs-target="#assignPermissions">
                                                 <a class="dropdown-item" href="#" >
-                                                    {"Change Email "}
+                                                    {"Assign Permissions"}
                                                 </a>
-                                            </li>
-                                            <li class="p-1 text-muted" style="font-size:13px;" data-bs-toggle="modal" data-bs-target="#changePassword">
-                                                <a class="dropdown-item" href="#">
-                                                    {"Change Password "}
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <hr class="dropdown-divider" />
-                                            </li>
-                                            <li class="p-1" style="font-size:13px;">
-                                                <div class="ms-1 d-flex flex-row text-muted inline-block align-items-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg " width="13" height="13" viewBox="0 0 24 24 " fill="none " stroke="currentColor " stroke-width="2 " stroke-linecap="round " stroke-linejoin="round"><circle cx="12 " cy="12 " r="10 "></circle><line x1="4.93 " y1="4.93 " x2="19.07 " y2="19.07 "></line></svg>
-                                                    <span>
-                                                        <a class="dropdown-item" href="#">
-                                                            {"Block "}
-                                                        </a>
-                                                    </span>
-                                                </div>
-                                            </li>
-                                            <li class="p-1 text-danger " style="font-size:13px;">
-                                                <div class="ms-1 d-flex flex-row">
-                                                    <i class="bi bi-trash "></i>
-                                                    <span data-bs-toggle="modal" data-bs-target="#deleteUsers">
-                                                        <a class="dropdown-item fs-7" href="#">
-                                                            {"Delete "}
-                                                        </a>
-                                                    </span>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </td>
-                                </tr>
+                                            </span>
+                                        </div>
+                            </li>
+                            <li class="p-1 text-muted" style="font-size:13px;">
+                                <div class="ms-1 d-flex flex-row inline-block align-items-center">
+                                    <i class="bi bi-envelope "></i>
+                                    <span  data-bs-toggle="modal" data-bs-target="#resendConfirmation">
+                                        <a class="dropdown-item" href="#">
+                                            {"Send Verification Email "}
+                                        </a>
+                                    </span>
+                                </div>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li class="p-1 text-muted" style="font-size:13px;" data-bs-toggle="modal" data-bs-target="#changeEmail">
+                                <a class="dropdown-item" href="#" >
+                                    {"Change Email "}
+                                </a>
+                            </li>
+                            <li class="p-1 text-muted" style="font-size:13px;" data-bs-toggle="modal" data-bs-target="#changePassword">
+                                <a class="dropdown-item" href="#">
+                                    {"Change Password "}
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li class="p-1" style="font-size:13px;">
+                                <div class="ms-1 d-flex flex-row text-muted inline-block align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg " width="13" height="13" viewBox="0 0 24 24 " fill="none " stroke="currentColor " stroke-width="2 " stroke-linecap="round " stroke-linejoin="round"><circle cx="12 " cy="12 " r="10 "></circle><line x1="4.93 " y1="4.93 " x2="19.07 " y2="19.07 "></line></svg>
+                                    <span>
+                                        <a class="dropdown-item" href="#">
+                                            {"Block "}
+                                        </a>
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="p-1 text-danger " style="font-size:13px;">
+                                <div class="ms-1 d-flex flex-row align-items-center">
+                                    <i class="bi bi-trash "></i>
+                                    <span data-bs-toggle="modal" data-bs-target="#deleteUsers">
+                                        <a class="dropdown-item fs-7" href="#">
+                                            {"Delete "}
+                                        </a>
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
             }
         })
         .collect()

@@ -7,10 +7,13 @@ use yew::{
         storage::{ StorageService, Area }
     },
 };
+use serde::Serialize;
 use crate::components::loading2::Loading2;
+use crate::pages::management::users::modal_assign_permissions::ModalAssignPermissions;
 use crate::configs::server::API_URL;
 use crate::types::{
     users::{UserPermissions},
+    api::{ ApiTitle, Scope },
     ResponseMessage,
     LocalStorage,
     LOCALSTORAGE_KEY,
@@ -36,11 +39,19 @@ pub struct UserTabPermissions {
     loading_delete_permissions: bool,
     error_delete_permissions: Option<String>,
     route_service: RouteService,
+
+    // assign permission
+    // loading_get_apis: bool,
+    // error_get_apis: Option<String>,
+    // apis: Vec<ApiTitle>,
+    // selected_api_id: Option<String>,
+    // selected_permissions: Option<Vec<Scope>>
 }
 
 pub enum StateError{
     UserPermissionList,
     Delete,
+    // RequestApis,
 }
 
 pub enum Msg {
@@ -50,7 +61,11 @@ pub enum Msg {
     ShowModalDeletePermission(bool, Option<usize>),
     Delete,
     ResponseError(String, StateError),
-    RedirectToPermissions,  
+    RedirectToPermissions,
+
+    // RequestApis,
+    // GetApis(Vec<ApiTitle>),
+    // SelectApi(String),
 }
 
 impl Component for UserTabPermissions {
@@ -94,6 +109,13 @@ impl Component for UserTabPermissions {
             loading_delete_permissions: false,
             error_delete_permissions: None,
             route_service: RouteService::new(),
+
+            // Modal assign permission
+            // loading_get_apis: false,
+            // error_get_apis: None,
+            // apis: Vec::new(),
+            // selected_api_id: None,
+            // selected_permissions: None,
         }
     }
 
@@ -162,47 +184,98 @@ impl Component for UserTabPermissions {
                         self.error_user_permission_list = Some(message);
                     }
                     StateError::Delete => {
-                        self.fetch_task = None;
                         self.loading_delete_permissions = false;
                         self.error_delete_permissions = Some(message);
                     }
+                    // StateError::RequestApis => {
+                    //     self.loading_get_apis = false;
+                    //     self.error_get_apis = Some(message)
+                    // }
                 }
                 self.fetch_task = None;
                 true
             }
             Msg::Delete => {
                 // remove permission from vector
-                let new_permissions: Vec<UserPermissions> = self.user_permissions
-                .iter()
-                .enumerate()
-                .filter(|(i, e)| {
-                    if self.index_permission_delete.is_some() {
-                        *i != self.index_permission_delete.unwrap()
-                    } else {
-                        true
-                    }
-                })
-                .map(|(_s, x)| {
-                    x.clone()
-                })
-                .collect();
-                ConsoleService::info(&format!("new permissions = {:?}", new_permissions));
+                // let new_permissions: Vec<UserPermissions> = self.user_permissions
+                // .iter()
+                // .enumerate()
+                // .filter(|(i, e)| {
+                //     if self.index_permission_delete.is_some() {
+                //         *i != self.index_permission_delete.unwrap()
+                //     } else {
+                //         true
+                //     }
+                // })
+                // .map(|(_s, x)| {
+                //     x.clone()
+                // })
+                // .collect();
+                // ConsoleService::info(&format!("new permissions = {:?}", new_permissions));
 
-                let request = Request::delete(format!("{}/users/tenant_id/users/auth0|7CYXV0aDAlN0M2MTM3MTIyMTAxY2VmYTAwNzM0NzRmYmI/permissions", API_URL))
-                    .header("access_token", "telkomidtelkomdomain")
+                // let request = Request::delete(format!("{}/users/tenant_id/users/auth0|7CYXV0aDAlN0M2MTM3MTIyMTAxY2VmYTAwNzM0NzRmYmI/permissions", API_URL))
+                //     .header("access_token", "telkomidtelkomdomain")
+                //     .header("Content-Type", "application/json")
+                //     .body(Json(&new_permissions))
+                //     .expect("could not build request");
+                // let callback = self.link.callback(|response: Response<Json<Result<ResponseMessage, anyhow::Error>>>|{
+                //     let Json(data) = response.into_body();
+                //     match data{
+                //         Ok(dataok) => {
+                //             ConsoleService::info(&format!("{:?}", dataok));
+                //             Msg::RequestUserPermissions
+                //         }
+                //         Err(error) => {
+                //             ConsoleService::info(&error.to_string());
+                //             Msg::ResponseError(error.to_string(), StateError::Delete)
+                //         }
+                //     }
+                // });
+                // let task = FetchService::fetch(request, callback).expect("failed to start request");
+                // self.loading_delete_permissions = true;
+                // self.fetch_task = Some(task);
+                // true
+
+                #[derive(Serialize, Debug, Clone, PartialEq)]
+                struct SelectedPermission {
+                    permission_name: String,
+                    resource_server_identifier: String,
+                }
+                #[derive(Serialize, Debug, Clone, PartialEq)]
+                struct DataDeletePermissions {
+                    permissions: Vec<SelectedPermission>,
+                }
+
+                let data_delete_permissions = DataDeletePermissions {
+                    permissions: vec![
+                        SelectedPermission {
+                            permission_name: self.user_permissions[self.index_permission_delete.unwrap()].permission_name.clone(),
+                            resource_server_identifier: self.user_permissions[self.index_permission_delete.unwrap()].resource_server_identifier.clone()
+                        }
+                    ]
+                };
+                let request = Request::delete(format!("{}/api/v2/users/{}/permissions", API_URL, self.user_id))
+                    .header("access_token", self.access_token.clone())
                     .header("Content-Type", "application/json")
-                    .body(Json(&new_permissions))
+                    .body(Json(&data_delete_permissions))
                     .expect("could not build request");
-                let callback = self.link.callback(|response: Response<Json<Result<ResponseMessage, anyhow::Error>>>|{
-                    let Json(data) = response.into_body();
-                    match data{
-                        Ok(dataok) => {
-                            ConsoleService::info(&format!("{:?}", dataok));
+                let callback = self.link.callback(|response: Response<Json<Result<(), anyhow::Error>>>|{
+                    let (meta, Json(data)) = response.into_parts();
+                    let status_number = meta.status.as_u16();
+
+                    match status_number {
+                        204 => {
                             Msg::RequestUserPermissions
                         }
-                        Err(error) => {
-                            ConsoleService::info(&error.to_string());
-                            Msg::ResponseError(error.to_string(), StateError::Delete)
+                        _ => {
+                            match data {
+                                Ok(dataok) => {
+                                    Msg::RequestUserPermissions
+                                }
+                                Err(error) => {
+                                    Msg::ResponseError(error.to_string(), StateError::Delete)
+                                }
+                            }
                         }
                     }
                 });
@@ -217,6 +290,49 @@ impl Component for UserTabPermissions {
                 self.route_service.set_route(&format!("/{}/permissions", "tenant_id_not_from_reducer"), ());
                 true
             }
+
+            // Msg::RequestApis => {
+            //     let request = Request::get(format!("{}/api/v2/resource-server", API_URL))
+            //         .header("access_token", self.access_token.clone())
+            //         .body(Nothing)
+            //         .expect("Could not build request");
+            //     let callback = self.link.callback(
+            //         |response: Response<Json<Result<Vec<ApiTitle>, anyhow::Error>>>| {
+            //             let Json(data) = response.into_body();
+            //             // ConsoleService::info(&format!("{:?}", data));
+            //             match data{
+            //                 Ok(dataok) => Msg::GetApis(dataok), 
+            //                 Err(error) => {
+            //                     Msg::ResponseError(error.to_string(), StateError::RequestApis)
+            //                 }
+            //             }
+            //         }
+            //     );
+
+            //     let task = FetchService::fetch(request, callback).expect("failed to start request");
+            //     self.fetch_task = Some(task);
+            //     self.error_get_apis = None;
+            //     self.loading_get_apis = true;
+            //     true
+            // }
+            // Msg::GetApis(apis) => {
+            //     self.apis = apis;
+            //     self.loading_get_apis = false;
+            //     self.fetch_task = None;
+            //     true
+            // }
+            // Msg::SelectApi(index) => {
+            //     ConsoleService::info(&format!("index = {}", index));
+            //     if index.is_empty() {
+            //         ConsoleService::info("index is empty");
+            //     } else {
+            //         ConsoleService::info(&format!("selected api id = {}", self.apis[index.parse::<usize>().unwrap()].resource_server_id));
+            //         ConsoleService::info(&format!("selected permissions are = {:?}", self.apis[index.parse::<usize>().unwrap()].scopes));
+            //         self.selected_api_id = Some(self.apis[index.parse::<usize>().unwrap()].resource_server_id.clone());
+            //         self.selected_permissions = Some(self.apis[index.parse::<usize>().unwrap()].scopes.clone());
+            //     }
+            //     true
+            // }
         }
     }
 
@@ -233,7 +349,15 @@ impl Component for UserTabPermissions {
                             <p>{"List of permissions this user has."}</p>
                         </div>
                         <div class="col d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPermissions">{"Assign Permissions"}</button>
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#addPermissions"
+                                // onclick=self.link.callback(|_| Msg::RequestApis)
+                            >
+                                {"Assign Permissions"}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -324,51 +448,29 @@ impl Component for UserTabPermissions {
 
                     {
                         if self.loading_get_user_permission {
+                        // if true {
                             html!{
-                                <div style="position: relative; margin-top:4rem;">
+                                <div style="margin-top:6rem;">
                                     <Loading2 width = 45 />
                                 </div>
                             }
                         } else if self.error_user_permission_list.is_some() {
                             html! {
-                                <div class="alert alert-warning mb-5" role="alert">
+                                <div class="alert alert-warning" role="alert">
                                 <i class="bi bi-exclamation-triangle me-2"></i>
                                 { self.error_user_permission_list.clone().unwrap() }
                                 </div>
                             }
                         } else {
-                            html! { }
+                            html! {}
                         }
                     }
 
 
                     { self.modal_delete_permission() }
 
-                     
-                    <div class="modal fade" id="addPermissions" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">{"Add Permissions"}</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <label for="exampleDataList" class="form-label">{"Select permissions from existing APIs"}</label>
-                                    <input class="form-control" list="listAPIOptions" id="exampleDataList" placeholder="Select an API..."/>
-                                    <datalist id="listAPIOptions">
-                                            <option value="Example API">{"https://jsonplaceholder.typicode.com/albums"}</option>
-                                            // <option value="New York">
-                                            // <option value="Seattle">
-                                            // <option value="Los Angeles">
-                                            // <option value="Chicago">
-                                    </datalist>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary">{"Add Permissions"}</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+                    <ModalAssignPermissions user_permissions=self.user_permissions.clone() user_id=self.user_id.clone() />
 
 
 
@@ -388,7 +490,7 @@ impl UserTabPermissions {
         .enumerate()
         .map(|(i, user)|{
            html! {
-               <tr>
+               <tr class="align-middle">
                     <th scope="row">{&user.permission_name}</th>
                     <td>{&user.description}</td>
                     <td>{&user.resource_server_name}</td>
@@ -496,4 +598,5 @@ impl UserTabPermissions {
             </>
         }
     }
+
 }

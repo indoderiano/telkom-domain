@@ -5,3 +5,5 @@ pub mod logo;
 pub mod logo2;
 pub mod loading;
 pub mod loading2;
+pub mod developers_note;
+pub mod tag_inactive;

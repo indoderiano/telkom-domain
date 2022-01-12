@@ -7,7 +7,7 @@ class ControllerUsers {
             message: "Ok",
             data: [{
                     user_id: "auth0|YXV0aDAlN0M2MTM3MTIyMTAxY2VmYTAwNzM0NzRmYmI",
-                    email: "yeskahaganta3838@gmail.comedited",
+                    email: "yeskahaganta3838@gmail.com",
                     email_verified: false,
                     username: "abangyeska",
                     phone_number: "+6281239675121",

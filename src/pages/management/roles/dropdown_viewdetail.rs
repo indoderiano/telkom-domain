@@ -1,38 +1,28 @@
-use yew::{
-    prelude::*,
-    format::{ Json, Nothing },
-    services::{
-        ConsoleService,
-        fetch::{FetchService, FetchTask, Request, Response},
-    }
-};
-use yew_router::components::RouterAnchor;
-use crate::app::AppRoute;
-use super::tab_setting::TabSettings;
 use super::tab_permission::TabPermissions;
+use super::tab_setting::TabSettings;
 use super::tab_users::TabUsers;
-use crate::types::{
-    roles::{
-        Role,
+use crate::app::AppRoute;
+use crate::components::loading2::Loading2;
+use crate::configs::server::API_URL;
+use crate::types::roles::Role;
+use yew::{
+    format::{Json, Nothing},
+    prelude::*,
+    services::{
+        fetch::{FetchService, FetchTask, Request, Response},
+        ConsoleService,
     },
 };
-use crate::components::{
-    loading2::Loading2,
-};
-use crate::configs::server::API_URL;
+use yew_router::components::RouterAnchor;
 
-
-
-pub enum Content{
+pub enum Content {
     Settings,
     Permissions,
-    Users
+    Users,
 }
-
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
 pub struct RoleSettingsProps {
-    pub tenant_id: String,
     pub role_id: String,
 }
 
@@ -43,7 +33,6 @@ pub enum StateError {
 pub struct ViewDetail {
     content: Content,
     link: ComponentLink<Self>,
-    tenant_id: String,
     role_id: String,
     fetch_task: Option<FetchTask>,
     role: Role,
@@ -66,7 +55,6 @@ impl Component for ViewDetail {
         ViewDetail {
             content: Content::Settings,
             link,
-            tenant_id: props.tenant_id,
             role_id: props.role_id,
             fetch_task: None,
             role: Role::new(),
@@ -75,7 +63,7 @@ impl Component for ViewDetail {
         }
     }
 
-    fn rendered (&mut self, first_render: bool) {
+    fn rendered(&mut self, first_render: bool) {
         if first_render {
             self.link.send_message(Msg::RequestRoleDetails);
         }
@@ -92,19 +80,21 @@ impl Component for ViewDetail {
                     .header("access_token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImhleWthbGxAZ21haWwuY29tIiwiZXhwIjoxNjQzMDk0MTA0fQ.G_kEzjOwrzI_qD8Tco_4HTgXctsz4kUccl4e92WNZb8")
                     .body(Nothing)
                     .expect("Could not build request.");
-                let callback = 
-                    self.link.callback(|response: Response<Json<Result<Role, anyhow::Error>>>| {
-                        let Json(data) = response.into_body();
-                        match data {
-                            Ok(dataok) => {
-                                ConsoleService::info(&format!("role details = {:?}", dataok));
-                                Msg::GetRoleDetails(dataok)
+                let callback =
+                    self.link
+                        .callback(|response: Response<Json<Result<Role, anyhow::Error>>>| {
+                            let Json(data) = response.into_body();
+                            match data {
+                                Ok(dataok) => {
+                                    ConsoleService::info(&format!("role details = {:?}", dataok));
+                                    Msg::GetRoleDetails(dataok)
+                                }
+                                Err(error) => Msg::ResponseError(
+                                    error.to_string(),
+                                    StateError::RequestRoleDetails,
+                                ),
                             }
-                            Err(error) => {
-                                Msg::ResponseError(error.to_string(), StateError::RequestRoleDetails)
-                            }
-                        }
-                    });
+                        });
                 let task = FetchService::fetch(request, callback).expect("failed to start request");
                 self.fetch_task = Some(task);
                 self.error_request_role = None;
@@ -154,16 +144,15 @@ impl Component for ViewDetail {
                         { self.error_request_role.clone().unwrap() }
                     </div>
                 }
-            } else { 
-                self.view_content() 
+            } else {
+                self.view_content()
             }
         }
     }
 }
 
-
 impl ViewDetail {
-    fn view_content (&self) -> Html {
+    fn view_content(&self) -> Html {
         type Anchor = RouterAnchor<AppRoute>;
         let Role {
             id,
@@ -195,9 +184,9 @@ impl ViewDetail {
                                    match self.content {
                                        Content::Settings => "nav-link active",
                                        _ => "nav-link"
-                                   }     
-                                } 
-                                aria-current="page" 
+                                   }
+                                }
+                                aria-current="page"
                                 href="#">{"Settings"}</a>
                             </li>
                             <li onclick=self.link.callback(|_|Msg::ChangeContent(Content::Permissions)) class="nav-item">
@@ -206,7 +195,7 @@ impl ViewDetail {
                                         Content::Permissions => "nav-link active",
                                         _ => "nav-link"
                                     }
-                                } 
+                                }
                                 href="#">{"Permissions"}</a>
                             </li>
                             <li onclick=self.link.callback(|_|Msg::ChangeContent(Content::Users)) class="nav-item">
