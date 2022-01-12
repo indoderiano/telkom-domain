@@ -8,10 +8,8 @@ use yew::{
     },
 };
 use serde::Serialize;
-use crate::components::{
-    loading2::Loading2,
-    developers_note::DevelopersNote,
-};
+use loading::Loading;
+use developers_note::DevelopersNote;
 use crate::configs::server::API_URL;
 use types::{
     users::{ UserPermissions },
@@ -317,7 +315,7 @@ impl Component for ModalAssignPermissions {
                                         class="modal-body pt-2"
                                         style="position: relative;"
                                     >
-                                        <Loading2 width=45 />
+                                        <Loading width=45 />
                                     </div>
                                 }
                             } else if self.error_get_apis.is_some() {

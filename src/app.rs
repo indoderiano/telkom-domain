@@ -29,9 +29,11 @@ use types::{
 };
 
 use getting_started::GettingStarted;
+use activity::Activity;
+use home_page::HomePage;
 
 use crate::pages::{
-    activity::Activity,
+    // activity::Activity,
     applications::{
         apis::{home::ApisHome, settings::ApisSettings},
         applications::{home::ApplicationHome, settings::ApplicationSettings},
@@ -47,7 +49,7 @@ use crate::pages::{
         social::{create::SocialCreate, home::SocialHome, settings::SocialSettings},
     },
     // getting_started::GettingStarted,
-    home_page::HomePage,
+    // home_page::HomePage,
     management::{
         roles::{
             dropdown_viewdetail::ViewDetail,

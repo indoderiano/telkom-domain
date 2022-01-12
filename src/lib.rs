@@ -1,6 +1,6 @@
 mod app;
 mod pages;
-mod components;
+pub mod components;
 // mod store;
 // mod types;
 mod configs;

@@ -8,7 +8,7 @@ use yew::{
     },
 };
 use serde::Serialize;
-use crate::components::loading2::Loading2;
+use loading::Loading;
 use crate::pages::management::users::modal_assign_permissions::ModalAssignPermissions;
 use crate::configs::server::API_URL;
 use types::{
@@ -451,7 +451,7 @@ impl Component for UserTabPermissions {
                         // if true {
                             html!{
                                 <div style="margin-top:6rem;">
-                                    <Loading2 width = 45 />
+                                    <Loading width = 45 />
                                 </div>
                             }
                         } else if self.error_user_permission_list.is_some() {

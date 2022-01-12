@@ -24,6 +24,10 @@ css-in-rust = { version = "^0.5.0", features = ["yew_integration"] }
 state = { version = "0.5", features = ["tls"] }
 
 getting-started = { path = "./src/pages/getting-started" }
+activity = { path = "./src/pages/activity" }
+home-page = { path = "./src/pages/home-page" }
+developers-note = { path = "./src/components/developers-note" }
+loading = { path = "./src/components/loading" }
 router = { path = "./src/router" }
 types = { path = "./src/types" }
 store = { path = "./src/store" }
@@ -42,6 +46,11 @@ features = [
 
 members = [
   "src/pages/getting-started",
+  "src/pages/activity",
+  "src/components/landing-page-navtop",
+  "src/components/developers-note",
+  "src/components/loading",
+  "src/pages/home-page",
   "src/router",
   "src/types",
   "src/store",

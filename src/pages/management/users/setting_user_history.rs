@@ -4,7 +4,7 @@ use yew::{
     services::fetch::{FetchService, FetchTask, Request, Response},
 };
 use yew::services::ConsoleService;
-use crate::components::loading2::Loading2;
+use loading::Loading;
 use crate::configs::server::API_URL;
 use types::users::{UserLogDetails, ResponseUserLogLists};
 
@@ -176,7 +176,7 @@ impl Component for UserTabHistory {
                         if self.loading_get_user_logs {
                             html! {
                                 <div style="position: relative; margin-top:4rem;">
-                                    <Loading2 width = 45 />
+                                    <Loading width = 45 />
                                 </div>
                             }
                         } else if self.error_user_log_list.is_some() {

@@ -18,7 +18,7 @@ use types::{
 use yew::services::ConsoleService;
 use yew_router::components::RouterAnchor;
 
-use crate::components::loading2::Loading2;
+use loading::Loading;
 
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
@@ -279,7 +279,7 @@ impl Component for ApplicationHome {
                                     margin-top: 8rem;
                                 "
                             >
-                                <Loading2 width=45 />
+                                <Loading width=45 />
                             </div>
                         }
                     } else if self.error_app_list.is_some() {

@@ -17,10 +17,8 @@ use yew::{
 };
 use yew_router::components::RouterAnchor;
 
-use crate::components::{
-    loading2::Loading2,
-    developers_note::DevelopersNote,
-};
+use loading::Loading;
+use developers_note::DevelopersNote;
 use crate::configs::server::API_URL;
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
@@ -432,7 +430,7 @@ impl Component for UsersManagement {
                                     // class="d-flex align-items-center justify-content-center"
                                     style="margin-top: 4rem;"
                                 >
-                                    <Loading2 width=45 />
+                                    <Loading width=45 />
                                 </div>
                             }
                         } else if self.error_user_list.is_some() {

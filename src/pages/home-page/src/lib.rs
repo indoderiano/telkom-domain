@@ -1,6 +1,6 @@
 use yew::prelude::*;
 use yewdux::prelude::WithDispatch;
-use crate::components::landing_page_navtop::LandingPageNavTop;
+use landing_page_navtop::LandingPageNavTop;
 use yew::html::Classes;
 use css_in_rust::Style;
 

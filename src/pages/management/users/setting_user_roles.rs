@@ -8,7 +8,7 @@ use yew::{
     },
 };
 use serde::Serialize;
-use crate::components::loading2::Loading2;
+use loading::Loading;
 use crate::pages::management::users::modal_assign_roles::ModalAssignRoles;
 use crate::configs::server::API_URL;
 use types::{
@@ -293,7 +293,7 @@ impl Component for UserTabRoles {
                     if self.loading_get_user_roles {
                         html! {
                             <div style="position: relative; margin-top:4rem;">
-                                <Loading2 width = 45 />
+                                <Loading width = 45 />
                             </div>
                         }
                     } else if self.error_get_user_roles.is_some() {

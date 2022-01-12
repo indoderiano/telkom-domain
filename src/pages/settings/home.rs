@@ -15,9 +15,7 @@ use super::advanced::SettingsAdvanced;
 //     TenantSettings,
 // };
 // use crate::configs::server::API_URL;
-// use crate::components::{
-//     loading2::Loading2,
-// };
+
 
 pub enum Content {
     General,
@@ -187,7 +185,7 @@ impl Component for SettingsHome {
                     //                 margin-top: 8rem;
                     //             "
                     //         >
-                    //             <Loading2 width=45 />
+                    //             <Loading width=45 />
                     //         </div>
                     //     }
                     // } else if self.error_request_settings.is_some() {

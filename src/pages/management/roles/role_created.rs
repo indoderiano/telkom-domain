@@ -15,11 +15,8 @@ use yew::{
     },
 };
 use serde::Serialize;
-
-use crate::components::{
-    loading2::Loading2,
-    developers_note::DevelopersNote,
-};
+use loading::Loading;
+use developers_note::DevelopersNote;
 use crate::configs::server::API_URL;
 use yew_router::components::RouterAnchor;
 
@@ -230,7 +227,7 @@ impl Component for RolesCreated {
                                         margin-top: 8rem;
                                     "
                                 >
-                                    <Loading2 width=45 />
+                                    <Loading width=45 />
                                 </div>
                             }
                         } else if self.error_request_roles.is_some() {

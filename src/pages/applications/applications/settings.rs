@@ -17,10 +17,8 @@ use types::{
     LocalStorage,
     LOCALSTORAGE_KEY,
 };
-use crate::components::{
-    loading2::Loading2,
-    developers_note::DevelopersNote,
-};
+use loading::Loading;
+use developers_note::DevelopersNote;
 
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
@@ -230,7 +228,7 @@ impl Component for ApplicationSettings {
                                     margin-top: 8rem;
                                 "
                             >
-                                <Loading2 width=45 />
+                                <Loading width=45 />
                             </div>
                         }
                     } else {
