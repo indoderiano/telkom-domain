@@ -4,19 +4,18 @@ use yew::{
     services::{
         fetch::{FetchService, FetchTask, Request, Response},
         storage::{ StorageService, Area },
+        ConsoleService,
     },
 };
 use yew_router::components::RouterAnchor;
-// use crate::app::AppRoute;
 use router::AppRoute;
-use super::tab_connection::ConnectionTab;
-use super::tab_settings::TabSettings;
-use yew::services::ConsoleService;
 use types::{
     application::{ AppDetails, RefreshToken, SigningKeys, JwtConfiguration },
     LocalStorage,
     LOCALSTORAGE_KEY,
 };
+use connections::ConnectionTab;
+use applications_tab_settings::TabSettings;
 use loading::Loading;
 use developers_note::DevelopersNote;
 
@@ -369,9 +368,6 @@ impl ApplicationSettings {
                         </li>
                     </ul>
                 </div>
-
-                // <Quickstart/>
-                // <TabSettings/>
 
                 {
                     match self.content {

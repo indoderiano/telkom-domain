@@ -35,9 +35,11 @@ use home_page::HomePage;
 use apis_home::ApisHome;
 use apis_settings::ApisSettings;
 
+use applications_home::ApplicationHome;
+use applications_settings::ApplicationSettings;
+
 use crate::pages::{
     applications::{
-        applications::{home::ApplicationHome, settings::ApplicationSettings},
         sso::{create_sso::CreateSso, home::SsoHome},
     },
     authentication::{

@@ -18,7 +18,7 @@ use configs::server::API_URL;
 use loading::Loading;
 use developers_note::DevelopersNote;
 use quickstart::Quickstart;
-use tab_settings::TabSettings;
+use apis_tab_settings::TabSettings;
 use permissions::Permissions;
 use machine_to_machine::MachineToMachineApplications;
 

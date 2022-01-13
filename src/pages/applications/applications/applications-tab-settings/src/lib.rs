@@ -8,29 +8,21 @@ use yew::{
     },
     agent::Bridged, Bridge, ComponentLink,
 };
-use tag_inactive::TagInactive;
-use developers_note::DevelopersNote;
-use router::AppRoute;
-
 use yew_router::{agent::RouteRequest::ChangeRoute, service::RouteService, prelude::*};
 use types::{
 	application::{ AppDetails, RefreshToken, SigningKeys, JwtConfiguration },
 	ResponseMessage,
-  LocalStorage,
-  LOCALSTORAGE_KEY,
+    LocalStorage,
+    LOCALSTORAGE_KEY,
 };
-
+use router::AppRoute;
+use tag_inactive::TagInactive;
+use developers_note::DevelopersNote;
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
 pub struct AppsTabSettingsProps {
     pub app_details: AppDetails,
 }
-
-// #[derive(Clone, Debug, Eq, PartialEq, Properties)]
-// pub struct ApisSettingsProps {
-//     pub tenant_id: String,
-//     // api_title: ApiTitle,
-// }
 
 pub enum StateError {
     Update,

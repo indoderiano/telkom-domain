@@ -1,5 +1,5 @@
 [package]
-name = "apis-settings"
+name = "applications-settings"
 version = "0.1.0"
 edition = "2018"
 
@@ -14,7 +14,5 @@ types = { path = "../../../../types" }
 configs = { path = "../../../../configs" }
 loading = { path = "../../../../components/loading" }
 developers-note = { path = "../../../../components/developers-note" }
-quickstart = { path = "../quickstart" }
-apis-tab-settings = { path = "../apis-tab-settings" }
-permissions = { path = "../permissions" }
-machine-to-machine = { path = "../machine-to-machine" }
+connections = { path = "../connections" }
+applications-tab-settings = { path = "../applications-tab-settings" }

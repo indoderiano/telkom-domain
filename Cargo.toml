@@ -36,6 +36,9 @@ tag-inactive = { path = "src/components/tag-inactive" }
 apis-home = { path = "src/pages/applications/apis/apis-home" }
 apis-settings = { path = "src/pages/applications/apis/apis-settings" }
 
+applications-home = { path = "src/pages/applications/applications/applications-home" }
+applications-settings = { path = "src/pages/applications/applications/applications-settings" }
+
 router = { path = "./src/router" }
 types = { path = "./src/types" }
 store = { path = "./src/store" }
@@ -71,7 +74,12 @@ members = [
   "src/pages/applications/apis/apis-home",
   "src/pages/applications/apis/apis-settings",
   "src/pages/applications/apis/quickstart",
-  "src/pages/applications/apis/tab-settings",
+  "src/pages/applications/apis/apis-tab-settings",
   "src/pages/applications/apis/permissions",
   "src/pages/applications/apis/machine-to-machine",
+
+  "src/pages/applications/applications/applications-home",
+  "src/pages/applications/applications/applications-settings",
+  "src/pages/applications/applications/applications-tab-settings",
+  "src/pages/applications/applications/connections",
 ]

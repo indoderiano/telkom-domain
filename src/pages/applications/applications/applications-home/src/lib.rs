@@ -4,10 +4,10 @@ use yew::{
     services::{
         fetch::{FetchService, FetchTask, Request, Response},
         storage::{ StorageService, Area },
+        ConsoleService,
     },
 };
-
-// use crate::app::AppRoute;
+use yew_router::components::RouterAnchor;
 use router::AppRoute;
 use types::{
     application::{AppList, AppCreate},
@@ -15,9 +15,6 @@ use types::{
     LocalStorage,
     LOCALSTORAGE_KEY,
 };
-use yew::services::ConsoleService;
-use yew_router::components::RouterAnchor;
-
 use loading::Loading;
 
 
