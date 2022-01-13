@@ -32,10 +32,11 @@ use getting_started::GettingStarted;
 use activity::Activity;
 use home_page::HomePage;
 
+use apis_home::ApisHome;
+use apis_settings::ApisSettings;
+
 use crate::pages::{
-    // activity::Activity,
     applications::{
-        apis::{home::ApisHome, settings::ApisSettings},
         applications::{home::ApplicationHome, settings::ApplicationSettings},
         sso::{create_sso::CreateSso, home::SsoHome},
     },

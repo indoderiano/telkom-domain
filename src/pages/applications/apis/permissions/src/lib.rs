@@ -34,13 +34,13 @@ pub struct Permissions {
     error_request_api_details: Option<String>,
 }
 
-enum DataPermissionAdd {
+pub enum DataPermissionAdd {
     Value,
     Description,
 }
 
 #[derive(Debug, Clone, Copy)]
-enum StateError {
+pub enum StateError {
     AddPermission,
     DeletePermission,
     RequestApiDetails,

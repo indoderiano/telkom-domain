@@ -8,17 +8,17 @@ use yew::{
     },
     agent::Bridged, Bridge, ComponentLink,
 };
+use yew_router::{
+    agent::RouteRequest::ChangeRoute,
+    service::RouteService,
+    prelude::*,
+};
 use types::{
     api::{ ApiDetails, ResponseApiDetails },
     LocalStorage,
     LOCALSTORAGE_KEY,
 };
 use router::AppRoute;
-use yew_router::{
-    agent::RouteRequest::ChangeRoute,
-    service::RouteService,
-    prelude::*,
-};
 use configs::server::API_URL;
 
 

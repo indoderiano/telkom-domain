@@ -1,20 +1,14 @@
 use yew::{
     format::{ Json, Nothing },
     prelude::*,
-    services::fetch::{FetchService, FetchTask, Request, Response},
+    services::{
+        fetch::{FetchService, FetchTask, Request, Response},
+        ConsoleService,
+        storage::{ StorageService, Area },
+    },
 };
 use yew_router::components::RouterAnchor;
-// use crate::app::AppRoute;
 use router::AppRoute;
-use super::quickstart::Quickstart;
-use super::tab_settings::TabSettings;
-use super::permissions::Permissions;
-use super::machinetomachineapplications::MachineToMachineApplications;
-use yew::services::{
-    ConsoleService,
-    storage::{ StorageService, Area },
-};
-
 use types::{
     api::{ ApiDetails, ResponseApiDetails },
     LocalStorage,
@@ -23,6 +17,10 @@ use types::{
 use configs::server::API_URL;
 use loading::Loading;
 use developers_note::DevelopersNote;
+use quickstart::Quickstart;
+use tab_settings::TabSettings;
+use permissions::Permissions;
+use machine_to_machine::MachineToMachineApplications;
 
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]

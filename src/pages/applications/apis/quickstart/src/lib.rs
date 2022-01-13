@@ -1,5 +1,7 @@
 use yew::prelude::*;
-use super::nodejs::Nodejs;
+
+mod nodejs;
+use nodejs::Nodejs;
 
 pub struct Quickstart {}
 

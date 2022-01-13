@@ -1,0 +1,20 @@
+[package]
+name = "apis-settings"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+yew="0.18"
+yew-router = "0.15.0"
+anyhow = "1.0.42"
+router = { path = "../../../../router" }
+types = { path = "../../../../types" }
+configs = { path = "../../../../configs" }
+loading = { path = "../../../../components/loading" }
+developers-note = { path = "../../../../components/developers-note" }
+quickstart = { path = "../quickstart" }
+tab-settings = { path = "../tab-settings" }
+permissions = { path = "../permissions" }
+machine-to-machine = { path = "../machine-to-machine" }

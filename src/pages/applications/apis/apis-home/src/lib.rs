@@ -8,7 +8,6 @@ use yew::services::{
     ConsoleService,
     storage::{ StorageService, Area },
 };
-// use crate::app::AppRoute;
 use router::AppRoute;
 use types::{
     api::{ ApiTitle, ApiCreate },

@@ -32,6 +32,10 @@ logo = { path = "src/components/logo" }
 navtop = { path = "src/components/navtop" }
 sidebar = { path = "src/components/sidebar" }
 tag-inactive = { path = "src/components/tag-inactive" }
+
+apis-home = { path = "src/pages/applications/apis/apis-home" }
+apis-settings = { path = "src/pages/applications/apis/apis-settings" }
+
 router = { path = "./src/router" }
 types = { path = "./src/types" }
 store = { path = "./src/store" }
@@ -64,4 +68,10 @@ members = [
   "src/types",
   "src/store",
   "src/configs",
+  "src/pages/applications/apis/apis-home",
+  "src/pages/applications/apis/apis-settings",
+  "src/pages/applications/apis/quickstart",
+  "src/pages/applications/apis/tab-settings",
+  "src/pages/applications/apis/permissions",
+  "src/pages/applications/apis/machine-to-machine",
 ]
