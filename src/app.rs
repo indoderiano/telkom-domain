@@ -61,8 +61,8 @@ use crate::pages::{
     outer::{login_page::LoginPage, password_page::RequestPassPage, register_page::RegisterPage},
     settings::home::SettingsHome,
 };
-
-use crate::components::{navtop::Navtop, sidebar::Sidebar};
+use sidebar::Sidebar;
+use navtop::Navtop;
 
 
 // #[derive(Switch, Clone)]

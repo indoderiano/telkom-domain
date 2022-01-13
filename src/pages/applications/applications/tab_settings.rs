@@ -9,10 +9,7 @@ use yew::{
     agent::Bridged,
     Bridge,
 };
-use crate::components::{
-  // developers_note::DevelopersNote,
-  tag_inactive::TagInactive,
-};
+use tag_inactive::TagInactive;
 use developers_note::DevelopersNote;
 
 use yew_router::{agent::RouteRequest::ChangeRoute, service::RouteService, prelude::*};
