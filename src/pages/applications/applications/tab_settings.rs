@@ -6,8 +6,7 @@ use yew::{
         fetch::{FetchService, FetchTask, Request, Response, StatusCode},
         storage::{ StorageService, Area },
     },
-    agent::Bridged,
-    Bridge,
+    agent::Bridged, Bridge, ComponentLink,
 };
 use crate::components::{
   developers_note::DevelopersNote,
@@ -75,6 +74,7 @@ pub struct TabSettings {
   error_delete_app: Option<String>,
   route_service: RouteService,
   access_token: String,
+  router_agent: Box<dyn Bridge<RouteAgent>>,
   // router_agent: Box<dyn Bridge<RouteAgent>>,
   // tenant_id: String,
 }
@@ -124,7 +124,6 @@ impl Component for TabSettings {
 
         TabSettings {
           app_details: props.app_details,
-          link,
           fetch_task: None,
           loading_update_app: false,
           error_update_app: None,
@@ -132,6 +131,8 @@ impl Component for TabSettings {
           error_delete_app: None,
           route_service: RouteService::new(),
           access_token,
+          router_agent: RouteAgent::bridge(link.callback(|_| Msg::Ignore)),
+          link,
           // router_agent: RouteAgent::bridge(link.callback(|_| Msg::Ignore)),
           // tenant_id: "kmzway87aa".to_string()
         }
@@ -321,7 +322,9 @@ impl Component for TabSettings {
         Msg::RedirectToApp => {
           self.loading_delete_app = false;
           self.fetch_task = None;
-          self.route_service.set_route(&format!("/{}/apis", self.app_details.tenant), ());
+          self.route_service.set_route(&format!("/{}/app", self.app_details.tenant), ());
+          self.router_agent.send(ChangeRoute(AppRoute::ApplicationHome {tenant_id: self.app_details.tenant.clone()}.into()));
+          // self.router_agent.send(ChangeRoute(AppRoute::DatabaseHome.into()));
           true
         }
         Msg::Ignore => {true}
