@@ -9,7 +9,7 @@ use super::setting_user_roles::UserTabRoles;
 use router::AppRoute;
 use loading::Loading;
 use developers_note::DevelopersNote;
-use crate::configs::server::API_URL;
+use configs::server::API_URL;
 use types::{
     users::{UserDetails},
     LocalStorage,

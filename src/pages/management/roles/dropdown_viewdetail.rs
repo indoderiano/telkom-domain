@@ -4,7 +4,7 @@ use super::tab_users::TabUsers;
 // use crate::app::AppRoute;
 use router::AppRoute;
 use loading::Loading;
-use crate::configs::server::API_URL;
+use configs::server::API_URL;
 use types::roles::Role;
 use yew::{
     format::{Json, Nothing},

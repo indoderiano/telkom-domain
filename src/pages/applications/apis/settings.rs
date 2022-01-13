@@ -20,7 +20,7 @@ use types::{
     LocalStorage,
     LOCALSTORAGE_KEY,
 };
-use crate::configs::server::API_URL;
+use configs::server::API_URL;
 use loading::Loading;
 use developers_note::DevelopersNote;
 
@@ -97,6 +97,7 @@ impl Component for ApisSettings {
             fetch_task: None,
             error: None,
             api_details,
+            // tenant_id: props.tenant_id,
             resource_server_id: props.resource_server_id,
             access_token,
         }
@@ -213,6 +214,7 @@ impl ApisSettings {
             // allow_off_acc: _,
             // tenant_id: _,
 
+            tenant_id: _,
             resource_server_id: _,
             name,
             is_system,
@@ -346,7 +348,7 @@ impl ApisSettings {
                 {
                     match self.content {
                         Content::Quickstart => html! { <Quickstart/> },
-                        Content::Settings => html! { <TabSettings api_details=self.api_details.clone() /> },
+                        Content::Settings => html! { <TabSettings api_details=self.api_details.clone() tenant_id=self.api_details.tenant_id.to_string() /> },
                         Content::Permissions => html! { <Permissions api_details=self.api_details.clone() /> },
                         Content::MachineToMachineApplications => html! { <MachineToMachineApplications/> },
                     }

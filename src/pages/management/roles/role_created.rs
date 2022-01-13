@@ -17,7 +17,7 @@ use yew::{
 use serde::Serialize;
 use loading::Loading;
 use developers_note::DevelopersNote;
-use crate::configs::server::API_URL;
+use configs::server::API_URL;
 use yew_router::components::RouterAnchor;
 
 pub enum StateError {

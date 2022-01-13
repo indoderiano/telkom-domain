@@ -10,7 +10,7 @@ use yew::{
 use serde::Serialize;
 use loading::Loading;
 use crate::pages::management::users::modal_assign_roles::ModalAssignRoles;
-use crate::configs::server::API_URL;
+use configs::server::API_URL;
 use types::{
     users::{ UserRole, UserDetails },
     ResponseMessage,

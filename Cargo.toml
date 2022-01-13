@@ -35,6 +35,7 @@ tag-inactive = { path = "src/components/tag-inactive" }
 router = { path = "./src/router" }
 types = { path = "./src/types" }
 store = { path = "./src/store" }
+configs = { path = "./src/configs" }
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3"
@@ -62,4 +63,5 @@ members = [
   "src/router",
   "src/types",
   "src/store",
+  "src/configs",
 ]

@@ -14,7 +14,7 @@ use types::settings::{
     TenantSettings,
     ErrorPage,
 };
-use crate::configs::server::API_URL;
+use configs::server::API_URL;
 use loading::Loading;
 
 

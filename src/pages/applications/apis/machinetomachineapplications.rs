@@ -14,7 +14,7 @@ use serde::{
     Serialize,
 };
 use loading::Loading;
-use crate::configs::server::API_URL;
+use configs::server::API_URL;
 
 
 pub enum StateError {

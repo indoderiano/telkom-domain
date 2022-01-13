@@ -13,7 +13,7 @@ use types::{
     LocalStorage,
     LOCALSTORAGE_KEY,
 };
-use crate::configs::server::API_URL;
+use configs::server::API_URL;
 
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]

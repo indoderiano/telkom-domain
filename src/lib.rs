@@ -3,7 +3,7 @@ mod pages;
 pub mod components;
 // mod store;
 // mod types;
-mod configs;
+// mod configs;
 
 use yewdux::prelude::WithDispatch;
 

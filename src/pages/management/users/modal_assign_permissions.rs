@@ -10,7 +10,7 @@ use yew::{
 use serde::Serialize;
 use loading::Loading;
 use developers_note::DevelopersNote;
-use crate::configs::server::API_URL;
+use configs::server::API_URL;
 use types::{
     users::{ UserPermissions },
     api::{ ApiTitle, Scope },

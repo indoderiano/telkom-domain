@@ -15,7 +15,7 @@ use store::{
     DataAccountAction,
     // DataAccount,
 };
-use crate::configs::server::API_URL;
+use configs::server::API_URL;
 use types::{
     ResponseLogin,
     LocalStorage,

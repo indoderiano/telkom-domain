@@ -17,8 +17,7 @@ use types::{
     LOCALSTORAGE_KEY,
 };
 use loading::Loading;
-
-use crate::configs::server::API_URL;
+use configs::server::API_URL;
 
 
 // #[derive(Clone, Debug, Eq, PartialEq, Properties)]

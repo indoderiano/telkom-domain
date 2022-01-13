@@ -11,10 +11,6 @@ use super::tenant_members::SettingsTenantMembers;
 use super::custom_domain::SettingsCustomDomain;
 use super::signing_keys::SettingsSigningKeys;
 use super::advanced::SettingsAdvanced;
-// use crate::types::settings::{
-//     TenantSettings,
-// };
-// use crate::configs::server::API_URL;
 
 
 pub enum Content {

@@ -10,7 +10,7 @@ use serde::{
     Deserialize,
     Serialize,
 };
-use crate::configs::server::API_URL;
+use configs::server::API_URL;
 use types::ResponseMessage;
 
 

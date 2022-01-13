@@ -19,7 +19,7 @@ use yew_router::components::RouterAnchor;
 
 use loading::Loading;
 use developers_note::DevelopersNote;
-use crate::configs::server::API_URL;
+use configs::server::API_URL;
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
 pub struct UserProps {

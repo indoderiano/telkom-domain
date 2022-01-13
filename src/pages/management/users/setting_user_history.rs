@@ -5,7 +5,7 @@ use yew::{
 };
 use yew::services::ConsoleService;
 use loading::Loading;
-use crate::configs::server::API_URL;
+use configs::server::API_URL;
 use types::users::{UserLogDetails, ResponseUserLogLists};
 
 
