@@ -14,7 +14,7 @@ strum_macros = "0.19"
 wasm-bindgen = "0.2.58"
 wasm-logger = "0.2"
 wee_alloc = { version = "0.4.4", optional = true }
-yew="0.18"
+yew = "0.18"
 yew-router = "0.15.0"
 serde = { version = "1.0", features = ["derive"] }
 yewdux = "^0.6"
@@ -38,6 +38,9 @@ apis-settings = { path = "src/pages/applications/apis/apis-settings" }
 
 applications-home = { path = "src/pages/applications/applications/applications-home" }
 applications-settings = { path = "src/pages/applications/applications/applications-settings" }
+
+users-home = { path = "src/pages/management/users/users-home" }
+users-settings = { path = "src/pages/management/users/users-settings" }
 
 router = { path = "./src/router" }
 types = { path = "./src/types" }
@@ -71,6 +74,7 @@ members = [
   "src/types",
   "src/store",
   "src/configs",
+
   "src/pages/applications/apis/apis-home",
   "src/pages/applications/apis/apis-settings",
   "src/pages/applications/apis/quickstart",
@@ -82,4 +86,16 @@ members = [
   "src/pages/applications/applications/applications-settings",
   "src/pages/applications/applications/applications-tab-settings",
   "src/pages/applications/applications/connections",
+
+  "src/pages/management/users/users-home",
+  "src/pages/management/users/users-settings",
+  "src/pages/management/users/user-details",
+  "src/pages/management/users/user-devices",
+  "src/pages/management/users/user-histories",
+  "src/pages/management/users/user-json",
+  "src/pages/management/users/user-auth-app",
+  "src/pages/management/users/user-permissions",
+  "src/pages/management/users/user-roles",
+  "src/pages/management/users/modal-assign-permissions",
+  "src/pages/management/users/modal-assign-roles",
 ]

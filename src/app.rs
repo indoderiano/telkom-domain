@@ -38,6 +38,9 @@ use apis_settings::ApisSettings;
 use applications_home::ApplicationHome;
 use applications_settings::ApplicationSettings;
 
+use users_home::UsersHome;
+use users_settings::UserSettings;
+
 use crate::pages::{
     applications::{
         sso::{create_sso::CreateSso, home::SsoHome},
@@ -59,7 +62,6 @@ use crate::pages::{
             // home::RolesManagement,
             role_created::RolesCreated,
         },
-        users::{home::UsersManagement, user_viewdetail::UserViewDetail},
     },
     outer::{login_page::LoginPage, password_page::RequestPassPage, register_page::RegisterPage},
     settings::home::SettingsHome,
@@ -108,13 +110,13 @@ use navtop::Navtop;
 //     #[to = "/user-management/roles"]
 //     RolesCreated,
 //     #[to = "/{tenant_id}/users/{user_id}/{id}"]
-//     UserViewDetail {
+//     UserSettings {
 //         tenant_id: String,
 //         user_id: String,
 //         id: u32,
 //     },
 //     #[to = "/{tenant_id}/users"]
-//     UsersManagement { tenant_id: String },
+//     UsersHome { tenant_id: String },
 //     #[to = "/enterprise/google-app/create"]
 //     EnterpriseGoogleCreate,
 //     #[to = "/enterprise/google-app"]
@@ -374,21 +376,21 @@ impl Component for App {
                         html! {<HomePage/>}
                     }
                 }
-                AppRoute::UsersManagement { tenant_id } => {
+                AppRoute::UsersHome { tenant_id } => {
                     if is_logged_in {
-                        html! {<UsersManagement tenant_id=tenant_id/>}
+                        html! {<UsersHome tenant_id=tenant_id/>}
                     } else {
                         route_service.set_route("/", ());
                         html! {<HomePage/>}
                     }
                 }
-                AppRoute::UserViewDetail {
+                AppRoute::UserSettings {
                     tenant_id,
                     user_id,
                     id,
                 } => {
                     if is_logged_in {
-                        html! {<UserViewDetail tenant_id=tenant_id user_id=user_id id=id/>}
+                        html! {<UserSettings tenant_id=tenant_id user_id=user_id id=id/>}
                     } else {
                         route_service.set_route("/", ());
                         html! {<HomePage/>}
@@ -484,7 +486,7 @@ impl Component for App {
             //         AppRoute::SocialSettings => html! {<SocialSettings/>},
             //         AppRoute::SocialCreate => html! {<SocialCreate/>},
             //         AppRoute::RolesCreated => html! {<RolesCreated/>},
-            //         AppRoute::UsersManagement => html! {<UsersManagement/>},
+            //         AppRoute::UsersHome => html! {<UsersHome/>},
             //         AppRoute::EnterpriseHome => html! {<EnterpriseHome/>},
             //         AppRoute::EnterpriseGoogle => html! {<EnterpriseGoogle/>},
             //         AppRoute::EnterpriseGoogleCreate => html! {<EnterpriseGoogleCreate/>},

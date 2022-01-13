@@ -7,9 +7,6 @@ use yew::{
         storage::{ StorageService, Area }
     },
 };
-use serde::Serialize;
-use loading::Loading;
-use developers_note::DevelopersNote;
 use configs::server::API_URL;
 use types::{
     roles::Role,
@@ -18,6 +15,9 @@ use types::{
     LocalStorage,
     LOCALSTORAGE_KEY,
 };
+use serde::Serialize;
+use loading::Loading;
+use developers_note::DevelopersNote;
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
 pub struct ModalAssignRolesProps {

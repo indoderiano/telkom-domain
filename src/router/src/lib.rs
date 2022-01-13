@@ -40,13 +40,13 @@ pub enum AppRoute {
     #[to = "/user-management/roles"]
     RolesCreated,
     #[to = "/{tenant_id}/users/{user_id}/{id}"]
-    UserViewDetail {
+    UserSettings {
         tenant_id: String,
         user_id: String,
         id: u32,
     },
     #[to = "/{tenant_id}/users"]
-    UsersManagement { tenant_id: String },
+    UsersHome { tenant_id: String },
     #[to = "/enterprise/google-app/create"]
     EnterpriseGoogleCreate,
     #[to = "/enterprise/google-app"]

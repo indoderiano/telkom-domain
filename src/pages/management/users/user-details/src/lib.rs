@@ -1,4 +1,3 @@
-use serde::{Deserialize, Serialize};
 use yew::{
     format::{Json, Nothing},
     prelude::*,
@@ -9,7 +8,7 @@ use yew::{
     },
 };
 use yew_router::service::RouteService;
-
+use serde::{Deserialize, Serialize};
 use types::{
     users::{ResponseUserDetails, UserDetails},
     LocalStorage, ResponseMessage, LOCALSTORAGE_KEY,

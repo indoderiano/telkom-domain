@@ -8,8 +8,6 @@ use yew::{
     },
 };
 use serde::Serialize;
-use loading::Loading;
-use developers_note::DevelopersNote;
 use configs::server::API_URL;
 use types::{
     users::{ UserPermissions },
@@ -18,6 +16,8 @@ use types::{
     LocalStorage,
     LOCALSTORAGE_KEY,
 };
+use loading::Loading;
+use developers_note::DevelopersNote;
 
 #[derive(Serialize, Debug, Clone, PartialEq)]
 struct SelectedPermission {

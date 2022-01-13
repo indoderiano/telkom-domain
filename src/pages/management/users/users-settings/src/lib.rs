@@ -1,20 +1,3 @@
-use super::setting_user_details::UserTabDetails;
-use super::setting_user_devices::UserTabDevices;
-use super::setting_user_history::UserTabHistory;
-use super::setting_user_json::UserTabRawJson;
-use super::setting_user_auth_app::UserTabAuthorizedApp;
-use super::setting_user_permissions::UserTabPermissions;
-use super::setting_user_roles::UserTabRoles;
-// use crate::app::AppRoute;
-use router::AppRoute;
-use loading::Loading;
-use developers_note::DevelopersNote;
-use configs::server::API_URL;
-use types::{
-    users::{UserDetails},
-    LocalStorage,
-    LOCALSTORAGE_KEY,
-};
 use yew::{
     format::{Json, Nothing},
     prelude::*,
@@ -25,6 +8,24 @@ use yew::{
     },
 };
 use yew_router::components::RouterAnchor;
+use router::AppRoute;
+use configs::server::API_URL;
+use types::{
+    users::{UserDetails},
+    LocalStorage,
+    LOCALSTORAGE_KEY,
+};
+use loading::Loading;
+use developers_note::DevelopersNote;
+
+use user_auth_app::UserTabAuthorizedApp;
+use user_details::UserTabDetails;
+use user_devices::UserTabDevices;
+use user_histories::UserTabHistory;
+use user_json::UserTabRawJson;
+use user_permissions::UserTabPermissions;
+use user_roles::UserTabRoles;
+
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
 pub struct UserSettingsProps {
@@ -43,7 +44,7 @@ pub enum Content {
     UserTabRoles,
 }
 
-pub struct UserViewDetail {
+pub struct UserSettings {
     // id: u32,
     user_id: String,
     access_token: String,
@@ -60,7 +61,7 @@ pub enum Msg {
     GetUserDetails(Result<UserDetails, anyhow::Error>),
 }
 
-impl Component for UserViewDetail {
+impl Component for UserSettings {
     type Message = Msg;
     type Properties = UserSettingsProps;
 
@@ -102,7 +103,7 @@ impl Component for UserViewDetail {
 
         let user_details = UserDetails::new();
 
-        UserViewDetail {
+        UserSettings {
             // id: props.id,
             user_id: props.user_id,
             access_token,
@@ -173,7 +174,7 @@ impl Component for UserViewDetail {
                     style="max-width: 1048px"
                 >
                     <Anchor
-                        route=AppRoute::UsersManagement {tenant_id: tenant_id}
+                        route=AppRoute::UsersHome {tenant_id: tenant_id}
                         classes="text-decoration-none domain-link-dark"
                     >
                         <i class="bi bi-arrow-left me-2"></i>
@@ -198,7 +199,7 @@ impl Component for UserViewDetail {
     }
 }
 
-impl UserViewDetail {
+impl UserSettings {
     fn view_content(&self) -> Html {
         let UserDetails {
             // id,
@@ -343,7 +344,6 @@ impl UserViewDetail {
                 </div>
 
                 <DevelopersNote message="Only the following tabs are working, 'Details', 'Permissions', and 'Roles'"/>
-
 
                 <ul class="nav nav-tabs" id="myTab" role="tablist" style="font-size:14px;">
                     <li

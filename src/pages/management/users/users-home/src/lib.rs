@@ -1,11 +1,3 @@
-// use crate::app::AppRoute;
-use router::AppRoute;
-use types::{
-    users::{ResponseUsersList, UserCreate, UserTitle},
-    ResponseMessage,
-    LocalStorage,
-    LOCALSTORAGE_KEY,
-};
 use yew::{
     format::{Json, Nothing},
     prelude::*,
@@ -16,6 +8,13 @@ use yew::{
     },
 };
 use yew_router::components::RouterAnchor;
+use router::AppRoute;
+use types::{
+    users::{ResponseUsersList, UserCreate, UserTitle},
+    ResponseMessage,
+    LocalStorage,
+    LOCALSTORAGE_KEY,
+};
 
 use loading::Loading;
 use developers_note::DevelopersNote;
@@ -37,7 +36,7 @@ pub enum DataUserCreate {
     Connection,
 }
 
-pub struct UsersManagement {
+pub struct UsersHome {
     tenant_id: String,
     access_token: String,
     fetch_task: Option<FetchTask>,
@@ -64,7 +63,7 @@ pub enum Msg {
     ResponseError(String, StateError),
 }
 
-impl Component for UsersManagement {
+impl Component for UsersHome {
     type Message = Msg;
     type Properties = UserProps;
 
@@ -105,7 +104,7 @@ impl Component for UsersManagement {
 
         let user_create = UserCreate::new();
 
-        UsersManagement {
+        UsersHome {
             tenant_id: props.tenant_id,
             access_token,
             fetch_task: None,
@@ -756,7 +755,7 @@ impl Component for UsersManagement {
 }
 
 
-impl UsersManagement {
+impl UsersHome {
     fn view_user_list(&self) -> Vec<Html> {
         type Anchor = RouterAnchor<AppRoute>;
         let tenant_id = self.tenant_id.clone();
@@ -781,7 +780,7 @@ impl UsersManagement {
                                 "
                             >
                                 <Anchor
-                                    route=AppRoute::UserViewDetail {tenant_id: tenant_id.clone(), user_id: user.user_id.clone(), id:1 }
+                                    route=AppRoute::UserSettings {tenant_id: tenant_id.clone(), user_id: user.user_id.clone(), id:1 }
                                     classes="text-decoration-none fw-bold mb-0"
                                 >
                                     { &user.name }
@@ -802,7 +801,7 @@ impl UsersManagement {
                                 <DevelopersNote message="Not yet implemented"/>
                             </li>
                             <li class="p-1 text-muted" style="font-size:13px;">
-                                <Anchor route=AppRoute::UserViewDetail {tenant_id: tenant_id.clone(), user_id: user.user_id.clone(), id:1 } classes="dropdown-item">
+                                <Anchor route=AppRoute::UserSettings {tenant_id: tenant_id.clone(), user_id: user.user_id.clone(), id:1 } classes="dropdown-item">
                                     {"View Details"}
                                 </Anchor>
                             </li>

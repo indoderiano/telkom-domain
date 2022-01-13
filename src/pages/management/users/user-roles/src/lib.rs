@@ -7,9 +7,6 @@ use yew::{
         storage::{ StorageService, Area }
     },
 };
-use serde::Serialize;
-use loading::Loading;
-use crate::pages::management::users::modal_assign_roles::ModalAssignRoles;
 use configs::server::API_URL;
 use types::{
     users::{ UserRole, UserDetails },
@@ -18,6 +15,9 @@ use types::{
     LOCALSTORAGE_KEY,
 };
 use yew_router::service::RouteService;
+use serde::Serialize;
+use loading::Loading;
+use modal_assign_roles::ModalAssignRoles;
 
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]

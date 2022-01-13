@@ -7,9 +7,8 @@ use yew::{
         storage::{ StorageService, Area }
     },
 };
+use yew_router::service::RouteService;
 use serde::Serialize;
-use loading::Loading;
-use crate::pages::management::users::modal_assign_permissions::ModalAssignPermissions;
 use configs::server::API_URL;
 use types::{
     users::{UserPermissions},
@@ -18,7 +17,8 @@ use types::{
     LocalStorage,
     LOCALSTORAGE_KEY,
 };
-use yew_router::service::RouteService;
+use modal_assign_permissions::ModalAssignPermissions;
+use loading::Loading;
 
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]

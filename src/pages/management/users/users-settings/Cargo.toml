@@ -1,0 +1,24 @@
+[package]
+name = "users-settings"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+yew="0.18"
+yew-router = "0.15.0"
+anyhow = "1.0.42"
+router = { path = "../../../../router" }
+configs = { path = "../../../../configs" }
+types = { path = "../../../../types" }
+loading = { path = "../../../../components/loading" }
+developers-note = { path = "../../../../components/developers-note" }
+
+user-auth-app = { path = "../user-auth-app" }
+user-details = { path = "../user-details" }
+user-devices = { path = "../user-devices" }
+user-histories = { path = "../user-histories" }
+user-json = { path = "../user-json" }
+user-permissions = { path = "../user-permissions" }
+user-roles = { path = "../user-roles" }
