@@ -1,6 +1,5 @@
 use yew::prelude::*;
 use yew_router::components::RouterAnchor;
-// use crate::app::AppRoute;
 use router::AppRoute;
 
 pub struct DatabaseHome {

@@ -2,8 +2,8 @@ use yew::prelude::*;
 use yew_router::components::RouterAnchor;
 // use crate::app::AppRoute;
 use router::AppRoute;
-use super::tab_applications::ApplicationsTab;
-use super::tab_settings::TabSettings;
+use database_tab_applications::ApplicationsTab;
+use database_tab_settings::TabSettings;
 
 pub enum Content {
     Settings,

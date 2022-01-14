@@ -41,12 +41,15 @@ use applications_settings::ApplicationSettings;
 use users_home::UsersHome;
 use users_settings::UserSettings;
 
+use database_create_db::DbCreate;
+use database_home::DatabaseHome;
+use database_settings::DatabaseSettings;
+
 use crate::pages::{
     applications::{
         sso::{create_sso::CreateSso, home::SsoHome},
     },
     authentication::{
-        database::{create_db::DbCreate, home::DatabaseHome, settings::DatabaseSettings},
         enterprise::{
             google_apps::EnterpriseGoogle, google_apps_create::EnterpriseGoogleCreate,
             home::EnterpriseHome,
@@ -54,8 +57,6 @@ use crate::pages::{
         passwordless::home::AuthPasswordLess,
         social::{create::SocialCreate, home::SocialHome, settings::SocialSettings},
     },
-    // getting_started::GettingStarted,
-    // home_page::HomePage,
     management::{
         roles::{
             dropdown_viewdetail::ViewDetail,

@@ -42,6 +42,10 @@ applications-settings = { path = "src/pages/applications/applications/applicatio
 users-home = { path = "src/pages/management/users/users-home" }
 users-settings = { path = "src/pages/management/users/users-settings" }
 
+database-home = { path = "src/pages/authentication/database/database-home" }
+database-settings = { path = "src/pages/authentication/database/database-settings" }
+database-create-db = { path = "src/pages/authentication/database/create-db" }
+
 router = { path = "./src/router" }
 types = { path = "./src/types" }
 store = { path = "./src/store" }
@@ -98,4 +102,11 @@ members = [
   "src/pages/management/users/user-roles",
   "src/pages/management/users/modal-assign-permissions",
   "src/pages/management/users/modal-assign-roles",
+
+  "src/pages/authentication/database/create-db",
+  "src/pages/authentication/database/database-home",
+  "src/pages/authentication/database/database-settings",
+  "src/pages/authentication/database/database-tab-applications",
+  "src/pages/authentication/database/database-tab-settings",
+
 ]
