@@ -46,6 +46,10 @@ database-home = { path = "src/pages/authentication/database/database-home" }
 database-settings = { path = "src/pages/authentication/database/database-settings" }
 database-create-db = { path = "src/pages/authentication/database/create-db" }
 
+enterprise-home = { path = "src/pages/authentication/enterprise/enterprise-home" }
+google-apps = { path = "src/pages/authentication/enterprise/google-apps" }
+google-app-create = { path = "src/pages/authentication/enterprise/google-app-create" }
+
 router = { path = "./src/router" }
 types = { path = "./src/types" }
 store = { path = "./src/store" }
@@ -108,5 +112,9 @@ members = [
   "src/pages/authentication/database/database-settings",
   "src/pages/authentication/database/database-tab-applications",
   "src/pages/authentication/database/database-tab-settings",
+
+  "src/pages/authentication/enterprise/google-app-create",
+  "src/pages/authentication/enterprise/google-apps",
+  "src/pages/authentication/enterprise/enterprise-home",
 
 ]

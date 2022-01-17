@@ -45,15 +45,15 @@ use database_create_db::DbCreate;
 use database_home::DatabaseHome;
 use database_settings::DatabaseSettings;
 
+use enterprise_home::EnterpriseHome;
+use google_apps::EnterpriseGoogle;
+use google_app_create::EnterpriseGoogleCreate;
+
 use crate::pages::{
     applications::{
         sso::{create_sso::CreateSso, home::SsoHome},
     },
     authentication::{
-        enterprise::{
-            google_apps::EnterpriseGoogle, google_apps_create::EnterpriseGoogleCreate,
-            home::EnterpriseHome,
-        },
         passwordless::home::AuthPasswordLess,
         social::{create::SocialCreate, home::SocialHome, settings::SocialSettings},
     },
