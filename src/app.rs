@@ -51,12 +51,13 @@ use google_app_create::EnterpriseGoogleCreate;
 
 use passwordless_home::AuthPasswordLess;
 
+use social_create::SocialCreate;
+use social_home::SocialHome;
+use social_settings::SocialSettings;
+
 use crate::pages::{
     applications::{
         sso::{create_sso::CreateSso, home::SsoHome},
-    },
-    authentication::{
-        social::{create::SocialCreate, home::SocialHome, settings::SocialSettings},
     },
     management::{
         roles::{

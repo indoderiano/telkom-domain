@@ -52,6 +52,10 @@ google-app-create = { path = "src/pages/authentication/enterprise/google-app-cre
 
 passwordless-home = { path = "src/pages/authentication/passwordless/passwordless-home" }
 
+social-create = { path = "src/pages/authentication/social/social-create" }
+social-home = { path = "src/pages/authentication/social/social-home" }
+social-settings = { path = "src/pages/authentication/social/social-settings" }
+
 router = { path = "./src/router" }
 types = { path = "./src/types" }
 store = { path = "./src/store" }
@@ -125,4 +129,10 @@ members = [
   "src/pages/authentication/passwordless/sms-app",
   "src/pages/authentication/passwordless/sms-setting",
   "src/pages/authentication/passwordless/sms-try",
+
+  "src/pages/authentication/social/social-applications",
+  "src/pages/authentication/social/social-create",
+  "src/pages/authentication/social/social-home",
+  "src/pages/authentication/social/social-settings",
+  "src/pages/authentication/social/social-tab-settings",
 ]
