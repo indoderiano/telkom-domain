@@ -50,6 +50,8 @@ enterprise-home = { path = "src/pages/authentication/enterprise/enterprise-home"
 google-apps = { path = "src/pages/authentication/enterprise/google-apps" }
 google-app-create = { path = "src/pages/authentication/enterprise/google-app-create" }
 
+passwordless-home = { path = "src/pages/authentication/passwordless/passwordless-home" }
+
 router = { path = "./src/router" }
 types = { path = "./src/types" }
 store = { path = "./src/store" }
@@ -117,4 +119,10 @@ members = [
   "src/pages/authentication/enterprise/google-apps",
   "src/pages/authentication/enterprise/enterprise-home",
 
+  "src/pages/authentication/passwordless/email-app",
+  "src/pages/authentication/passwordless/email-setting",
+  "src/pages/authentication/passwordless/email-try",
+  "src/pages/authentication/passwordless/sms-app",
+  "src/pages/authentication/passwordless/sms-setting",
+  "src/pages/authentication/passwordless/sms-try",
 ]

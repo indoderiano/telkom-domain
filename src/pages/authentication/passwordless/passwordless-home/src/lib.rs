@@ -1,10 +1,10 @@
 use yew::prelude::*;
-use super::sms_app::SmsApp;
-use super::sms_setting::SmsSetting;
-use super::sms_try::SmsTry;
-use super::email_app::EmailApp;
-use super::email_setting::EmailSettings;
-use super::email_try::EmailTry;
+use sms_app::SmsApp;
+use sms_setting::SmsSetting;
+use sms_try::SmsTry;
+use email_app::EmailApp;
+use email_setting::EmailSettings;
+use email_try::EmailTry;
 
 pub enum Content{
     Settings,

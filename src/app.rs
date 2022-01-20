@@ -49,12 +49,13 @@ use enterprise_home::EnterpriseHome;
 use google_apps::EnterpriseGoogle;
 use google_app_create::EnterpriseGoogleCreate;
 
+use passwordless_home::AuthPasswordLess;
+
 use crate::pages::{
     applications::{
         sso::{create_sso::CreateSso, home::SsoHome},
     },
     authentication::{
-        passwordless::home::AuthPasswordLess,
         social::{create::SocialCreate, home::SocialHome, settings::SocialSettings},
     },
     management::{
