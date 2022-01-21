@@ -14,7 +14,7 @@ use configs::server::API_URL;
 use types::ResponseMessage;
 
 
-enum RegisterData {
+pub enum RegisterData {
     Email,
     Password,
     Name,

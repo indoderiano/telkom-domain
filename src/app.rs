@@ -28,6 +28,13 @@ use types::{
     LOCALSTORAGE_KEY,
 };
 
+use sidebar::Sidebar;
+use navtop::Navtop;
+
+use login::LoginPage;
+use register::RegisterPage;
+use password::RequestPassPage;
+
 use getting_started::GettingStarted;
 use activity::Activity;
 use home_page::HomePage;
@@ -62,15 +69,12 @@ use crate::pages::{
     management::{
         roles::{
             dropdown_viewdetail::ViewDetail,
-            // home::RolesManagement,
             role_created::RolesCreated,
         },
     },
-    outer::{login_page::LoginPage, password_page::RequestPassPage, register_page::RegisterPage},
     settings::home::SettingsHome,
 };
-use sidebar::Sidebar;
-use navtop::Navtop;
+
 
 
 // #[derive(Switch, Clone)]

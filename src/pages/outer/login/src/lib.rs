@@ -3,17 +3,22 @@ use yew::{
         Json,
     },
     prelude::*,
-    services::fetch::{FetchService, FetchTask, Request, Response},
+    services::{
+        fetch::{FetchService, FetchTask, Request, Response},
+        ConsoleService,
+        storage::{ StorageService, Area },
+    },
     events::{ KeyboardEvent }
 };
 use yew_router::components::RouterAnchor;
-// use crate::app::AppRoute;
-use router::AppRoute;
 use yewtil::NeqAssign;
+use yewdux::dispatch::Dispatcher;
+use serde::{Deserialize, Serialize};
+use yew_router::service::RouteService;
+use router::AppRoute;
 use store::{
     AppDispatch,
     DataAccountAction,
-    // DataAccount,
 };
 use configs::server::API_URL;
 use types::{
@@ -21,15 +26,8 @@ use types::{
     LocalStorage,
     LOCALSTORAGE_KEY,
 };
-use yewdux::dispatch::Dispatcher;
 // use crate::app::AppRoute;
-use yew_router::service::RouteService;
 // use yew_router
-use yew::services::{
-    ConsoleService,
-    storage::{ StorageService, Area },
-};
-use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct RequestLogin {

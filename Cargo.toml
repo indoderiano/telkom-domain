@@ -23,6 +23,10 @@ anyhow = "1.0.42"
 css-in-rust = { version = "^0.5.0", features = ["yew_integration"] }
 state = { version = "0.5", features = ["tls"] }
 
+login = { path = "./src/pages/outer/login" }
+register = { path = "./src/pages/outer/register" }
+password = { path = "./src/pages/outer/password" }
+
 getting-started = { path = "./src/pages/getting-started" }
 activity = { path = "./src/pages/activity" }
 home-page = { path = "./src/pages/home-page" }
