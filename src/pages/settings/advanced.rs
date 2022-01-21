@@ -9,16 +9,13 @@ use yew::{
 use serde::{
     Serialize,
 };
-use crate::types::settings::{
-    TenantSettings,
-    Flags,
+use types::{
+    settings::{ TenantSettings, Flags },
+    ResponseMessage,
 };
-use crate::types::ResponseMessage;
 use yew_router::service::RouteService;
-use crate::configs::server::API_URL;
-use crate::components::{
-    loading2::Loading2,
-};
+use configs::server::API_URL;
+use loading::Loading;
 
 
 
@@ -446,7 +443,7 @@ impl Component for SettingsAdvanced {
                         margin-top: 8rem;
                     "
                 >
-                    <Loading2 width=45 />
+                    <Loading width=45 />
                 </div>
             }
         } else if self.error_request_settings.is_some() {

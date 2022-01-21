@@ -49,30 +49,18 @@ impl Component for Logo2 {
                         border: {}px solid rgba(0,0,0,.78);
                         overflow: hidden;
                         position: relative;
-                    ", self.width, self.width, self.width, 0/22)
+                    ", self.width, self.width, self.width, self.width/22)
             >
                 <img
-                    src="/assets/logo/shield.png"
+                    src="/assets/logo/lock.png"
                     style=format!("
                         width: {}px;
                         position: absolute;
-                        top: 53%;
+                        top: 50%;
                         left: 50%;
                         transform: translate(-50%,-50%);
                         opacity: .9;
-                    ", self.width*19/20)
-                />
-                <img
-                    src="/assets/logo/lock3.png"
-                    style=format!("
-                        width: {}px;
-                        position: absolute;
-                        top: 55%;
-                        left: 50%;
-                        transform: translate(-50%,-50%);
-                        filter: grayscale(100%);
-                        opacity: 1;
-                    ", self.width*4/10)
+                    ", self.width*9/10)
                 />
                 <div
                     style=format!("

@@ -1,5 +1,10 @@
-use crate::app::AppRoute;
-use crate::types::roles::Role;
+// use crate::app::AppRoute;
+use router::AppRoute;
+use types::{
+    roles::Role,
+    LocalStorage,
+    LOCALSTORAGE_KEY,
+};
 use yew::{
     format::{Json, Nothing},
     prelude::*,
@@ -9,17 +14,10 @@ use yew::{
         ConsoleService,
     },
 };
-
 use serde::Serialize;
-
-use crate::types::LocalStorage;
-use crate::types::LOCALSTORAGE_KEY;
-
-use crate::components::{
-    loading2::Loading2,
-    developers_note::DevelopersNote,
-};
-use crate::configs::server::API_URL;
+use loading::Loading;
+use developers_note::DevelopersNote;
+use configs::server::API_URL;
 use yew_router::components::RouterAnchor;
 
 pub enum StateError {
@@ -229,7 +227,7 @@ impl Component for RolesCreated {
                                         margin-top: 8rem;
                                     "
                                 >
-                                    <Loading2 width=45 />
+                                    <Loading width=45 />
                                 </div>
                             }
                         } else if self.error_request_roles.is_some() {

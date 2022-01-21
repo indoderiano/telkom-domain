@@ -1,0 +1,15 @@
+[package]
+name = "applications-home"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+yew="0.18"
+yew-router = "0.15.0"
+anyhow = "1.0.42"
+router = { path = "../../../../router" }
+types = { path = "../../../../types" }
+loading = { path = "../../../../components/loading" }
+configs = { path = "../../../../configs" }

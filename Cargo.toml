@@ -14,7 +14,7 @@ strum_macros = "0.19"
 wasm-bindgen = "0.2.58"
 wasm-logger = "0.2"
 wee_alloc = { version = "0.4.4", optional = true }
-yew="0.18"
+yew = "0.18"
 yew-router = "0.15.0"
 serde = { version = "1.0", features = ["derive"] }
 yewdux = "^0.6"
@@ -23,6 +23,48 @@ anyhow = "1.0.42"
 css-in-rust = { version = "^0.5.0", features = ["yew_integration"] }
 state = { version = "0.5", features = ["tls"] }
 
+login = { path = "./src/pages/outer/login" }
+register = { path = "./src/pages/outer/register" }
+password = { path = "./src/pages/outer/password" }
+
+getting-started = { path = "./src/pages/getting-started" }
+activity = { path = "./src/pages/activity" }
+home-page = { path = "./src/pages/home-page" }
+developers-note = { path = "./src/components/developers-note" }
+loading = { path = "./src/components/loading" }
+logo = { path = "src/components/logo" }
+navtop = { path = "src/components/navtop" }
+sidebar = { path = "src/components/sidebar" }
+tag-inactive = { path = "src/components/tag-inactive" }
+
+apis-home = { path = "src/pages/applications/apis/apis-home" }
+apis-settings = { path = "src/pages/applications/apis/apis-settings" }
+
+applications-home = { path = "src/pages/applications/applications/applications-home" }
+applications-settings = { path = "src/pages/applications/applications/applications-settings" }
+
+users-home = { path = "src/pages/management/users/users-home" }
+users-settings = { path = "src/pages/management/users/users-settings" }
+
+database-home = { path = "src/pages/authentication/database/database-home" }
+database-settings = { path = "src/pages/authentication/database/database-settings" }
+database-create-db = { path = "src/pages/authentication/database/create-db" }
+
+enterprise-home = { path = "src/pages/authentication/enterprise/enterprise-home" }
+google-apps = { path = "src/pages/authentication/enterprise/google-apps" }
+google-app-create = { path = "src/pages/authentication/enterprise/google-app-create" }
+
+passwordless-home = { path = "src/pages/authentication/passwordless/passwordless-home" }
+
+social-create = { path = "src/pages/authentication/social/social-create" }
+social-home = { path = "src/pages/authentication/social/social-home" }
+social-settings = { path = "src/pages/authentication/social/social-settings" }
+
+router = { path = "./src/router" }
+types = { path = "./src/types" }
+store = { path = "./src/store" }
+configs = { path = "./src/configs" }
+
 [dev-dependencies]
 wasm-bindgen-test = "0.3"
 
@@ -30,4 +72,71 @@ wasm-bindgen-test = "0.3"
 version = "0.3.4"
 features = [
   'KeyboardEvent',
+]
+
+
+[workspace]
+
+members = [
+  "src/pages/getting-started",
+  "src/pages/activity",
+  "src/components/landing-page-navtop",
+  "src/components/developers-note",
+  "src/components/loading",
+  "src/components/logo",
+  "src/components/navtop",
+  "src/components/sidebar",
+  "src/components/tag-inactive",
+  "src/pages/home-page",
+  "src/router",
+  "src/types",
+  "src/store",
+  "src/configs",
+
+  "src/pages/applications/apis/apis-home",
+  "src/pages/applications/apis/apis-settings",
+  "src/pages/applications/apis/quickstart",
+  "src/pages/applications/apis/apis-tab-settings",
+  "src/pages/applications/apis/permissions",
+  "src/pages/applications/apis/machine-to-machine",
+
+  "src/pages/applications/applications/applications-home",
+  "src/pages/applications/applications/applications-settings",
+  "src/pages/applications/applications/applications-tab-settings",
+  "src/pages/applications/applications/connections",
+
+  "src/pages/management/users/users-home",
+  "src/pages/management/users/users-settings",
+  "src/pages/management/users/user-details",
+  "src/pages/management/users/user-devices",
+  "src/pages/management/users/user-histories",
+  "src/pages/management/users/user-json",
+  "src/pages/management/users/user-auth-app",
+  "src/pages/management/users/user-permissions",
+  "src/pages/management/users/user-roles",
+  "src/pages/management/users/modal-assign-permissions",
+  "src/pages/management/users/modal-assign-roles",
+
+  "src/pages/authentication/database/create-db",
+  "src/pages/authentication/database/database-home",
+  "src/pages/authentication/database/database-settings",
+  "src/pages/authentication/database/database-tab-applications",
+  "src/pages/authentication/database/database-tab-settings",
+
+  "src/pages/authentication/enterprise/google-app-create",
+  "src/pages/authentication/enterprise/google-apps",
+  "src/pages/authentication/enterprise/enterprise-home",
+
+  "src/pages/authentication/passwordless/email-app",
+  "src/pages/authentication/passwordless/email-setting",
+  "src/pages/authentication/passwordless/email-try",
+  "src/pages/authentication/passwordless/sms-app",
+  "src/pages/authentication/passwordless/sms-setting",
+  "src/pages/authentication/passwordless/sms-try",
+
+  "src/pages/authentication/social/social-applications",
+  "src/pages/authentication/social/social-create",
+  "src/pages/authentication/social/social-home",
+  "src/pages/authentication/social/social-settings",
+  "src/pages/authentication/social/social-tab-settings",
 ]

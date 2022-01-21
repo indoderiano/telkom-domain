@@ -1,0 +1,16 @@
+[package]
+name = "applications-tab-settings"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+yew="0.18"
+yew-router = "0.15.0"
+anyhow = "1.0.42"
+types = { path = "../../../../types" }
+router = { path = "../../../../router" }
+configs = { path = "../../../../configs" }
+tag-inactive = { path = "../../../../components/tag-inactive" }
+developers-note = { path = "../../../../components/developers-note" }

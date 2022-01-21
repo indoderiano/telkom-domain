@@ -7,8 +7,8 @@ use yew::{
     }
 };
 use yew_router::service::RouteService;
-use crate::configs::server::API_URL;
-use crate::types::{
+use configs::server::API_URL;
+use types::{
     roles::{
         Role,
         ResponseRoleDelete

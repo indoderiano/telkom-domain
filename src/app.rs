@@ -14,114 +14,135 @@ use yewtil::NeqAssign;
 use yew_router::route::Route;
 use yew_router::service::RouteService;
 
-use crate::store::reducer_account::{
+use router::AppRoute;
+
+use store::{
     AppDispatch,
     DataAccountAction,
     // DataAccount,
 };
-use crate::types::ResponseLogin;
+// use crate::types::ResponseLogin;
+use types::{
+    ResponseLogin,
+    LocalStorage,
+    LOCALSTORAGE_KEY,
+};
+
+use sidebar::Sidebar;
+use navtop::Navtop;
+
+use login::LoginPage;
+use register::RegisterPage;
+use password::RequestPassPage;
+
+use getting_started::GettingStarted;
+use activity::Activity;
+use home_page::HomePage;
+
+use apis_home::ApisHome;
+use apis_settings::ApisSettings;
+
+use applications_home::ApplicationHome;
+use applications_settings::ApplicationSettings;
+
+use users_home::UsersHome;
+use users_settings::UserSettings;
+
+use database_create_db::DbCreate;
+use database_home::DatabaseHome;
+use database_settings::DatabaseSettings;
+
+use enterprise_home::EnterpriseHome;
+use google_apps::EnterpriseGoogle;
+use google_app_create::EnterpriseGoogleCreate;
+
+use passwordless_home::AuthPasswordLess;
+
+use social_create::SocialCreate;
+use social_home::SocialHome;
+use social_settings::SocialSettings;
 
 use crate::pages::{
-    activity::Activity,
     applications::{
-        apis::{home::ApisHome, settings::ApisSettings},
-        applications::{home::ApplicationHome, settings::ApplicationSettings},
         sso::{create_sso::CreateSso, home::SsoHome},
     },
-    authentication::{
-        database::{create_db::DbCreate, home::DatabaseHome, settings::DatabaseSettings},
-        enterprise::{
-            google_apps::EnterpriseGoogle, google_apps_create::EnterpriseGoogleCreate,
-            home::EnterpriseHome,
-        },
-        passwordless::home::AuthPasswordLess,
-        social::{create::SocialCreate, home::SocialHome, settings::SocialSettings},
-    },
-    getting_started::GettingStarted,
-    home_page::HomePage,
     management::{
         roles::{
             dropdown_viewdetail::ViewDetail,
-            // home::RolesManagement,
             role_created::RolesCreated,
         },
-        users::{home::UsersManagement, user_viewdetail::UserViewDetail},
     },
-    outer::{login_page::LoginPage, password_page::RequestPassPage, register_page::RegisterPage},
     settings::home::SettingsHome,
 };
 
-use crate::components::{navtop::Navtop, sidebar::Sidebar};
 
-use crate::types::LocalStorage;
-use crate::types::LOCALSTORAGE_KEY;
 
-#[derive(Switch, Clone)]
-pub enum AppRoute {
-    // MEMBER PAGES
-    #[to = "/getting-started"]
-    GettingStarted,
-    #[to = "/activity"]
-    Activity,
-    #[to = "/apis/{resource_server_id}/settings"]
-    ApisSettings {
-        resource_server_id: String,
-    },
-    #[to = "/apis"]
-    ApisHome,
-    #[to = "/{tenant_id}/applications/{app_id}/settings"]
-    ApplicationSettings { tenant_id: String, app_id: String },
-    #[to = "/{tenant_id}/applications"]
-    ApplicationHome { tenant_id: String },
-    #[to = "/authentication/database/settings"]
-    DatabaseSettings,
-    #[to = "/authentication/database/create"]
-    DbCreate,
-    #[to = "/authentication/database"]
-    DatabaseHome,
-    #[to = "/authentication/passwordless"]
-    AuthPasswordless,
-    #[to = "/sso/create-sso"]
-    CreateSso,
-    #[to = "/sso"]
-    SsoHome,
-    #[to = "/social/create"]
-    SocialCreate,
-    #[to = "/social/settings"]
-    SocialSettings,
-    #[to = "/social"]
-    SocialHome,
-    #[to = "/user-management/roles/settings/{role_id}"]
-    RoleSettings { role_id: String },
-    #[to = "/user-management/roles"]
-    RolesCreated,
-    #[to = "/{tenant_id}/users/{user_id}/{id}"]
-    UserViewDetail {
-        tenant_id: String,
-        user_id: String,
-        id: u32,
-    },
-    #[to = "/{tenant_id}/users"]
-    UsersManagement { tenant_id: String },
-    #[to = "/enterprise/google-app/create"]
-    EnterpriseGoogleCreate,
-    #[to = "/enterprise/google-app"]
-    EnterpriseGoogle,
-    #[to = "/enterprise"]
-    EnterpriseHome,
-    #[to = "/tenant"]
-    SettingsHome,
+// #[derive(Switch, Clone)]
+// pub enum AppRoute {
+//     // MEMBER PAGES
+//     #[to = "/getting-started"]
+//     GettingStarted,
+//     #[to = "/activity"]
+//     Activity,
+//     #[to = "/apis/{resource_server_id}/settings"]
+//     ApisSettings {
+//         resource_server_id: String,
+//     },
+//     #[to = "/apis"]
+//     ApisHome,
+//     #[to = "/{tenant_id}/applications/{app_id}/settings"]
+//     ApplicationSettings { tenant_id: String, app_id: String },
+//     #[to = "/{tenant_id}/applications"]
+//     ApplicationHome { tenant_id: String },
+//     #[to = "/authentication/database/settings"]
+//     DatabaseSettings,
+//     #[to = "/authentication/database/create"]
+//     DbCreate,
+//     #[to = "/authentication/database"]
+//     DatabaseHome,
+//     #[to = "/authentication/passwordless"]
+//     AuthPasswordless,
+//     #[to = "/sso/create-sso"]
+//     CreateSso,
+//     #[to = "/sso"]
+//     SsoHome,
+//     #[to = "/social/create"]
+//     SocialCreate,
+//     #[to = "/social/settings"]
+//     SocialSettings,
+//     #[to = "/social"]
+//     SocialHome,
+//     #[to = "/user-management/roles/settings/{role_id}"]
+//     RoleSettings { role_id: String },
+//     #[to = "/user-management/roles"]
+//     RolesCreated,
+//     #[to = "/{tenant_id}/users/{user_id}/{id}"]
+//     UserSettings {
+//         tenant_id: String,
+//         user_id: String,
+//         id: u32,
+//     },
+//     #[to = "/{tenant_id}/users"]
+//     UsersHome { tenant_id: String },
+//     #[to = "/enterprise/google-app/create"]
+//     EnterpriseGoogleCreate,
+//     #[to = "/enterprise/google-app"]
+//     EnterpriseGoogle,
+//     #[to = "/enterprise"]
+//     EnterpriseHome,
+//     #[to = "/tenant"]
+//     SettingsHome,
 
-    // NOT LOGGED IN PAGES
-    #[to = "/login/password"]
-    RequestPassPage,
-    #[to = "/login"]
-    LoginPage,
-    #[to = "/register"]
-    RegisterPage,
-    #[to = "/"]
-    Home,
-}
+//     // NOT LOGGED IN PAGES
+//     #[to = "/login/password"]
+//     RequestPassPage,
+//     #[to = "/login"]
+//     LoginPage,
+//     #[to = "/register"]
+//     RegisterPage,
+//     #[to = "/"]
+//     Home,
+// }
 
 pub struct App {
     dispatch: AppDispatch,
@@ -362,21 +383,21 @@ impl Component for App {
                         html! {<HomePage/>}
                     }
                 }
-                AppRoute::UsersManagement { tenant_id } => {
+                AppRoute::UsersHome { tenant_id } => {
                     if is_logged_in {
-                        html! {<UsersManagement tenant_id=tenant_id/>}
+                        html! {<UsersHome tenant_id=tenant_id/>}
                     } else {
                         route_service.set_route("/", ());
                         html! {<HomePage/>}
                     }
                 }
-                AppRoute::UserViewDetail {
+                AppRoute::UserSettings {
                     tenant_id,
                     user_id,
                     id,
                 } => {
                     if is_logged_in {
-                        html! {<UserViewDetail tenant_id=tenant_id user_id=user_id id=id/>}
+                        html! {<UserSettings tenant_id=tenant_id user_id=user_id id=id/>}
                     } else {
                         route_service.set_route("/", ());
                         html! {<HomePage/>}
@@ -472,7 +493,7 @@ impl Component for App {
             //         AppRoute::SocialSettings => html! {<SocialSettings/>},
             //         AppRoute::SocialCreate => html! {<SocialCreate/>},
             //         AppRoute::RolesCreated => html! {<RolesCreated/>},
-            //         AppRoute::UsersManagement => html! {<UsersManagement/>},
+            //         AppRoute::UsersHome => html! {<UsersHome/>},
             //         AppRoute::EnterpriseHome => html! {<EnterpriseHome/>},
             //         AppRoute::EnterpriseGoogle => html! {<EnterpriseGoogle/>},
             //         AppRoute::EnterpriseGoogleCreate => html! {<EnterpriseGoogleCreate/>},
