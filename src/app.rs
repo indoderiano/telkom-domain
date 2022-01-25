@@ -68,7 +68,7 @@ use crate::pages::{
     },
     management::{
         roles::{
-            dropdown_viewdetail::ViewDetail,
+            role_details::ViewDetail,
             role_created::RolesCreated,
         },
     },
@@ -383,6 +383,14 @@ impl Component for App {
                         html! {<HomePage/>}
                     }
                 }
+                AppRoute::RoleSettings { role_id } => {
+                    if is_logged_in {
+                        html! {<ViewDetail role_id=role_id />}
+                    } else {
+                        route_service.set_route("/", ());
+                        html! {<HomePage/>}
+                    }
+                }
                 AppRoute::UsersHome { tenant_id } => {
                     if is_logged_in {
                         html! {<UsersHome tenant_id=tenant_id/>}
@@ -430,14 +438,6 @@ impl Component for App {
                 AppRoute::SettingsHome => {
                     if is_logged_in {
                         html! {<SettingsHome/>}
-                    } else {
-                        route_service.set_route("/", ());
-                        html! {<HomePage/>}
-                    }
-                }
-                AppRoute::RoleSettings { role_id } => {
-                    if is_logged_in {
-                        html! {<ViewDetail role_id=role_id />}
                     } else {
                         route_service.set_route("/", ());
                         html! {<HomePage/>}

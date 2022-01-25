@@ -5,12 +5,17 @@ use super::tab_users::TabUsers;
 use router::AppRoute;
 use loading::Loading;
 use configs::server::API_URL;
-use types::roles::Role;
+use types::{
+    roles::Role,
+    LocalStorage,
+    LOCALSTORAGE_KEY,
+};
 use yew::{
     format::{Json, Nothing},
     prelude::*,
     services::{
-        fetch::{FetchService, FetchTask, Request, Response},
+        fetch::{ FetchService, FetchTask, Request, Response },
+        storage::{ Area, StorageService },
         ConsoleService,
     },
 };
@@ -32,6 +37,7 @@ pub enum StateError {
 }
 
 pub struct ViewDetail {
+    access_token: String,
     content: Content,
     link: ComponentLink<Self>,
     role_id: String,
@@ -53,7 +59,28 @@ impl Component for ViewDetail {
     type Properties = RoleSettingsProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        
+        let storage = StorageService::new(Area::Local).expect("storage was disabled");
+        let localstorage_data = {
+            if let Json(Ok(data)) = storage.restore(LOCALSTORAGE_KEY) {
+                data
+            } else {
+                LocalStorage {
+                    username: None,
+                    email: None,
+                    token: None,
+                }
+            }
+        };
+
+        let mut access_token = String::from("");
+
+        if let Some(token) = localstorage_data.token {
+            access_token = token;
+        } else {}
+        
         ViewDetail {
+            access_token,
             content: Content::Settings,
             link,
             role_id: props.role_id,
@@ -77,8 +104,8 @@ impl Component for ViewDetail {
                 true
             }
             Msg::RequestRoleDetails => {
-                let request = Request::get(format!("http://127.0.0.1:8080/api/v1/1/roles/{}", self.role_id.clone()))
-                    .header("access_token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImhleWthbGxAZ21haWwuY29tIiwiZXhwIjoxNjQzMDk0MTA0fQ.G_kEzjOwrzI_qD8Tco_4HTgXctsz4kUccl4e92WNZb8")
+                let request = Request::get(format!("{}/api/v2/roles/{}", API_URL, self.role_id.clone()))
+                    .header("access_token", self.access_token.clone())
                     .body(Nothing)
                     .expect("Could not build request.");
                 let callback =
