@@ -1,5 +1,5 @@
 [package]
-name = "modal-assign-permissions"
+name = "user-modal-assign-permissions"
 version = "0.1.0"
 edition = "2018"
 

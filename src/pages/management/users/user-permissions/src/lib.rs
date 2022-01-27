@@ -17,7 +17,7 @@ use types::{
     LocalStorage,
     LOCALSTORAGE_KEY,
 };
-use modal_assign_permissions::ModalAssignPermissions;
+use user_modal_assign_permissions::ModalAssignPermissions;
 use loading::Loading;
 
 

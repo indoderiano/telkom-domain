@@ -24,3 +24,24 @@ impl Role {
     }
 }
 
+
+
+
+#[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq)]
+pub struct RolePermission{
+    pub resource_server_identifier: String,
+    pub permission_name: String,
+    pub resource_server_name: String,
+    pub desciption: String
+}
+
+impl RolePermission{
+    pub fn new() -> RolePermission {
+        RolePermission{
+            resource_server_identifier: String::from(""),
+            permission_name: String::from(""),
+            resource_server_name: String::from(""),
+            desciption: String::from(""),
+        }
+    }
+}

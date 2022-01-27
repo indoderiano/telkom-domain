@@ -239,8 +239,8 @@ impl ViewDetail {
 
                 {
                     match self.content {
-                        Content::Settings => html! { <TabSettings role=self.role.clone()/> },
-                        Content::Permissions => html! { <TabPermissions/> },
+                        Content::Settings => html! { <TabSettings role=self.role.clone() /> },
+                        Content::Permissions => html! { <TabPermissions role_id=self.role_id.clone() /> },
                         Content::Users => html! { <TabUsers/> }
                     }
                 }

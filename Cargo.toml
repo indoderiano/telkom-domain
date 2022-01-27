@@ -117,12 +117,13 @@ members = [
   "src/pages/management/users/user-auth-app",
   "src/pages/management/users/user-permissions",
   "src/pages/management/users/user-roles",
-  "src/pages/management/users/modal-assign-permissions",
+  "src/pages/management/users/user-modal-assign-permissions",
   "src/pages/management/users/modal-assign-roles",
 
   "src/pages/management/roles/roles-home",
   "src/pages/management/roles/role-details",
   "src/pages/management/roles/role-permissions",
+  "src/pages/management/roles/role-modal-assign-permissions",
   "src/pages/management/roles/role-settings",
   "src/pages/management/roles/role-users",
 
