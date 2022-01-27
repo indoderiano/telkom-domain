@@ -206,33 +206,34 @@ impl ViewDetail {
 
                 <div class="mt-4">
                     <ul class="nav nav-tabs">
-                            <li onclick=self.link.callback(|_|Msg::ChangeContent(Content::Settings)) class="nav-item">
-                                <a class={
-                                   match self.content {
-                                       Content::Settings => "nav-link active",
-                                       _ => "nav-link"
-                                   }
+                        <li onclick=self.link.callback(|_|Msg::ChangeContent(Content::Settings)) class="nav-item">
+                            <a class={
+                                    match self.content {
+                                        Content::Settings => "nav-link active",
+                                        _ => "nav-link"
+                                    }
                                 }
                                 aria-current="page"
-                                href="#">{"Settings"}</a>
-                            </li>
-                            <li onclick=self.link.callback(|_|Msg::ChangeContent(Content::Permissions)) class="nav-item">
-                                <a class={
+                            >{"Settings"}</a>
+                        </li>
+                        <li onclick=self.link.callback(|_|Msg::ChangeContent(Content::Permissions)) class="nav-item">
+                            <a class={
                                     match self.content{
                                         Content::Permissions => "nav-link active",
                                         _ => "nav-link"
                                     }
                                 }
-                                href="#">{"Permissions"}</a>
-                            </li>
-                            <li onclick=self.link.callback(|_|Msg::ChangeContent(Content::Users)) class="nav-item">
-                                <a class={
+                            >{"Permissions"}</a>
+                        </li>
+                        <li onclick=self.link.callback(|_|Msg::ChangeContent(Content::Users)) class="nav-item">
+                            <a class={
                                     match self.content{
                                         Content::Users => "nav-link active",
                                         _ => "nav-link"
                                     }
-                                } href="#">{"Users"}</a>
-                            </li>
+                                }
+                            >{"Users"}</a>
+                        </li>
                     </ul>
                 </div>
 

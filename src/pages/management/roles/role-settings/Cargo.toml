@@ -8,6 +8,8 @@ edition = "2018"
 [dependencies]
 yew="0.18"
 yew-router = "0.15.0"
+serde = { version = "1.0", features = ["derive"] }
 anyhow = "1.0.42"
 types = { path = "../../../../types" }
 configs = { path = "../../../../configs" }
+router = { path = "../../../../router" }
