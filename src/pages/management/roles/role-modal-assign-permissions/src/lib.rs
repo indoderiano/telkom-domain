@@ -60,7 +60,7 @@ pub enum Msg {
     SelectApi(String),
     SelectPermission(usize),
     RequestAssignPermissions,
-    GetResponseAssignPermissions(String),
+    GetResponseAssignPermissions,
     ResponseError(String, StateError),
 }
 
@@ -245,13 +245,22 @@ impl Component for ModalAssignPermissions {
                         .body(Json(&data_assign_permissions))
                         .expect("Could not build request");
                     let callback = self.link.callback(
-                        |response: Response<Json<Result<String, anyhow::Error>>>| {
-                            let Json(data) = response.into_body();
-                            // ConsoleService::info(&format!("{:?}", data));
-                            match data{
-                                Ok(dataok) => Msg::GetResponseAssignPermissions(dataok), 
-                                Err(error) => {
-                                    Msg::ResponseError(error.to_string(), StateError::RequestAssignPermissions)
+                        |response: Response<Json<Result<(), anyhow::Error>>>| {
+                            
+                            let (meta, Json(data)) = response.into_parts();
+                            let status_number = meta.status.as_u16();
+
+                            match status_number {
+                                200 => {
+                                    Msg::GetResponseAssignPermissions
+                                }
+                                _ => {
+                                    match data{
+                                        Ok(_) => Msg::GetResponseAssignPermissions, 
+                                        Err(error) => {
+                                            Msg::ResponseError(error.to_string(), StateError::RequestAssignPermissions)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -264,10 +273,10 @@ impl Component for ModalAssignPermissions {
                     true
                 }
             }
-            Msg::GetResponseAssignPermissions(message) => {
+            Msg::GetResponseAssignPermissions => {
                 self.fetch_task = None;
                 self.loading_assign_permissions = false;
-                self.message = Some(message);
+                self.message = Some("Permissions assigned to role".to_string());
                 true
             }
             Msg::ResponseError(message, state) => {
