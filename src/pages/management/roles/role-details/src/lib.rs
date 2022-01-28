@@ -17,7 +17,7 @@ use types::{
 use configs::server::API_URL;
 use role_permissions::TabPermissions;
 use role_settings::TabSettings;
-use role_users::TabUsers;
+use role_users::RoleTabUsers;
 use loading::Loading;
 
 pub enum Content {
@@ -241,7 +241,7 @@ impl ViewDetail {
                     match self.content {
                         Content::Settings => html! { <TabSettings role=self.role.clone() /> },
                         Content::Permissions => html! { <TabPermissions role_id=self.role_id.clone() /> },
-                        Content::Users => html! { <TabUsers/> }
+                        Content::Users => html! { <RoleTabUsers role=self.role.clone() /> }
                     }
                 }
 

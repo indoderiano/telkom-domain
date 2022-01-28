@@ -17,7 +17,7 @@ use types::{
 use yew_router::service::RouteService;
 use serde::Serialize;
 use loading::Loading;
-use modal_assign_roles::ModalAssignRoles;
+use user_modal_assign_roles::ModalAssignRoles;
 
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]

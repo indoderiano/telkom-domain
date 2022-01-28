@@ -45,3 +45,12 @@ impl RolePermission{
         }
     }
 }
+
+
+#[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq)]
+pub struct RoleUser{
+    pub user_id: String,
+    pub email: String,
+    pub picture: String,
+    pub name: String,
+}
