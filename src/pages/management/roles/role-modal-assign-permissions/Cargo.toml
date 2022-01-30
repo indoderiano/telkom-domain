@@ -1,5 +1,5 @@
 [package]
-name = "user-permissions"
+name = "role-modal-assign-permissions"
 version = "0.1.0"
 edition = "2018"
 
@@ -7,10 +7,9 @@ edition = "2018"
 
 [dependencies]
 yew="0.18"
-yew-router = "0.15.0"
 serde = { version = "1.0", features = ["derive"] }
 anyhow = "1.0.42"
 configs = { path = "../../../../configs" }
 types = { path = "../../../../types" }
 loading = { path = "../../../../components/loading" }
-user-modal-assign-permissions = { path = "../user-modal-assign-permissions" }
+developers-note = { path = "../../../../components/developers-note" }

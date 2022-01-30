@@ -11,27 +11,27 @@ use yew_router::service::RouteService;
 use serde::Serialize;
 use configs::server::API_URL;
 use types::{
-    users::{UserPermissions},
+    roles::RolePermission,
     api::{ ApiTitle, Scope },
     ResponseMessage,
     LocalStorage,
     LOCALSTORAGE_KEY,
 };
-use user_modal_assign_permissions::ModalAssignPermissions;
+use role_modal_assign_permissions::ModalAssignPermissions;
 use loading::Loading;
 
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
-pub struct UserTabPermissionsProps {
-    pub user_id: String,
+pub struct TabPermissionsProps {
+    pub role_id: String,
 }
 
-pub struct UserTabPermissions {
+pub struct TabPermissions {
     link: ComponentLink<Self>,
     fetch_task: Option<FetchTask>,
-    user_id: String,
+    role_id: String,
     access_token: String,
-    user_permissions: Vec<UserPermissions>,
+    role_permissions: Vec<RolePermission>,
     loading_get_user_permission: bool,
     error_user_permission_list: Option<String>,
     show_modal_delete_permission: bool,
@@ -49,15 +49,15 @@ pub struct UserTabPermissions {
 }
 
 pub enum StateError{
-    UserPermissionList,
+    GetRolePermissions,
     Delete,
     // RequestApis,
 }
 
 pub enum Msg {
     DefaultState,
-    RequestUserPermissions,
-    GetUserPermissions(Vec<UserPermissions>),
+    RequestRolePermissions,
+    GetRolePermissions(Vec<RolePermission>),
     ShowModalDeletePermission(bool, Option<usize>),
     Delete,
     ResponseError(String, StateError),
@@ -68,9 +68,9 @@ pub enum Msg {
     // SelectApi(String),
 }
 
-impl Component for UserTabPermissions {
+impl Component for TabPermissions {
     type Message = Msg;
-    type Properties = UserTabPermissionsProps;
+    type Properties = TabPermissionsProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         
@@ -96,12 +96,12 @@ impl Component for UserTabPermissions {
             
         }
         
-        UserTabPermissions {
+        TabPermissions {
             link,
             fetch_task: None,
-            user_id: props.user_id,
+            role_id: props.role_id,
             access_token,
-            user_permissions: Vec::new(),
+            role_permissions: Vec::new(),
             loading_get_user_permission: false,
             error_user_permission_list: None,
             show_modal_delete_permission: false,
@@ -121,7 +121,7 @@ impl Component for UserTabPermissions {
 
     fn rendered(&mut self, first_render: bool) {
         if first_render {
-            self.link.send_message(Msg::RequestUserPermissions);
+            self.link.send_message(Msg::RequestRolePermissions);
         }
     }
 
@@ -132,7 +132,7 @@ impl Component for UserTabPermissions {
                 self.loading_get_user_permission = false;
                 true
             }
-            Msg::RequestUserPermissions => {
+            Msg::RequestRolePermissions => {
                 ConsoleService::info("ini di request user permissions");
 
                 // default state
@@ -141,18 +141,18 @@ impl Component for UserTabPermissions {
                 self.show_modal_delete_permission = false;
                 self.index_permission_delete = None;
 
-                let request = Request::get(format!("{}/api/v2/users/{}/permissions", API_URL, self.user_id.clone()))
+                let request = Request::get(format!("{}/api/v2/roles/{}/permissions", API_URL, self.role_id.clone()))
                     .header("access_token", self.access_token.clone())
                     .body(Nothing)
                     .expect("Could not build request");
                 let callback = self.link.callback(
-                    |response: Response<Json<Result<Vec<UserPermissions>, anyhow::Error>>>| {
+                    |response: Response<Json<Result<Vec<RolePermission>, anyhow::Error>>>| {
                         let Json(data) = response.into_body();
                         ConsoleService::info(&format!("{:?}", data));
                         match data{
-                            Ok(dataok) => Msg::GetUserPermissions(dataok), 
+                            Ok(dataok) => Msg::GetRolePermissions(dataok), 
                             Err(error) => {
-                                Msg::ResponseError(error.to_string(), StateError::UserPermissionList)
+                                Msg::ResponseError(error.to_string(), StateError::GetRolePermissions)
                             }
                         }
                     }
@@ -164,9 +164,9 @@ impl Component for UserTabPermissions {
                 self.loading_get_user_permission = true;
                 true
             }
-            Msg::GetUserPermissions(data) => {
+            Msg::GetRolePermissions(data) => {
                 ConsoleService::info("ini di get user permissions");
-                self.user_permissions = data;
+                self.role_permissions = data;
                 self.loading_get_user_permission = false;
                 self.fetch_task = None;
                 true
@@ -179,7 +179,7 @@ impl Component for UserTabPermissions {
             Msg::ResponseError(message, state) => {
                 ConsoleService::info("ini di info response error");
                 match state{
-                    StateError::UserPermissionList => {
+                    StateError::GetRolePermissions => {
                         self.loading_get_user_permission = false;
                         self.error_user_permission_list = Some(message);
                     }
@@ -197,7 +197,7 @@ impl Component for UserTabPermissions {
             }
             Msg::Delete => {
                 // remove permission from vector
-                // let new_permissions: Vec<UserPermissions> = self.user_permissions
+                // let new_permissions: Vec<RolePermissions> = self.role_permissions
                 // .iter()
                 // .enumerate()
                 // .filter(|(i, e)| {
@@ -223,7 +223,7 @@ impl Component for UserTabPermissions {
                 //     match data{
                 //         Ok(dataok) => {
                 //             ConsoleService::info(&format!("{:?}", dataok));
-                //             Msg::RequestUserPermissions
+                //             Msg::RequestRolePermissions
                 //         }
                 //         Err(error) => {
                 //             ConsoleService::info(&error.to_string());
@@ -249,12 +249,12 @@ impl Component for UserTabPermissions {
                 let data_delete_permissions = DataDeletePermissions {
                     permissions: vec![
                         SelectedPermission {
-                            permission_name: self.user_permissions[self.index_permission_delete.unwrap()].permission_name.clone(),
-                            resource_server_identifier: self.user_permissions[self.index_permission_delete.unwrap()].resource_server_identifier.clone()
+                            permission_name: self.role_permissions[self.index_permission_delete.unwrap()].permission_name.clone(),
+                            resource_server_identifier: self.role_permissions[self.index_permission_delete.unwrap()].resource_server_identifier.clone()
                         }
                     ]
                 };
-                let request = Request::delete(format!("{}/api/v2/users/{}/permissions", API_URL, self.user_id))
+                let request = Request::delete(format!("{}/api/v2/roles/{}/permissions", API_URL, self.role_id))
                     .header("access_token", self.access_token.clone())
                     .header("Content-Type", "application/json")
                     .body(Json(&data_delete_permissions))
@@ -265,12 +265,12 @@ impl Component for UserTabPermissions {
 
                     match status_number {
                         204 => {
-                            Msg::RequestUserPermissions
+                            Msg::RequestRolePermissions
                         }
                         _ => {
                             match data {
                                 Ok(dataok) => {
-                                    Msg::RequestUserPermissions
+                                    Msg::RequestRolePermissions
                                 }
                                 Err(error) => {
                                     Msg::ResponseError(error.to_string(), StateError::Delete)
@@ -346,7 +346,7 @@ impl Component for UserTabPermissions {
                 <div class="mt-4">
                     <div class="row">
                         <div class="col d-flex justify-content-start">
-                            <p>{"List of permissions this user has."}</p>
+                            <p>{"Add Permissions to this Role. Users who have this Role will receive all Permissions below that match the API of their login request."}</p>
                         </div>
                         <div class="col d-flex justify-content-end">
                             <button
@@ -356,7 +356,7 @@ impl Component for UserTabPermissions {
                                 data-bs-target="#addPermissions"
                                 // onclick=self.link.callback(|_| Msg::RequestApis)
                             >
-                                {"Assign Permissions"}
+                                {"Add Permissions"}
                             </button>
                         </div>
                     </div>
@@ -368,7 +368,6 @@ impl Component for UserTabPermissions {
                                 <th scope="col">{"Name"}</th>
                                 <th scope="col">{"Description"}</th>
                                 <th scope="col">{"API"}</th>
-                                <th scope="col">{"Assignment"}</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -377,7 +376,7 @@ impl Component for UserTabPermissions {
                             if !self.loading_get_user_permission && !self.error_user_permission_list.is_some() {
                                 html! { 
                                     <> 
-                                        { self.view_user_permissions() }
+                                        { self.view_role_permissions() }
                                     </>
                                 }
                             } else {
@@ -386,69 +385,10 @@ impl Component for UserTabPermissions {
                         }
                         </tbody>
                         
-                        // <tbody>
-                        //         <tr>
-                        //             <th scope="row">{"create:client_grants"}</th>
-                        //             <td>{"Create New Data"}</td>
-                        //             <td>{"Example API"}</td>
-                        //             <td>{"Direct"}</td>
-                        //             <td>
-                        //                 <button type="button" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="modal" data-bs-target="#permissionDeleteModal">
-                        //                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                        //                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                        //                         <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                        //                       </svg>
-                        //                 </button>
-                        //             </td>
-                        //         </tr>
-                        //         <tr>
-                        //             <th scope="row">{"read:client_grants"}</th>
-                        //             <td>{"Read Data"}</td>
-                        //             <td>{"Example API"}</td>
-                        //             <td>{"Direct"}</td>
-                        //             <td>
-                        //                 <button type="button" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="modal" data-bs-target="#permissionDeleteModal">
-                        //                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                        //                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                        //                         <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                        //                       </svg>
-                        //                 </button>
-                        //             </td>
-                        //         </tr>
-                        //         <tr>
-                        //             <th scope="row">{"update:client_grants"}</th>
-                        //             <td>{"Update New Data"}</td>
-                        //             <td>{"Example API"}</td>
-                        //             <td>{"Direct"}</td>
-                        //             <td>
-                        //                 <button type="button" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="modal" data-bs-target="#permissionDeleteModal">
-                        //                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                        //                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                        //                         <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                        //                       </svg>
-                        //                 </button>
-                        //             </td>
-                        //         </tr>
-                        //         <tr>
-                        //             <th scope="row">{"delete:client_grants"}</th>
-                        //             <td>{"Delete Data"}</td>
-                        //             <td>{"Example API"}</td>
-                        //             <td>{"Direct"}</td>
-                        //             <td>
-                        //                 <button type="button" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="modal" data-bs-target="#permissionDeleteModal">
-                        //                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                        //                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                        //                         <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                        //                       </svg>
-                        //                 </button>
-                        //             </td>
-                        //         </tr>
-                        //     </tbody>
                     </table>
 
                     {
                         if self.loading_get_user_permission {
-                        // if true {
                             html!{
                                 <div style="margin-top:6rem;">
                                     <Loading width = 45 />
@@ -470,7 +410,7 @@ impl Component for UserTabPermissions {
                     { self.modal_delete_permission() }
 
 
-                    <ModalAssignPermissions user_permissions=self.user_permissions.clone() user_id=self.user_id.clone() />
+                    <ModalAssignPermissions role_permissions=self.role_permissions.clone() role_id=self.role_id.clone() />
 
 
 
@@ -482,19 +422,18 @@ impl Component for UserTabPermissions {
 }
 
 
-impl UserTabPermissions {
-    fn view_user_permissions(&self) -> Vec<Html> {
+impl TabPermissions {
+    fn view_role_permissions(&self) -> Vec<Html> {
         // https://stackoverflow.com/questions/58737024/how-to-get-the-index-of-the-current-element-being-processed-in-the-iteration-wit
-        self.user_permissions
+        self.role_permissions
         .iter()
         .enumerate()
         .map(|(i, user)|{
            html! {
                <tr class="align-middle">
                     <th scope="row">{&user.permission_name}</th>
-                    <td>{&user.description}</td>
+                    <td>{&user.desciption}</td>
                     <td>{&user.resource_server_name}</td>
-                    <td>{"Direct"}</td>
                     <td>
                         <button
                             type="button"
@@ -542,7 +481,7 @@ impl UserTabPermissions {
                                     if self.index_permission_delete.is_some() {
                                         html! {
                                             <>
-                                                { self.user_permissions[self.index_permission_delete.unwrap()].permission_name.clone() }
+                                                { self.role_permissions[self.index_permission_delete.unwrap()].permission_name.clone() }
                                             </>
                                         }
                                     } else {

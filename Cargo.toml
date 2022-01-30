@@ -46,6 +46,9 @@ applications-settings = { path = "src/pages/applications/applications/applicatio
 users-home = { path = "src/pages/management/users/users-home" }
 users-settings = { path = "src/pages/management/users/users-settings" }
 
+roles-home = { path = "src/pages/management/roles/roles-home" }
+role-details = { path = "src/pages/management/roles/role-details" }
+
 database-home = { path = "src/pages/authentication/database/database-home" }
 database-settings = { path = "src/pages/authentication/database/database-settings" }
 database-create-db = { path = "src/pages/authentication/database/create-db" }
@@ -114,8 +117,16 @@ members = [
   "src/pages/management/users/user-auth-app",
   "src/pages/management/users/user-permissions",
   "src/pages/management/users/user-roles",
-  "src/pages/management/users/modal-assign-permissions",
-  "src/pages/management/users/modal-assign-roles",
+  "src/pages/management/users/user-modal-assign-permissions",
+  "src/pages/management/users/user-modal-assign-roles",
+
+  "src/pages/management/roles/roles-home",
+  "src/pages/management/roles/role-details",
+  "src/pages/management/roles/role-permissions",
+  "src/pages/management/roles/role-modal-assign-permissions",
+  "src/pages/management/roles/role-settings",
+  "src/pages/management/roles/role-users",
+  "src/pages/management/roles/role-modal-assign-users",
 
   "src/pages/authentication/database/create-db",
   "src/pages/authentication/database/database-home",

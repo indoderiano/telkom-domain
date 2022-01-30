@@ -48,6 +48,9 @@ use applications_settings::ApplicationSettings;
 use users_home::UsersHome;
 use users_settings::UserSettings;
 
+use roles_home::RolesHome;
+use role_details::ViewDetail;
+
 use database_create_db::DbCreate;
 use database_home::DatabaseHome;
 use database_settings::DatabaseSettings;
@@ -65,12 +68,6 @@ use social_settings::SocialSettings;
 use crate::pages::{
     applications::{
         sso::{create_sso::CreateSso, home::SsoHome},
-    },
-    management::{
-        roles::{
-            dropdown_viewdetail::ViewDetail,
-            role_created::RolesCreated,
-        },
     },
     settings::home::SettingsHome,
 };
@@ -115,7 +112,7 @@ use crate::pages::{
 //     #[to = "/user-management/roles/settings/{role_id}"]
 //     RoleSettings { role_id: String },
 //     #[to = "/user-management/roles"]
-//     RolesCreated,
+//     RolesHome,
 //     #[to = "/{tenant_id}/users/{user_id}/{id}"]
 //     UserSettings {
 //         tenant_id: String,
@@ -235,14 +232,14 @@ impl Component for App {
 
         let render = Router::render(move |switch: AppRoute| {
             let mut route_service = RouteService::new();
-            ConsoleService::info(&format!(
-                "user {}",
-                if is_logged_in {
-                    "is logged in"
-                } else {
-                    "is not logged in"
-                }
-            ));
+            // ConsoleService::info(&format!(
+            //     "user {}",
+            //     if is_logged_in {
+            //         "is logged in"
+            //     } else {
+            //         "is not logged in"
+            //     }
+            // ));
             match switch {
                 // NOT LOGGED IN ROUTES
                 AppRoute::Home => {
@@ -375,9 +372,17 @@ impl Component for App {
                         html! {<HomePage/>}
                     }
                 }
-                AppRoute::RolesCreated => {
+                AppRoute::RolesHome => {
                     if is_logged_in {
-                        html! {<RolesCreated />}
+                        html! {<RolesHome />}
+                    } else {
+                        route_service.set_route("/", ());
+                        html! {<HomePage/>}
+                    }
+                }
+                AppRoute::RoleSettings { role_id } => {
+                    if is_logged_in {
+                        html! {<ViewDetail role_id=role_id />}
                     } else {
                         route_service.set_route("/", ());
                         html! {<HomePage/>}
@@ -435,14 +440,6 @@ impl Component for App {
                         html! {<HomePage/>}
                     }
                 }
-                AppRoute::RoleSettings { role_id } => {
-                    if is_logged_in {
-                        html! {<ViewDetail role_id=role_id />}
-                    } else {
-                        route_service.set_route("/", ());
-                        html! {<HomePage/>}
-                    }
-                }
                 AppRoute::DatabaseHome => {
                     if is_logged_in {
                         html! {<DatabaseHome/>}
@@ -492,7 +489,7 @@ impl Component for App {
             //         AppRoute::SocialHome => html! {<SocialHome/>},
             //         AppRoute::SocialSettings => html! {<SocialSettings/>},
             //         AppRoute::SocialCreate => html! {<SocialCreate/>},
-            //         AppRoute::RolesCreated => html! {<RolesCreated/>},
+            //         AppRoute::RolesHome => html! {<RolesHome/>},
             //         AppRoute::UsersHome => html! {<UsersHome/>},
             //         AppRoute::EnterpriseHome => html! {<EnterpriseHome/>},
             //         AppRoute::EnterpriseGoogle => html! {<EnterpriseGoogle/>},

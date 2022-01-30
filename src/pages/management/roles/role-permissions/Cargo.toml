@@ -1,5 +1,5 @@
 [package]
-name = "user-permissions"
+name = "role-permissions"
 version = "0.1.0"
 edition = "2018"
 
@@ -13,4 +13,4 @@ anyhow = "1.0.42"
 configs = { path = "../../../../configs" }
 types = { path = "../../../../types" }
 loading = { path = "../../../../components/loading" }
-user-modal-assign-permissions = { path = "../user-modal-assign-permissions" }
+role-modal-assign-permissions = { path = "../role-modal-assign-permissions" }

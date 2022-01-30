@@ -1,20 +1,24 @@
-use super::tab_permission::TabPermissions;
-use super::tab_setting::TabSettings;
-use super::tab_users::TabUsers;
-// use crate::app::AppRoute;
-use router::AppRoute;
-use loading::Loading;
-use configs::server::API_URL;
-use types::roles::Role;
 use yew::{
     format::{Json, Nothing},
     prelude::*,
     services::{
-        fetch::{FetchService, FetchTask, Request, Response},
+        fetch::{ FetchService, FetchTask, Request, Response },
+        storage::{ Area, StorageService },
         ConsoleService,
     },
 };
 use yew_router::components::RouterAnchor;
+use router::AppRoute;
+use types::{
+    roles::Role,
+    LocalStorage,
+    LOCALSTORAGE_KEY,
+};
+use configs::server::API_URL;
+use role_permissions::TabPermissions;
+use role_settings::TabSettings;
+use role_users::RoleTabUsers;
+use loading::Loading;
 
 pub enum Content {
     Settings,
@@ -32,6 +36,7 @@ pub enum StateError {
 }
 
 pub struct ViewDetail {
+    access_token: String,
     content: Content,
     link: ComponentLink<Self>,
     role_id: String,
@@ -53,7 +58,28 @@ impl Component for ViewDetail {
     type Properties = RoleSettingsProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        
+        let storage = StorageService::new(Area::Local).expect("storage was disabled");
+        let localstorage_data = {
+            if let Json(Ok(data)) = storage.restore(LOCALSTORAGE_KEY) {
+                data
+            } else {
+                LocalStorage {
+                    username: None,
+                    email: None,
+                    token: None,
+                }
+            }
+        };
+
+        let mut access_token = String::from("");
+
+        if let Some(token) = localstorage_data.token {
+            access_token = token;
+        } else {}
+        
         ViewDetail {
+            access_token,
             content: Content::Settings,
             link,
             role_id: props.role_id,
@@ -77,8 +103,8 @@ impl Component for ViewDetail {
                 true
             }
             Msg::RequestRoleDetails => {
-                let request = Request::get(format!("http://127.0.0.1:8080/api/v1/1/roles/{}", self.role_id.clone()))
-                    .header("access_token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImhleWthbGxAZ21haWwuY29tIiwiZXhwIjoxNjQzMDk0MTA0fQ.G_kEzjOwrzI_qD8Tco_4HTgXctsz4kUccl4e92WNZb8")
+                let request = Request::get(format!("{}/api/v2/roles/{}", API_URL, self.role_id.clone()))
+                    .header("access_token", self.access_token.clone())
                     .body(Nothing)
                     .expect("Could not build request.");
                 let callback =
@@ -164,7 +190,7 @@ impl ViewDetail {
             <>
             <div class="mx-auto pt-5 pb-5 px-4" style="max-width: 1048px;">
                 <div>
-                    <Anchor route=AppRoute::RolesCreated classes="text-decoration-none text-muted">
+                    <Anchor route=AppRoute::RolesHome classes="text-decoration-none text-muted">
                         <i class="bi bi-arrow-left"></i>
                         <span>{"Back To Roles"}</span>
                     </Anchor>
@@ -180,41 +206,42 @@ impl ViewDetail {
 
                 <div class="mt-4">
                     <ul class="nav nav-tabs">
-                            <li onclick=self.link.callback(|_|Msg::ChangeContent(Content::Settings)) class="nav-item">
-                                <a class={
-                                   match self.content {
-                                       Content::Settings => "nav-link active",
-                                       _ => "nav-link"
-                                   }
+                        <li onclick=self.link.callback(|_|Msg::ChangeContent(Content::Settings)) class="nav-item">
+                            <a class={
+                                    match self.content {
+                                        Content::Settings => "nav-link active",
+                                        _ => "nav-link"
+                                    }
                                 }
                                 aria-current="page"
-                                href="#">{"Settings"}</a>
-                            </li>
-                            <li onclick=self.link.callback(|_|Msg::ChangeContent(Content::Permissions)) class="nav-item">
-                                <a class={
+                            >{"Settings"}</a>
+                        </li>
+                        <li onclick=self.link.callback(|_|Msg::ChangeContent(Content::Permissions)) class="nav-item">
+                            <a class={
                                     match self.content{
                                         Content::Permissions => "nav-link active",
                                         _ => "nav-link"
                                     }
                                 }
-                                href="#">{"Permissions"}</a>
-                            </li>
-                            <li onclick=self.link.callback(|_|Msg::ChangeContent(Content::Users)) class="nav-item">
-                                <a class={
+                            >{"Permissions"}</a>
+                        </li>
+                        <li onclick=self.link.callback(|_|Msg::ChangeContent(Content::Users)) class="nav-item">
+                            <a class={
                                     match self.content{
                                         Content::Users => "nav-link active",
                                         _ => "nav-link"
                                     }
-                                } href="#">{"Users"}</a>
-                            </li>
+                                }
+                            >{"Users"}</a>
+                        </li>
                     </ul>
                 </div>
 
                 {
                     match self.content {
-                        Content::Settings => html! { <TabSettings role=self.role.clone()/> },
-                        Content::Permissions => html! { <TabPermissions/> },
-                        Content::Users => html! { <TabUsers/> }
+                        Content::Settings => html! { <TabSettings role=self.role.clone() /> },
+                        Content::Permissions => html! { <TabPermissions role_id=self.role_id.clone() /> },
+                        Content::Users => html! { <RoleTabUsers role=self.role.clone() /> }
                     }
                 }
 

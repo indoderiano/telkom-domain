@@ -4,15 +4,27 @@ use yew::{
     services::{
         ConsoleService,
         fetch::{FetchService, FetchTask, Request, Response},
-    }
+        storage::{ Area, StorageService },
+    },
+    agent::Bridged,
+    Bridge,
+    ComponentLink,
 };
-use yew_router::service::RouteService;
+use yew_router::{
+    service::RouteService,
+    agent::RouteRequest::ChangeRoute,
+    prelude::*,
+};
+use serde::Serialize;
+use router::AppRoute;
 use configs::server::API_URL;
 use types::{
     roles::{
         Role,
         ResponseRoleDelete
     },
+    LocalStorage,
+    LOCALSTORAGE_KEY,
 };
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
@@ -31,6 +43,7 @@ pub enum StateError {
 }
 
 pub struct TabSettings {
+    access_token: String,
     role: Role,
     link: ComponentLink<Self>,
     fetch_task: Option<FetchTask>,
@@ -39,6 +52,7 @@ pub struct TabSettings {
     loading_delete: bool,
     error_delete: Option<String>,
     route_service: RouteService,
+    route_agent: Box<dyn Bridge<RouteAgent>>,
 }
 
 pub enum Msg {
@@ -48,6 +62,7 @@ pub enum Msg {
     Delete,
     RedirectToRoles,
     ResponseError(String, StateError),
+    Ignore,
 }
 
 impl Component for TabSettings {
@@ -55,15 +70,37 @@ impl Component for TabSettings {
     type Properties = TabSettingsProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+
+        let storage = StorageService::new(Area::Local).expect("storage was disabled");
+        let localstorage_data = {
+            if let Json(Ok(data)) = storage.restore(LOCALSTORAGE_KEY) {
+                data
+            } else {
+                LocalStorage {
+                    username: None,
+                    email: None,
+                    token: None,
+                }
+            }
+        };
+
+        let mut access_token = String::from("");
+
+        if let Some(token) = localstorage_data.token {
+            access_token = token;
+        } else {}
+
         TabSettings {
+            access_token,
             role: props.role,
-            link,
             fetch_task: None,
             loading_update: false,
             error_update: None,
             loading_delete: false,
             error_delete: None,
             route_service: RouteService::new(),
+            route_agent: RouteAgent::bridge(link.callback(|_| Msg::Ignore)),
+            link,
         }
     }
 
@@ -81,10 +118,19 @@ impl Component for TabSettings {
                 false
             }
             Msg::Update => {
+                #[derive(Serialize, Debug, Clone)]
+                struct DataUpdateRole {
+                    name: String,
+                    description: String
+                }
+                let data_update_role = DataUpdateRole {
+                    name: self.role.name.clone(),
+                    description: self.role.description.clone()
+                };
                 ConsoleService::info(&format!("role = {:?}", self.role));
-                let request = Request::patch(format!("http://127.0.0.1:8080/api/v1/1/roles/{}", self.role.id.clone()))
+                let request = Request::patch(format!("{}/api/v2/roles/{}", API_URL, self.role.id.clone()))
                     .header("Content-Type", "application/json")
-                    .header("access_token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImhleWthbGxAZ21haWwuY29tIiwiZXhwIjoxNjQzMDk0MTA0fQ.G_kEzjOwrzI_qD8Tco_4HTgXctsz4kUccl4e92WNZb8")
+                    .header("access_token", self.access_token.clone())
                     .body(Json(&self.role))
                     .expect("Could not build request.");
                 let callback = 
@@ -114,24 +160,44 @@ impl Component for TabSettings {
                 true
             }
             Msg::Delete => {
-                let request = Request::delete(format!("http://127.0.0.1:8080/api/v1/1/roles/{}",self.role.id.clone()))
-                    .header("access_token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImhleWthbGxAZ21haWwuY29tIiwiZXhwIjoxNjQzMDk0MTA0fQ.G_kEzjOwrzI_qD8Tco_4HTgXctsz4kUccl4e92WNZb8")
+                let request = Request::delete(format!("{}/api/v2/roles/{}", API_URL, self.role.id.clone()))
+                    .header("access_token", self.access_token.clone())
                     .body(Nothing)
                     .expect("Could not build request.");
-                let callback = self.link.callback(|response: Response<Json<Result<ResponseRoleDelete, anyhow::Error>>>| {
-                let Json(data) = response.into_body();
-                ConsoleService::info(&format!("{:?}", data));
-                match data {
-                    Ok(dataok) => {
-                        // ConsoleService::info(&format!("{:?}", dataok));
-                        ConsoleService::info(&format!("{:?}", dataok));
-                        Msg::RedirectToRoles
+                let callback = self.link.callback(|response: Response<Json<Result<(), anyhow::Error>>>| {
+
+                    let (meta, Json(data)) = response.into_parts();
+                    let status_number = meta.status.as_u16();
+
+                    match status_number {
+                        204 => {
+                            Msg::RedirectToRoles
+                        }
+                        _ => {
+                            match data {
+                                Ok(dataok) => {
+                                    Msg::RedirectToRoles
+                                }
+                                Err(error) => {
+                                    Msg::ResponseError(error.to_string(), StateError::Delete)
+                                }
+                            }
+                        }
                     }
-                    Err(error) => {
-                        ConsoleService::info(&error.to_string());
-                        Msg::ResponseError(error.to_string(), StateError::Delete)
-                    }
-                }
+
+                    // let Json(data) = response.into_body();
+                    // ConsoleService::info(&format!("{:?}", data));
+                    // match data {
+                    //     Ok(dataok) => {
+                    //         // ConsoleService::info(&format!("{:?}", dataok));
+                    //         ConsoleService::info(&format!("{:?}", dataok));
+                    //         Msg::RedirectToRoles
+                    //     }
+                    //     Err(error) => {
+                    //         ConsoleService::info(&error.to_string());
+                    //         Msg::ResponseError(error.to_string(), StateError::Delete)
+                    //     }
+                    // }
                 });
                 let task = FetchService::fetch(request, callback).expect("failed to start request");
                 self.loading_delete = true;
@@ -139,9 +205,10 @@ impl Component for TabSettings {
                 true
             }
             Msg::RedirectToRoles => {
-                // self.loading_delete = false;
+                self.loading_delete = false;
                 self.fetch_task = None;
                 self.route_service.set_route(&format!("/user-management/roles"), ());
+                self.route_agent.send(ChangeRoute(AppRoute::RolesHome.into()));
                 true
             }
             Msg::ResponseError (message, state) => {
@@ -158,6 +225,9 @@ impl Component for TabSettings {
                     }
                 }
                 true
+            }
+            Msg::Ignore => {
+                false
             }
         }
     }
@@ -199,28 +269,28 @@ impl Component for TabSettings {
                         />
                     </div>
 
-                        <div class="mb-3">
-                            <label for="roleName" class="form-label">{"Name"}</label>
-                            <input
-                                type="text"
-                                class="form-control w-50"
-                                id="roleName"
-                                value={ name.clone() }
-                                disabled={ self.loading_update }
-                            />
-                        </div>
+                        // <div class="mb-3">
+                        //     <label for="roleName" class="form-label">{"Name"}</label>
+                        //     <input
+                        //         type="text"
+                        //         class="form-control w-50"
+                        //         id="roleName"
+                        //         value={ name.clone() }
+                        //         disabled={ self.loading_update }
+                        //     />
+                        // </div>
 
 
-                        <div class="mb-3">
-                            <label for="inputDescription" class="form-label">{"Description"}</label>
-                            <input
-                                type="text"
-                                class="form-control w-50"
-                                id="inputDescription"
-                                value={ description.clone() }
-                                disabled={ self.loading_update }
-                            />
-                        </div>
+                        // <div class="mb-3">
+                        //     <label for="inputDescription" class="form-label">{"Description"}</label>
+                        //     <input
+                        //         type="text"
+                        //         class="form-control w-50"
+                        //         id="inputDescription"
+                        //         value={ description.clone() }
+                        //         disabled={ self.loading_update }
+                        //     />
+                        // </div>
 
 
                         <div

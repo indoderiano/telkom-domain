@@ -226,7 +226,7 @@ impl Component for Sidebar {
                                                           </Anchor>
                                                       </li>
                                                       <li class="jss74">
-                                                          <Anchor route=AppRoute::RolesCreated>
+                                                          <Anchor route=AppRoute::RolesHome>
                                                               <a title="Roles" class="jss76 jss77" href="#"
                                                                   ><span class="jss80 jss81"></span><span
                                                                   class="jss79">{"Roles"}</span>

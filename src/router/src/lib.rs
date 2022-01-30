@@ -38,7 +38,7 @@ pub enum AppRoute {
     #[to = "/user-management/roles/settings/{role_id}"]
     RoleSettings { role_id: String },
     #[to = "/user-management/roles"]
-    RolesCreated,
+    RolesHome,
     #[to = "/{tenant_id}/users/{user_id}/{id}"]
     UserSettings {
         tenant_id: String,

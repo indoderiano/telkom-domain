@@ -13,4 +13,4 @@ anyhow = "1.0.42"
 configs = { path = "../../../../configs" }
 types = { path = "../../../../types" }
 loading = { path = "../../../../components/loading" }
-modal-assign-roles = { path = "../modal-assign-roles" }
+user-modal-assign-roles = { path = "../user-modal-assign-roles" }

@@ -1,10 +1,3 @@
-// use crate::app::AppRoute;
-use router::AppRoute;
-use types::{
-    roles::Role,
-    LocalStorage,
-    LOCALSTORAGE_KEY,
-};
 use yew::{
     format::{Json, Nothing},
     prelude::*,
@@ -14,11 +7,17 @@ use yew::{
         ConsoleService,
     },
 };
+use yew_router::components::RouterAnchor;
 use serde::Serialize;
+use router::AppRoute;
+use types::{
+    roles::Role,
+    LocalStorage,
+    LOCALSTORAGE_KEY,
+};
+use configs::server::API_URL;
 use loading::Loading;
 use developers_note::DevelopersNote;
-use configs::server::API_URL;
-use yew_router::components::RouterAnchor;
 
 pub enum StateError {
     RequestRoles,
@@ -30,7 +29,7 @@ pub enum DataRole {
     Description,
 }
 
-pub struct RolesCreated {
+pub struct RolesHome {
     access_token: String,
     roles: Vec<Role>,
     link: ComponentLink<Self>,
@@ -50,7 +49,7 @@ pub enum Msg {
     ResponseError(String, StateError),
 }
 
-impl Component for RolesCreated {
+impl Component for RolesHome {
     type Message = Msg;
     type Properties = ();
 
@@ -80,7 +79,7 @@ impl Component for RolesCreated {
         } else {
         }
 
-        RolesCreated {
+        RolesHome {
             access_token,
             roles: vec![],
             link,
@@ -325,7 +324,7 @@ impl Component for RolesCreated {
     }
 }
 
-impl RolesCreated {
+impl RolesHome {
     fn view_content(&self) -> Html {
         html! {
             <div class="mt-5">
@@ -354,19 +353,31 @@ impl RolesCreated {
                 description,
             } = role.clone();
             html! {
-                <tr>
+                <tr
+                    class="align-middle"
+                >
                     <td>
-                        <Anchor
-                            route=AppRoute::RoleSettings { role_id: role.id.clone() }
-                            classes="dropdown-item fs-7 text-color-secondary"
+                        <div
+                            style="
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                                font-size: 14px;
+                                text-decoration: none;
+                            "
                         >
-                            { name.clone() }
-                        </Anchor>
+                            <Anchor
+                                route=AppRoute::RoleSettings { role_id: role.id.clone() }
+                                classes="text-decoration-none text-color-secondary"
+                            >
+                                { name.clone() }
+                            </Anchor>
+                        </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-10">
-                                <p>{description.clone()}</p>
+                                <div>{description.clone()}</div>
                             </div>
                             <div class="col-2">
                                 <button
