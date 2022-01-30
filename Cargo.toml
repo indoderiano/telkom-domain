@@ -126,6 +126,7 @@ members = [
   "src/pages/management/roles/role-modal-assign-permissions",
   "src/pages/management/roles/role-settings",
   "src/pages/management/roles/role-users",
+  "src/pages/management/roles/role-modal-assign-users",
 
   "src/pages/authentication/database/create-db",
   "src/pages/authentication/database/database-home",

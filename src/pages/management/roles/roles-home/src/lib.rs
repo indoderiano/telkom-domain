@@ -353,19 +353,31 @@ impl RolesHome {
                 description,
             } = role.clone();
             html! {
-                <tr>
+                <tr
+                    class="align-middle"
+                >
                     <td>
-                        <Anchor
-                            route=AppRoute::RoleSettings { role_id: role.id.clone() }
-                            classes="dropdown-item fs-7 text-color-secondary"
+                        <div
+                            style="
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                                font-size: 14px;
+                                text-decoration: none;
+                            "
                         >
-                            { name.clone() }
-                        </Anchor>
+                            <Anchor
+                                route=AppRoute::RoleSettings { role_id: role.id.clone() }
+                                classes="text-decoration-none text-color-secondary"
+                            >
+                                { name.clone() }
+                            </Anchor>
+                        </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-10">
-                                <p>{description.clone()}</p>
+                                <div>{description.clone()}</div>
                             </div>
                             <div class="col-2">
                                 <button

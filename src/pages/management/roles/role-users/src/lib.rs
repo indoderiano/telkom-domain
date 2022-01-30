@@ -17,7 +17,7 @@ use types::{
 use yew_router::service::RouteService;
 use serde::Serialize;
 use loading::Loading;
-// use role_modal_assign_users::ModalAssignRoles;
+use role_modal_assign_users::ModalAssignUsers;
 
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
@@ -270,8 +270,8 @@ impl Component for RoleTabUsers {
                     <thead>
                         <tr>
                             <th scope="col">{"Name"}</th>
-                            // <th scope="col">{"Description"}</th>
-                            // <th scope="col">{"Assignment"}</th>
+                            <th scope="col"></th>
+                            // <th scope="col"></th>
                             // <th scope="col"></th>
                         </tr>
                     </thead>
@@ -394,7 +394,7 @@ impl Component for RoleTabUsers {
             </div>
 
             // MODAL ASSIGN ROLES
-            // <ModalAssignRoles role_users=self.role_users.clone() user_id=self.role.id.clone() />
+            <ModalAssignUsers role_users=self.role_users.clone() role=self.role.clone() />
         </div>
 
 
@@ -424,13 +424,13 @@ impl RoleTabUsers {
             html! {
                 <tr>
                     <th scope="row" class="align-middle">
-                        <a href="">{email}</a>
+                        <span href="">{email}</span>
                     </th>
                     // <td class="align-middle">{"Description"}</td>
                     // <td class="align-middle">{"Direct"}</td>
                     <td class="text-end">
                         <button 
-                            type="button" 
+                            type="button"
                             class="btn btn-outline-secondary px-2 py-1"
                             onclick=self.link.callback(move |_| Msg::ShowModalDeleteUser(true, Some(i)))
                         >
