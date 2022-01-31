@@ -55,6 +55,10 @@ pub enum AppRoute {
     EnterpriseHome,
     #[to = "/tenant"]
     SettingsHome,
+    #[to = "/{tenant_id}/logs/{log_id}"]
+    LogDetails { tenant_id: String, log_id: String },
+    #[to = "/{tenant_id}/logs"]
+    LogsHome { tenant_id: String },
 
     // NOT LOGGED IN PAGES
     #[to = "/login/password"]

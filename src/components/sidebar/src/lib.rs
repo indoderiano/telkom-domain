@@ -406,9 +406,13 @@ impl Component for Sidebar {
                                           <div class="MuiCollapse-wrapperInner">
                                               <div role="region" id="quantum-product-9878-accordion" aria-labelledby="quantum-product-9878-title">
                                                   <ul id="menu_item8" class="submenu collapse jss105" data-bs-parent="#nav_accordion">
-                                                      <li class="jss74"><a title="Logs" class="jss76 jss77"
-                                                          href="/dashboard/us/dev-test-telkom/logs"><span class="jss80 jss81"></span><span
-                                                          class="jss79">{"Logs"}</span></a></li>
+                                                      <li class="jss74">
+                                                          <Anchor route=AppRoute::LogsHome {tenant_id: tenant_id.clone()}>
+                                                              <a title="Users" class="jss76 jss77" href="#"
+                                                                  ><span class="jss80 jss81"></span><span
+                                                                  class="jss79">{"Logs"}</span></a>
+                                                          </Anchor>
+                                                      </li>
                                                       <li class="jss74"><a title="Streams" class="jss76 jss77"
                                                           href="/dashboard/us/dev-test-telkom/log-streams"><span class="jss80 jss81"></span><span
                                                           class="jss79">{"Streams"}</span></a></li>
