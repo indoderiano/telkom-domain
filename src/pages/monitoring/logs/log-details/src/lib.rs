@@ -17,7 +17,9 @@ use types::{
 use configs::server::API_URL;
 use loading::Loading;
 mod raw;
+mod context_data;
 use raw::Raw;
+use context_data::ContextData;
 
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
@@ -294,7 +296,7 @@ impl LogDetails {
                         {
                             match self.content {
                                 Content::Raw => html! {<Raw/>},
-                                Content::ContextData => html! {<div>{"Context Data"}</div>},
+                                Content::ContextData => html! {<ContextData/>},
                             }
                         }
                     </div>
