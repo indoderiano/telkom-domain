@@ -16,6 +16,8 @@ use types::{
 };
 use configs::server::API_URL;
 use loading::Loading;
+mod raw;
+use raw::Raw;
 
 
 #[derive(Clone, Debug, Eq, PartialEq, Properties)]
@@ -28,6 +30,11 @@ pub enum StateError {
     RequestLogDetails,
 }
 
+pub enum Content {
+    Raw,
+    ContextData,
+}
+
 pub struct LogDetails {
     access_token: String,
     link: ComponentLink<Self>,
@@ -37,11 +44,13 @@ pub struct LogDetails {
     log: String,
     loading_request_log: bool,
     error_request_log: Option<String>,
+    content: Content,
 }
 
 pub enum Msg {
     RequestLogDetails,
     GetLogDetails(String),
+    ChangeContent(Content),
     ResponseError(String, StateError),
 }
 
@@ -79,6 +88,7 @@ impl Component for LogDetails {
             log: String::from("LOG"),
             loading_request_log: false,
             error_request_log: None,
+            content: Content::Raw,
         }
     }
 
@@ -121,6 +131,10 @@ impl Component for LogDetails {
                 self.loading_request_log = false;
                 true
             }
+            Msg::ChangeContent(content) => {
+                self.content = content;
+                true
+            }
             Msg::ResponseError(message, state) => {
                 match state {
                     StateError::RequestLogDetails => {
@@ -148,6 +162,10 @@ impl Component for LogDetails {
                             <i class="bi bi-arrow-left"></i>
                             <span>{"Back To Logs"}</span>
                         </Anchor>
+                    </div>
+
+                    <div class="mt-2">
+                        <p class="fw-bold fs-2">{ "Logs" }</p>
                     </div>
 
                     {
@@ -186,45 +204,101 @@ impl LogDetails {
     fn view_content(&self) -> Html {
         html! {
             <>
-            <div class="card p-3">
-                <div class="card-body">
-                    <div>
-                        <div class="row fw-bold" style="font-size: 16px;">
-                            {"Summary"}
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-4 col-md-4 col-lg-4">
-                                <p class="text-muted mb-1">{"Occured"}</p>
-                                <p class="mb-1">{"4 hours ago"}</p>
-                                <p class="mb-1">{"at 2022-01-31 12:35:50.341 UTC"}</p>
+                <div class="card p-3 mt-3">
+                    <div class="card-body">
+                        <div>
+                            <div class="fw-bold" style="font-size: 16px;">
+                                {"Summary"}
                             </div>
-                            <div class="col-4 col-md-4 col-lg-4">
-                                <p class="text-muted mb-1 ">{"Type"}</p>
-                                <p class="mb-1">{"API Read Operation"}</p>
+                            <div class="row mt-3">
+                                <div class="col-4 col-md-4 col-lg-4">
+                                    <p class="text-muted mb-1">{"Occured"}</p>
+                                    <p class="mb-1">{"4 hours ago"}</p>
+                                    <p class="mb-1">{"at 2022-01-31 12:35:50.341 UTC"}</p>
+                                </div>
+                                <div class="col-4 col-md-4 col-lg-4">
+                                    <p class="text-muted mb-1 ">{"Type"}</p>
+                                    <p class="mb-1">{"API Read Operation"}</p>
+                                </div>
+                                <div class="col-4 col-md-4 col-lg-4">
+                                    <p class="text-muted mb-1">{"Description"}</p>
+                                    <p class="mb-1">{"Get a client"}</p>
+                                </div>
                             </div>
-                            <div class="col-4 col-md-4 col-lg-4">
-                                <p class="text-muted mb-1">{"Description"}</p>
-                                <p class="mb-1">{"Get a client"}</p>
+                            <div class="row mt-3">
+                                <div class="col-4 col-md-4 col-lg-4">
+                                    <p class="text-muted mb-1">{"Connection"}</p>
+                                    <p class="mb-1">{"N/A"}</p>
+                                </div>
+                                <div class="col-4 col-md-4 col-lg-4 mb-1">
+                                    <p class="text-muted mb-1">{"Application"}</p>
+                                    <p class="mb-1">{"MrlpRDQKGK9ENLgHd89jWTMkKvf0O7t9"}</p>
+                                </div>
+                                <div class="col-4 col-md-4 col-lg-4">
+                                    <p class="text-muted mb-1">{"User"}</p>
+                                    <p>{"N/A"}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-4 col-md-4 col-lg-4">
-                                <p class="text-muted mb-1">{"Connection"}</p>
-                                <p class="mb-1">{"N/A"}</p>
-                            </div>
-                            <div class="col-4 col-md-4 col-lg-4 mb-1">
-                                <p class="text-muted mb-1">{"Application"}</p>
-                                <p class="mb-1">{"MrlpRDQKGK9ENLgHd89jWTMkKvf0O7t9"}</p>
-                            </div>
-                            <div class="col-4 col-md-4 col-lg-4">
-                                <p class="text-muted mb-1">{"User"}</p>
-                                <p>{"N/A"}</p>
-                            </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
-            </div>
+
+                <div class="card p-3 mt-3">
+                    <div class="card-body">
+                        <div class="fw-bold" style="font-size: 16px;">
+                            {"Details"}
+                        </div>
+
+                        <ul class="nav nav-tabs mt-4" id="myTab" role="tablist" style="font-size:14px;">
+                            <li
+                                onclick = self.link.callback(|_|Msg::ChangeContent(Content::Raw))
+                                class="nav-item fw-bold">
+                                <button
+                                    class={
+                                        match self.content {
+                                            Content::Raw => "nav-link active",
+                                            _ => "nav-link"
+                                        }
+                                    }
+                                    id="user-details-tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#detailtab"
+                                    type="button" role="tab"
+                                    aria-controls="detailtab"
+                                    aria-selected="true">{"Raw"}
+                                </button>
+                            </li>
+                            <li
+                                onclick =self.link.callback(|_|Msg::ChangeContent(Content::ContextData))
+                                class="nav-item fw-bold"
+                                role="presentation"
+                            >
+                                <button
+                                    class={
+                                        match self.content {
+                                            Content::ContextData => "nav-link active",
+                                            _ => "nav-link"
+                                        }
+                                    }
+                                    id="user-devices-tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#devicetab"
+                                    type="button" role="tab"
+                                    aria-controls="devicetab"
+                                    aria-selected="false">{"Context Data"}
+                                </button>
+                            </li>
+                        </ul>
+
+                        {
+                            match self.content {
+                                Content::Raw => html! {<Raw/>},
+                                Content::ContextData => html! {<div>{"Context Data"}</div>},
+                            }
+                        }
+                    </div>
+                </div>
             </>
         }
     }
