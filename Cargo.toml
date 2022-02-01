@@ -63,6 +63,9 @@ social-create = { path = "src/pages/authentication/social/social-create" }
 social-home = { path = "src/pages/authentication/social/social-home" }
 social-settings = { path = "src/pages/authentication/social/social-settings" }
 
+logs-home = { path = "src/pages/monitoring/logs/logs-home" }
+log-details = { path = "src/pages/monitoring/logs/log-details" }
+
 router = { path = "./src/router" }
 types = { path = "./src/types" }
 store = { path = "./src/store" }
@@ -150,4 +153,7 @@ members = [
   "src/pages/authentication/social/social-home",
   "src/pages/authentication/social/social-settings",
   "src/pages/authentication/social/social-tab-settings",
+
+  "src/pages/monitoring/logs/logs-home",
+  "src/pages/monitoring/logs/log-details",
 ]

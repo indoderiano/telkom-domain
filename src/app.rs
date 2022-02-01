@@ -65,6 +65,9 @@ use social_create::SocialCreate;
 use social_home::SocialHome;
 use social_settings::SocialSettings;
 
+use logs_home::LogsHome;
+use log_details::LogDetails;
+
 use crate::pages::{
     applications::{
         sso::{create_sso::CreateSso, home::SsoHome},
@@ -459,6 +462,22 @@ impl Component for App {
                 AppRoute::DatabaseSettings => {
                     if is_logged_in {
                         html! {<DatabaseSettings/>}
+                    } else {
+                        route_service.set_route("/", ());
+                        html! {<HomePage/>}
+                    }
+                }
+                AppRoute::LogsHome { tenant_id } => {
+                    if is_logged_in {
+                        html! {<LogsHome tenant_id=tenant_id/>}
+                    } else {
+                        route_service.set_route("/", ());
+                        html! {<HomePage/>}
+                    }
+                }
+                AppRoute::LogDetails { tenant_id, log_id } => {
+                    if is_logged_in {
+                        html! {<LogDetails tenant_id=tenant_id log_id=log_id/>}
                     } else {
                         route_service.set_route("/", ());
                         html! {<HomePage/>}

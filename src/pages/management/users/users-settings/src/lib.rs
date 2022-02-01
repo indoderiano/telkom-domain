@@ -46,6 +46,7 @@ pub enum Content {
 
 pub struct UserSettings {
     // id: u32,
+    tenant_id: String,
     user_id: String,
     access_token: String,
     content: Content,
@@ -105,6 +106,7 @@ impl Component for UserSettings {
 
         UserSettings {
             // id: props.id,
+            tenant_id: props.tenant_id,
             user_id: props.user_id,
             access_token,
             content: Content::UserTabDetails,
@@ -166,7 +168,7 @@ impl Component for UserSettings {
 
     fn view(&self) -> Html {
         type Anchor = RouterAnchor<AppRoute>;
-        let tenant_id = String::from("tenant_id_not_from_reducer");
+        // let tenant_id = String::from("tenant_id_not_from_reducer");
         html! {
             <>
                 <div
@@ -174,7 +176,7 @@ impl Component for UserSettings {
                     style="max-width: 1048px"
                 >
                     <Anchor
-                        route=AppRoute::UsersHome {tenant_id: tenant_id}
+                        route=AppRoute::UsersHome {tenant_id: self.tenant_id.clone()}
                         classes="text-decoration-none domain-link-dark"
                     >
                         <i class="bi bi-arrow-left me-2"></i>
