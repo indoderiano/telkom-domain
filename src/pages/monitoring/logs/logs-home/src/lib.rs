@@ -36,6 +36,7 @@ pub struct LogsHome {
 
 pub enum Msg {
     LearnMore,
+    InputDate(String),
     HideDetails,
 }
 
@@ -100,6 +101,10 @@ impl Component for LogsHome {
             Msg::LearnMore => {
                 self.learn_more = true;
                 true
+            }
+            Msg::InputDate(value) => {
+                ConsoleService::info(&format!("date is {}", value));
+                false
             }
             Msg::HideDetails => {
                 self.learn_more = false;
@@ -286,10 +291,17 @@ impl Component for LogsHome {
                                 </div>
                             </div>
                             <div class="col-md-auto col-lg-auto">
-                                <button type="button" class="btn btn-outline-secondary">
-                                    <i class="bi bi-calendar me-2"></i>
-                                    <span>{"All Dates"}</span>
-                                </button>
+                                // <button type="button" class="btn btn-outline-secondary">
+                                //     <i class="bi bi-calendar me-2"></i>
+                                //     <span>{"All Dates"}</span>
+                                // </button>
+                                <input
+                                    class="form-control"
+                                    type="date"
+                                    oninput=self.link.callback(|data: InputData| {
+                                        Msg::InputDate(data.value)
+                                    })
+                                />
                             </div>
                         </div>
 
