@@ -66,6 +66,8 @@ social-settings = { path = "src/pages/authentication/social/social-settings" }
 logs-home = { path = "src/pages/monitoring/logs/logs-home" }
 log-details = { path = "src/pages/monitoring/logs/log-details" }
 
+profile = { path = "src/pages/profile" }
+
 router = { path = "./src/router" }
 types = { path = "./src/types" }
 store = { path = "./src/store" }
@@ -156,4 +158,6 @@ members = [
 
   "src/pages/monitoring/logs/logs-home",
   "src/pages/monitoring/logs/log-details",
+
+  "src/pages/profile",
 ]

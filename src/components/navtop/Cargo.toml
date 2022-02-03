@@ -9,6 +9,8 @@ edition = "2018"
 yew = "0.18"
 yewdux = "^0.6"
 yewtil = "^0.4.0"
+yew-router = "0.15.0"
 logo = { path = "../logo" }
 store = { path = "../../store" }
 types = { path = "../../types" }
+router = { path = "../../router" }
