@@ -191,9 +191,16 @@ impl Component for Navtop {
                                             class="list-hover dropdown-item py-1 px-2 rounded align-middle"
                                             style="width: calc(100% + 18px);margin-left: -9px;"
                                         >
-                                            <Anchor route=AppRoute::Profile { tenant_id: String::from("id-tenant-id") } >
+                                            <Anchor
+                                                route=AppRoute::Profile { tenant_id: String::from("id-tenant-id") }
+                                                classes="text-decoration-none text-color-primary"
+                                            >
                                                 <i class="bi bi-person me-3 fs-5"></i>
-                                                {"Your profile"}
+                                                <span
+                                                    style="vertical-align: text-bottom;"
+                                                >
+                                                    {"Your profile"}
+                                                </span>
                                             </Anchor>
                                         </div>
                                     </div>
@@ -203,13 +210,17 @@ impl Component for Navtop {
                                     onclick=self.link.callback(|_| Msg::Logout)
                                     class="pt-2 px-1"
                                 >
-                                    <div class="border-bottom border-1 pb-2">
+                                    <div>
                                         <div
                                             class="list-hover dropdown-item py-1 px-2 rounded align-middle"
                                             style="width: calc(100% + 18px);margin-left: -9px;"
                                         >
                                             <i class="bi bi-box-arrow-right me-3 fs-5"></i>
-                                            {"Log out"}
+                                            <span
+                                                style="vertical-align: text-bottom;"
+                                            >
+                                                {"Log out"}
+                                            </span>
                                         </div>
                                     </div>
                                 </li>
