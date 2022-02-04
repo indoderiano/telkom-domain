@@ -59,6 +59,8 @@ pub enum AppRoute {
     LogDetails { tenant_id: String, log_id: String },
     #[to = "/{tenant_id}/logs"]
     LogsHome { tenant_id: String },
+    #[to = "/{tenant_id}/profile"]
+    Profile { tenant_id: String },
 
     // NOT LOGGED IN PAGES
     #[to = "/login/password"]
