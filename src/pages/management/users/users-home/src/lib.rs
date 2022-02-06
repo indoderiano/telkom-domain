@@ -249,7 +249,7 @@ impl Component for UsersHome {
         type Anchor = RouterAnchor<AppRoute>;
         html! {
             <div>
-                <div class="container mx-auto pt-5 pb-5 px-4" style="max-width: 1048px;">
+                <div class="container domain-content">
 
                     <div class=" d-flex row align-center">
                         <div class="col">

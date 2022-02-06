@@ -188,7 +188,7 @@ impl ViewDetail {
         } = self.role.clone();
         html! {
             <>
-            <div class="mx-auto pt-5 pb-5 px-4" style="max-width: 1048px;">
+            <div class="domain-content">
                 <div>
                     <Anchor route=AppRoute::RolesHome classes="text-decoration-none text-muted">
                         <i class="bi bi-arrow-left"></i>

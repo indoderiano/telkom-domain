@@ -22,7 +22,9 @@ impl Component for Activity {
 
     fn view(&self) -> Html {
         html! {
-            <>
+            <div
+                class="domain-content"
+            >
                 <div class="flex-fill fs-3 fw-bold mt-3"> {"Activity"}</div>
                 
                 <div class="card mt-3 me-2">
@@ -50,7 +52,7 @@ impl Component for Activity {
                     </div>
                 </div>
 
-            </>
+            </div>
         }
     }
 }

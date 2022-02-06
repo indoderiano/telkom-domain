@@ -228,8 +228,7 @@ impl Component for ApisHome {
         // ConsoleService::info(&format!("fetch task: {:?}", &self.fetch_task));
         html! {
             <div
-                class="mx-auto pt-5 pb-5 px-4"
-                style="max-width: 1048px;"
+                class="domain-content"
             >
                 <div
                     class="mb-5"

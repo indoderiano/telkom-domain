@@ -28,8 +28,7 @@ impl Component for EnterpriseGoogleCreate {
         html! {
 
             <div
-                class="py-5 px-4 m-auto"
-                style="max-width: 1048px; font-size:14px;"
+                class="domain-content"
             >
                 <Anchor
                     route=AppRoute::EnterpriseGoogle

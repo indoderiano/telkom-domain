@@ -47,8 +47,7 @@ impl Component for SocialSettings {
         type Anchor = RouterAnchor<AppRoute>;
         html! {
             <div
-                class="py-5 px-4 m-auto"
-                style="max-width: 1048px; font-size:14px;"
+                class="domain-content"
             >
                 <Anchor
                     route=AppRoute::SocialHome

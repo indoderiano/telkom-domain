@@ -57,6 +57,13 @@
   width: 68px;
 }
 
+.domain-content {
+  max-width: 1048px!important;
+  margin: auto;
+  font-size:14px;
+  padding: 2.5rem 1.5rem 3rem !important;
+}
+
 .text-color-primary {
   color: #1e212a !important;
 }

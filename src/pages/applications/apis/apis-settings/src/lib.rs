@@ -158,8 +158,7 @@ impl Component for ApisSettings {
         let tenant_id = String::from("tenant_id_not_from_reducer");
         html! {
             <div
-                class="py-5 px-4 m-auto"
-                style="max-width: 1048px; font-size:14px;"
+                class="domain-content"
             >
                 <Anchor
                     route=AppRoute::ApisHome
