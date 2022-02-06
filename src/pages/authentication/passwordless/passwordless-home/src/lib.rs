@@ -63,7 +63,7 @@ impl Component for AuthPasswordLess {
     fn view(&self) -> Html {
         html! {
             <div class="container domain-content">
-                <div class="flex-fill fs-3 fw-bold"> {"Passwordless Connections"}</div>
+                <div class="flex-fill title"> {"Passwordless Connections"}</div>
                 <div class="mt-4 mb-4">
                     <p class="text-muted">{"Configure Passwordless Connections like SMS Login, Email Login and others so that you can let your users login without having to choose yet another password. "} <a href="">{"Learn more "} <i class="bi bi-arrow-right-short"></i></a></p>
                 </div>

@@ -26,7 +26,7 @@ impl Component for GettingStarted {
                 class="domain-content"
             >
                 <div
-                    class="flex-fill fs-3 fw-bold mt-3"
+                    class="flex-fill title"
                 >
                     {"Getting Started"}
                 </div>

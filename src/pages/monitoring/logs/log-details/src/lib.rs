@@ -167,7 +167,7 @@ impl Component for LogDetails {
                     </div>
 
                     <div class="mt-2">
-                        <p class="fw-bold fs-2">{ "Logs" }</p>
+                        <h2 class="title">{ "Logs" }</h2>
                     </div>
 
                     {

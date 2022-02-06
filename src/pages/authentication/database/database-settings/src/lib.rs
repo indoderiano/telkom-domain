@@ -73,7 +73,9 @@ impl Component for DatabaseSettings {
                     <div
                         class="d-flex flex-column"
                     >
-                        <h2>{"Username-Password-Authentication"}</h2>
+                        <h2
+                            class="title"
+                        >{"Username-Password-Authentication"}</h2>
                         <div
                             class="text-muted"
                         >

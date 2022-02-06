@@ -55,7 +55,9 @@ impl Component for EnterpriseGoogleCreate {
                     <div
                         class="d-flex flex-column"
                     >
-                        <h2>{"New Google Workspace Connection"}</h2>
+                        <h2
+                            class="title"
+                        >{"New Google Workspace Connection"}</h2>
                     </div>
                 </div>
 

@@ -54,7 +54,7 @@ impl Component for EnterpriseHome {
                         class="d-flex flex-row mb-3"
                     >
                         <div
-                            class="flex-fill fs-3 fw-bold"
+                            class="flex-fill title"
                         >
                             {"Enterprise Connections"}
                         </div>

@@ -201,7 +201,7 @@ impl Component for RolesHome {
                     <div class="row">
 
                         <div class="col-9">
-                            <h1 class="fw-bold">{"Roles"}</h1>
+                            <h2 class="title">{"Roles"}</h2>
                         </div>
 
                         <div class="col-3 d-flex justify-content-end">

@@ -249,7 +249,9 @@ impl UserSettings {
                                 <div
                                     class="d-flex flex-column"
                                 >
-                                    <h2>{ email }</h2>
+                                    <h2
+                                        class="title"
+                                    >{ email }</h2>
                                     <div
                                         class="text-muted"
                                     >

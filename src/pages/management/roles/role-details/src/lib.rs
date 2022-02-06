@@ -197,7 +197,7 @@ impl ViewDetail {
                 </div>
 
                 <div class="mt-2">
-                    <p class="fw-bold fs-2">{ name.clone() }</p>
+                    <h2 class="title">{ name.clone() }</h2>
                     <div class="pt-2">
                         <span class="text-muted">{"Role ID"}</span>
                         <code class="text-dark ms-2" style="background-color: #eff0f2; font-family: Roboto, sans-serif;">{ id.clone() }</code>

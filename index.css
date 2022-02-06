@@ -64,6 +64,11 @@
   padding: 2.5rem 1.5rem 3rem !important;
 }
 
+.domain-content .title {
+  font-size: 30px;
+  font-weight: 700;
+}
+
 .text-color-primary {
   color: #1e212a !important;
 }

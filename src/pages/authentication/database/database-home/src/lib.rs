@@ -53,7 +53,7 @@ impl Component for DatabaseHome {
                         class="d-flex flex-row mb-3"
                     >
                         <div
-                            class="flex-fill fs-3 fw-bold"
+                            class="flex-fill title"
                         >
                             {"Database Connections"}
                         </div>

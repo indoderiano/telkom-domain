@@ -126,7 +126,7 @@ impl Component for LogsHome {
 
                     <div class=" d-flex row align-center">
                         <div class="col">
-                            <p class="fs-2 fw-bold">{"Logs"}</p>
+                            <h2 class="title">{"Logs"}</h2>
                         </div>
                         <div class="col d-flex justify-content-end">
                             <button

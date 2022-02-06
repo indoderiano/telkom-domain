@@ -25,7 +25,7 @@ impl Component for Activity {
             <div
                 class="domain-content"
             >
-                <div class="flex-fill fs-3 fw-bold mt-3"> {"Activity"}</div>
+                <div class="flex-fill title"> {"Activity"}</div>
                 
                 <div class="card mt-3 me-2">
                     <div class="card-body">

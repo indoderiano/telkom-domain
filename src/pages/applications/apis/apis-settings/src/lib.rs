@@ -244,7 +244,9 @@ impl ApisSettings {
                     <div
                         class="d-flex flex-column"
                     >
-                        <h2>{name}</h2>
+                        <h2
+                            class="title"
+                        >{name}</h2>
                         <div
                             class="text-muted"
                         >

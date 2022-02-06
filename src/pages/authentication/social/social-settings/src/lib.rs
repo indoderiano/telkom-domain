@@ -73,7 +73,9 @@ impl Component for SocialSettings {
                     <div
                         class="d-flex flex-column"
                     >
-                        <h2>{"google-oauth2"}</h2>
+                        <h2
+                            class="title"
+                        >{"google-oauth2"}</h2>
                         <div
                             class="text-muted"
                         >

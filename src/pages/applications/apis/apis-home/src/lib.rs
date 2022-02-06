@@ -236,11 +236,11 @@ impl Component for ApisHome {
                     <div
                         class="d-flex flex-row mb-3"
                     >
-                        <div
-                            class="flex-fill fs-3 fw-bold"
+                        <h2
+                            class="flex-fill title"
                         >
                             {"APIs"}
-                        </div>
+                        </h2>
                         <div>
                             <button
                                 type="button"

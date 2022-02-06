@@ -253,12 +253,12 @@ impl Component for UsersHome {
 
                     <div class=" d-flex row align-center">
                         <div class="col">
-                            <p class="fs-2 fw-bold">{"Users"}</p>
+                            <h2 class="title">{"Users"}</h2>
                         </div>
                         <div class="col d-flex justify-content-end">
                             <button
                                 type="button"
-                                class="btn btn-primary ms-3 mt-3 mb-3"
+                                class="btn btn-primary"
                                 data-bs-toggle="modal"
                                 data-bs-target="#createNewUser"
                             >

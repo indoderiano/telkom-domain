@@ -142,7 +142,7 @@ impl Component for Profile {
                 <div class="domain-content">
 
                     <div class="mt-2">
-                        <p class="fw-bold fs-2">{ "Profile" }</p>
+                        <p class="title">{ "Profile" }</p>
                     </div>
 
                     {
