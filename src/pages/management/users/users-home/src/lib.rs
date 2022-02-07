@@ -251,25 +251,27 @@ impl Component for UsersHome {
             <div>
                 <div class="container domain-content">
 
-                    <div class=" d-flex row align-center">
-                        <div class="col">
-                            <h2 class="title">{"Users"}</h2>
-                        </div>
-                        <div class="col d-flex justify-content-end">
-                            <button
-                                type="button"
-                                class="btn btn-primary"
-                                data-bs-toggle="modal"
-                                data-bs-target="#createNewUser"
-                            >
-
-                                <i class="bi bi-plus"></i>
-                                <span>{"Create User"}</span>
-                            </button>
+                    <div
+                        class="mb-3"
+                    >
+                        <div class=" d-flex flex-row">
+                            <h2 class="flex-fill title">{"Users"}</h2>
+                            <div>
+                                <button
+                                    type="button"
+                                    class="btn btn-primary d-flex align-items-center"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#createNewUser"
+                                >
+                                    <i class="bi bi-plus me-2" style="margin-left: -5px;"></i>
+                                    <span>{"Create User"}</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="mt-3">
+
+                    <div>
                         <p>
                             {"An easy to use UI to help administrators manage user identities including password resets, creating, and provisioning, blocking, and deleting users. "}
                             {

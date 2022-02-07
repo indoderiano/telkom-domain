@@ -360,7 +360,7 @@ impl Component for ModalAssignUsers {
                                                     }
                                                 }
                                                 <span class="ms-1">
-                                                    { "Select Role" }
+                                                    { "Select a user..." }
                                                 </span>
                                             </button>
                                             <ul

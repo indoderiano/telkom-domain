@@ -54,26 +54,28 @@ impl Component for Sidebar {
                         >
                           <ul class="jss73" id="nav_accordion">
                               <li class="jss74 nav-item">
-                                  <Anchor route=AppRoute::GettingStarted >
-                                      <a title="Getting Started" class="jss76" href="#">
-                                          <span
-                                              class="jss80 jss81">
-                                              <i class="fas fa-bolt"></i>
-                                          </span>
-                                          <span class="jss79">{"Getting Started"}</span>
-                                      </a>
+                                  <Anchor
+                                    route=AppRoute::GettingStarted
+                                    classes="jss76 text-decoration-none"  
+                                  >
+                                    <span
+                                        class="jss80 jss81">
+                                        <i class="fas fa-bolt"></i>
+                                    </span>
+                                    <span class="jss79">{"Getting Started"}</span>
                                   </Anchor>
                               </li>
                               <li class="jss74 nav-item">
-                                  <Anchor route=AppRoute::Activity>
-                                      <a title="Activity" class="jss76" href="#">
-                                          <span
-                                              class="jss80 jss81">
-                                              <i class="fas fa-chart-line"></i>
-                                          </span>
-                                          <span class="jss79">{"Activity"}</span><span class="jss2 jss103 jss85 jss86 jss82"
-                                              data-cosmos-key="label">{"First"}</span>
-                                      </a>
+                                  <Anchor
+                                    route=AppRoute::Activity
+                                    classes="jss76 text-decoration-none"  
+                                  >
+                                    <span
+                                        class="jss80 jss81">
+                                        <i class="fas fa-chart-line"></i>
+                                    </span>
+                                    <span class="jss79">{"Activity"}</span>
+                                    <span class="jss2 jss103 jss85 jss86 jss82">{"First"}</span>
                                   </Anchor>
                               </li>
                               <li class="jss74 jss104 nav-item">
@@ -99,26 +101,30 @@ impl Component for Sidebar {
                                               <div role="region" id="quantum-product-91331-accordion" aria-labelledby="quantum-product-91331-title">
                                                   <ul id="menu_item1" class="submenu collapse jss105" data-bs-parent="#nav_accordion">
                                                       <li class="jss74">
-                                                          <Anchor route=AppRoute::ApplicationHome
-                                                          { tenant_id: tenant_id.clone() } >
-                                                              <a title="Applications" class="jss76 jss77" href="#"
-                                                                  ><span class="jss80 jss81"></span><span
-                                                                  class="jss79">{"Applications"}</span></a>
+                                                          <Anchor
+                                                            route=AppRoute::ApplicationHome { tenant_id: tenant_id.clone() }
+                                                            classes="jss76 jss77 text-decoration-none"  
+                                                          >
+                                                            <span class="jss80 jss81"></span>
+                                                            <span class="jss79">{"Applications"}</span>
                                                           </Anchor>
                                                       </li>
                                                       <li class="jss74">
-                                                          <Anchor route=AppRoute::ApisHome >
-                                                              <a title="APIs" class="jss76 jss77" href="#"
-                                                                  ><span class="jss80 jss81"></span><span
-                                                                  class="jss79">{"APIs"}</span>
-                                                              </a>
+                                                          <Anchor
+                                                            route=AppRoute::ApisHome
+                                                            classes="jss76 jss77 text-decoration-none"  
+                                                          >
+                                                            <span class="jss80 jss81"></span>
+                                                            <span class="jss79">{"APIs"}</span>
                                                           </Anchor>
                                                       </li>
                                                       <li class="jss74">
-                                                          <Anchor route=AppRoute::SsoHome >
-                                                              <a title="SSO Integrations" class="jss76 jss77"
-                                                                  href="#"><span class="jss80 jss81"></span><span
-                                                                  class="jss79">{"SSO Integrations"}</span></a>
+                                                          <Anchor
+                                                            route=AppRoute::SsoHome
+                                                            classes="jss76 jss77 text-decoration-none"  
+                                                          >
+                                                              <span class="jss80 jss81"></span>
+                                                              <span class="jss79">{"SSO Integrations"}</span>
                                                           </Anchor>
                                                       </li>
                                                   </ul>
@@ -150,31 +156,39 @@ impl Component for Sidebar {
                                               <div role="region" id="quantum-product-85887-accordion" aria-labelledby="quantum-product-85887-title">
                                                   <ul id="menu_item2" class="jss105 submenu collapse" data-bs-parent="#nav_accordion">
                                                       <li class="jss74">
-                                                          <Anchor route=AppRoute::DatabaseHome >
-                                                              <a title="Database" class="jss76 jss77" href="#"
-                                                                  ><span class="jss80 jss81"></span><span
-                                                                  class="jss79">{"Database"}</span></a>
+                                                          <Anchor
+                                                            route=AppRoute::DatabaseHome
+                                                            classes="jss76 jss77 text-decoration-none"  
+                                                          >
+                                                            <span class="jss80 jss81"></span>
+                                                            <span class="jss79">{"Database"}</span>
                                                           </Anchor>
                                                       </li>
                                                       <li class="jss74">
-                                                          <Anchor route=AppRoute::SocialHome>
-                                                              <a title="Social" class="jss76 jss77" href="#"
-                                                                  ><span class="jss80 jss81"></span><span
-                                                                  class="jss79">{"Social"}</span></a>
+                                                          <Anchor
+                                                            route=AppRoute::SocialHome
+                                                            classes="jss76 jss77 text-decoration-none"  
+                                                          >
+                                                            <span class="jss80 jss81"></span>
+                                                            <span class="jss79">{"Social"}</span>
                                                           </Anchor>
                                                       </li>
                                                       <li class="jss74">
-                                                          <Anchor route=AppRoute::EnterpriseHome>
-                                                              <a title="Enterprise" class="jss76 jss77" href="#"
-                                                                  ><span
-                                                                  class="jss80 jss81"></span><span class="jss79">{"Enterprise"}</span></a>
+                                                          <Anchor
+                                                            route=AppRoute::EnterpriseHome
+                                                            classes="jss76 jss77 text-decoration-none"  
+                                                          >
+                                                            <span class="jss80 jss81"></span>
+                                                            <span class="jss79">{"Enterprise"}</span>
                                                           </Anchor>
                                                       </li>
                                                       <li class="jss74">
-                                                          <Anchor route=AppRoute::AuthPasswordless>
-                                                              <a title="Passwordless" class="jss76 jss77" href="#"
-                                                                  ><span
-                                                                  class="jss80 jss81"></span><span class="jss79">{"Passwordless"}</span></a>
+                                                          <Anchor
+                                                            route=AppRoute::AuthPasswordless
+                                                            classes="jss76 jss77 text-decoration-none"
+                                                          >
+                                                            <span class="jss80 jss81"></span>
+                                                            <span class="jss79">{"Passwordless"}</span>
                                                           </Anchor>
                                                       </li>
                                                       <li class="jss74"><a title="Authentication Profile" class="jss76 jss77"
@@ -219,18 +233,21 @@ impl Component for Sidebar {
                                               <div role="region" id="quantum-product-60344-accordion" aria-labelledby="quantum-product-60344-title">
                                                   <ul id="menu_item3" class="submenu collapse jss105" data-bs-parent="#nav_accordion">
                                                       <li class="jss74">
-                                                          <Anchor route=AppRoute::UsersHome {tenant_id: tenant_id.clone()}>
-                                                              <a title="Users" class="jss76 jss77" href="#"
-                                                                  ><span class="jss80 jss81"></span><span
-                                                                  class="jss79">{"Users"}</span></a>
+                                                          <Anchor
+                                                            route=AppRoute::UsersHome {tenant_id: tenant_id.clone()}
+                                                            classes="jss76 jss77 text-decoration-none"
+                                                          >
+                                                            <span class="jss80 jss81"></span>
+                                                            <span class="jss79">{"Users"}</span>
                                                           </Anchor>
                                                       </li>
                                                       <li class="jss74">
-                                                          <Anchor route=AppRoute::RolesHome>
-                                                              <a title="Roles" class="jss76 jss77" href="#"
-                                                                  ><span class="jss80 jss81"></span><span
-                                                                  class="jss79">{"Roles"}</span>
-                                                              </a>
+                                                          <Anchor
+                                                            route=AppRoute::RolesHome
+                                                            classes="jss76 jss77 text-decoration-none"
+                                                          >
+                                                            <span class="jss80 jss81"></span>
+                                                            <span class="jss79">{"Roles"}</span>
                                                           </Anchor>
                                                       </li>
                                                   </ul>
@@ -407,10 +424,12 @@ impl Component for Sidebar {
                                               <div role="region" id="quantum-product-9878-accordion" aria-labelledby="quantum-product-9878-title">
                                                   <ul id="menu_item8" class="submenu collapse jss105" data-bs-parent="#nav_accordion">
                                                       <li class="jss74">
-                                                          <Anchor route=AppRoute::LogsHome {tenant_id: tenant_id.clone()}>
-                                                              <a title="Users" class="jss76 jss77" href="#"
-                                                                  ><span class="jss80 jss81"></span><span
-                                                                  class="jss79">{"Logs"}</span></a>
+                                                          <Anchor
+                                                            route=AppRoute::LogsHome {tenant_id: tenant_id.clone()}
+                                                            classes="jss76 jss77 text-decoration-none"
+                                                          >
+                                                            <span class="jss80 jss81"></span>
+                                                            <span class="jss79">{"Logs"}</span>
                                                           </Anchor>
                                                       </li>
                                                       <li class="jss74"><a title="Streams" class="jss76 jss77"
@@ -445,15 +464,14 @@ impl Component for Sidebar {
                               <li class="jss74 nav-item">
                                   <Anchor
                                       route=AppRoute::SettingsHome
+                                      classes="jss76 text-decoration-none"
                                   >
-                                  <a title="Settings" class="jss76"
-                                      href="#">
-                                      <span
-                                          class="jss80 jss81">
-                                          <i class="fas fa-cogs"></i>
-                                      </span>
-                                      <span class="jss79">{"Settings"}</span>
-                                  </a>
+                                    <span
+                                        class="jss80 jss81"
+                                    >
+                                        <i class="fas fa-cogs"></i>
+                                    </span>
+                                    <span class="jss79">{"Settings"}</span>
                                   </Anchor>
                               </li>
                           </ul>
