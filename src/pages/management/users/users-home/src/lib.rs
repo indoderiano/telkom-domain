@@ -249,27 +249,29 @@ impl Component for UsersHome {
         type Anchor = RouterAnchor<AppRoute>;
         html! {
             <div>
-                <div class="container mx-auto pt-5 pb-5 px-4" style="max-width: 1048px;">
+                <div class="container domain-content">
 
-                    <div class=" d-flex row align-center">
-                        <div class="col">
-                            <p class="fs-2 fw-bold">{"Users"}</p>
-                        </div>
-                        <div class="col d-flex justify-content-end">
-                            <button
-                                type="button"
-                                class="btn btn-primary ms-3 mt-3 mb-3"
-                                data-bs-toggle="modal"
-                                data-bs-target="#createNewUser"
-                            >
-
-                                <i class="bi bi-plus"></i>
-                                <span>{"Create User"}</span>
-                            </button>
+                    <div
+                        class="mb-3"
+                    >
+                        <div class=" d-flex flex-row">
+                            <h2 class="flex-fill title">{"Users"}</h2>
+                            <div>
+                                <button
+                                    type="button"
+                                    class="btn btn-primary d-flex align-items-center"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#createNewUser"
+                                >
+                                    <i class="bi bi-plus me-2" style="margin-left: -5px;"></i>
+                                    <span>{"Create User"}</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="mt-3">
+
+                    <div>
                         <p>
                             {"An easy to use UI to help administrators manage user identities including password resets, creating, and provisioning, blocking, and deleting users. "}
                             {

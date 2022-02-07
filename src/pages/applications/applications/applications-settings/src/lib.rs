@@ -207,8 +207,7 @@ impl Component for ApplicationSettings {
         let tenant_id = self.app_details.tenant.clone();
         html! {
             <div
-                class="py-5 px-4 m-auto"
-                style="max-width: 1048px; font-size:14px;"
+                class="domain-content"
             >
                 <Anchor
                     route=AppRoute::ApplicationHome { tenant_id }
@@ -299,7 +298,9 @@ impl ApplicationSettings {
                     <div
                         class="d-flex flex-column"
                     >
-                        <h2>{name}</h2>
+                        <h2
+                            class="title"
+                        >{name}</h2>
                         <div
                             class="text-muted"
                         >

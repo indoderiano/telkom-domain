@@ -45,8 +45,7 @@ impl Component for SocialHome {
         type Anchor = RouterAnchor<AppRoute>;
         html! {
             <div
-                class="mx-auto pt-5 pb-5 px-4"
-                style="max-width: 1048px;"
+                class="domain-content"
             >
                 <div
                     class="mb-5"
@@ -55,7 +54,7 @@ impl Component for SocialHome {
                         class="d-flex flex-row mb-3"
                     >
                         <div
-                            class="flex-fill fs-3 fw-bold"
+                            class="flex-fill title"
                         >
                             {"Social Connections"}
                         </div>

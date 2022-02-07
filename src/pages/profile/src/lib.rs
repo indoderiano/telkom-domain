@@ -139,10 +139,10 @@ impl Component for Profile {
         type Anchor = RouterAnchor<AppRoute>;
         html! {
             <div>
-                <div class="mx-auto pt-5 pb-5 px-4" style="max-width: 1048px;">
+                <div class="domain-content">
 
                     <div class="mt-2">
-                        <p class="fw-bold fs-2">{ "Profile" }</p>
+                        <p class="title">{ "Profile" }</p>
                     </div>
 
                     {
@@ -181,79 +181,74 @@ impl Profile {
     fn view_content(&self) -> Html {
         html! {
             <>
-            <div class="card p-3 mt-3">
-            <div class="card-body container">
-                <div class="row">
-                    <div
-                        style="width: 160px;"
-                        class="mb-4"
-                    >
-                        <div
-                            style="flex: 0 0 auto; width: 128px; height: 128px; background-color: #eff0f2;"
-                            class="d-flex justify-content-center align-items-center rounded-circle"
-                        >
-                            <i class="bi bi-person-circle" style="font-size: 45px;"></i>
-                        </div>
-                    </div>
-                    <div class="col-md-9 px-3">
+                <div class="card p-3 mt-3">
+                    <div class="card-body container">
                         <div class="row">
-                            <div class="col-12 col-md-12 col-lg-4 mb-2">
-                                <p class="text-muted mb-1">{"Name"}</p>
-                                <p class="mb-1">{"Indo Halim"}</p>
-                            </div>
-                            <div class="col-12 col-md-12 col-lg-4 mb-2">
-                                <p class="text-muted mb-1 ">{"Email"}</p>
-                                <p class="mb-1">{"mde50526@gmail.com"}</p>
-                            </div>
-                            <div class="col-12 col-md-12 col-lg-4 mb-2">
-                                <p class="text-muted mb-1">{"Nickname"}</p>
-                                <p class="mb-1">{"mde50526"}</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-md-12 col-lg-4 mb-2">
-                                <p class="text-muted mb-1">{"Provider"}</p>
-                                <p class="mb-1">{"Google / Gmail"}</p>
-                            </div>
-                            <div class="col-12 col-md-12 col-lg-4 mb-2">
-                                <p class="text-muted mb-1">{"Default Tenant"}</p>
-                                <select
-                                    class="form-select"
-                                    // onchange=self.link.callback(|e| {
-                                    //     if let ChangeData::Select(select) = e {
-                                    //         let value = select.value();
-                                    //         Msg::InputText(value, Data::SigningAlg)
-                                    //     } else {
-                                    //         Msg::InputText("No value".to_string(), Data::SigningAlg)
-                                    //     }
-                                    // })
+                            <div
+                                style="width: 160px;"
+                                class="mb-4"
+                            >
+                                <div
+                                    style="flex: 0 0 auto; width: 128px; height: 128px; background-color: #eff0f2;"
+                                    class="d-flex justify-content-center align-items-center rounded-circle"
                                 >
-                                    <option
-                                        value="dev-ofzd5p1b"
-                                        // selected={if signing_alg == "RS256".to_string() {true} else {false}}
-                                    >
-                                        {"dev-ofzd5p1b (au)"}
-                                    </option>
-                                    <option
-                                        value="dev-skls3k4d"
-                                        // selected={if signing_alg == "HS256".to_string() {true} else {false}}
-                                    >
-                                        {"dev-skls3k4d (au)"}
-                                    </option>
-                                </select>
-                                // <p class="mb-1">{"MrlpRDQKGK9ENLgHd89jWTMkKvf0O7t9"}</p>
+                                    <i class="bi bi-person-circle" style="font-size: 45px;"></i>
+                                </div>
                             </div>
-                            // <div class="col-12 col-md-12 col-lg-4">
-                            //     <p class="text-muted mb-1">{"User"}</p>
-                            //     <p>{"N/A"}</p>
-                            // </div>
+                            <div class="col-md-9 px-3">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-4 mb-2">
+                                        <p class="text-muted mb-1">{"Name"}</p>
+                                        <p class="mb-1">{"Indo Halim"}</p>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-4 mb-2">
+                                        <p class="text-muted mb-1 ">{"Email"}</p>
+                                        <p class="mb-1">{"mde50526@gmail.com"}</p>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-4 mb-2">
+                                        <p class="text-muted mb-1">{"Nickname"}</p>
+                                        <p class="mb-1">{"mde50526"}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-4 mb-2">
+                                        <p class="text-muted mb-1">{"Provider"}</p>
+                                        <p class="mb-1">{"Google / Gmail"}</p>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-4 mb-2">
+                                        <p class="text-muted mb-1">{"Default Tenant"}</p>
+                                        <select
+                                            class="form-select"
+                                            // onchange=self.link.callback(|e| {
+                                            //     if let ChangeData::Select(select) = e {
+                                            //         let value = select.value();
+                                            //         Msg::InputText(value, Data::SigningAlg)
+                                            //     } else {
+                                            //         Msg::InputText("No value".to_string(), Data::SigningAlg)
+                                            //     }
+                                            // })
+                                        >
+                                            <option
+                                                value="dev-ofzd5p1b"
+                                                // selected={if signing_alg == "RS256".to_string() {true} else {false}}
+                                            >
+                                                {"dev-ofzd5p1b (au)"}
+                                            </option>
+                                            <option
+                                                value="dev-skls3k4d"
+                                                // selected={if signing_alg == "HS256".to_string() {true} else {false}}
+                                            >
+                                                {"dev-skls3k4d (au)"}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                
+                            </div>
+            
                         </div>
-        
                     </div>
-    
                 </div>
-            </div>
-        </div>
             </>
         }
     }

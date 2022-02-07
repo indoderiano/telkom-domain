@@ -172,8 +172,7 @@ impl Component for UserSettings {
         html! {
             <>
                 <div
-                    class="container mx-auto py-5 px-4"
-                    style="max-width: 1048px"
+                    class="container domain-content"
                 >
                     <Anchor
                         route=AppRoute::UsersHome {tenant_id: self.tenant_id.clone()}
@@ -250,7 +249,9 @@ impl UserSettings {
                                 <div
                                     class="d-flex flex-column"
                                 >
-                                    <h2>{ email }</h2>
+                                    <h2
+                                        class="title"
+                                    >{ email }</h2>
                                     <div
                                         class="text-muted"
                                     >

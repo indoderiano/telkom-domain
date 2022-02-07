@@ -47,8 +47,7 @@ impl Component for DatabaseSettings {
         type Anchor = RouterAnchor<AppRoute>;
         html! {
             <div
-                class="py-5 px-4 m-auto"
-                style="max-width: 1048px; font-size:14px;"
+                class="domain-content"
             >
                 <Anchor
                     route=AppRoute::DatabaseHome
@@ -74,7 +73,9 @@ impl Component for DatabaseSettings {
                     <div
                         class="d-flex flex-column"
                     >
-                        <h2>{"Username-Password-Authentication"}</h2>
+                        <h2
+                            class="title"
+                        >{"Username-Password-Authentication"}</h2>
                         <div
                             class="text-muted"
                         >

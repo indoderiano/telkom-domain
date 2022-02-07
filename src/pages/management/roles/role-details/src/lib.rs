@@ -188,7 +188,7 @@ impl ViewDetail {
         } = self.role.clone();
         html! {
             <>
-            <div class="mx-auto pt-5 pb-5 px-4" style="max-width: 1048px;">
+            <div class="domain-content">
                 <div>
                     <Anchor route=AppRoute::RolesHome classes="text-decoration-none text-muted">
                         <i class="bi bi-arrow-left"></i>
@@ -197,7 +197,7 @@ impl ViewDetail {
                 </div>
 
                 <div class="mt-2">
-                    <p class="fw-bold fs-2">{ name.clone() }</p>
+                    <h2 class="title">{ name.clone() }</h2>
                     <div class="pt-2">
                         <span class="text-muted">{"Role ID"}</span>
                         <code class="text-dark ms-2" style="background-color: #eff0f2; font-family: Roboto, sans-serif;">{ id.clone() }</code>

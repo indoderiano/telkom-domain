@@ -158,7 +158,7 @@ impl Component for LogDetails {
         type Anchor = RouterAnchor<AppRoute>;
         html! {
             <div>
-                <div class="mx-auto pt-5 pb-5 px-4" style="max-width: 1048px;">
+                <div class="domain-content">
                     <div>
                         <Anchor route=AppRoute::LogsHome { tenant_id: self.tenant_id.clone() } classes="text-decoration-none text-muted">
                             <i class="bi bi-arrow-left"></i>
@@ -167,7 +167,7 @@ impl Component for LogDetails {
                     </div>
 
                     <div class="mt-2">
-                        <p class="fw-bold fs-2">{ "Logs" }</p>
+                        <h2 class="title">{ "Logs" }</h2>
                     </div>
 
                     {

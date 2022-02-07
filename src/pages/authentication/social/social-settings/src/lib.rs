@@ -47,8 +47,7 @@ impl Component for SocialSettings {
         type Anchor = RouterAnchor<AppRoute>;
         html! {
             <div
-                class="py-5 px-4 m-auto"
-                style="max-width: 1048px; font-size:14px;"
+                class="domain-content"
             >
                 <Anchor
                     route=AppRoute::SocialHome
@@ -74,7 +73,9 @@ impl Component for SocialSettings {
                     <div
                         class="d-flex flex-column"
                     >
-                        <h2>{"google-oauth2"}</h2>
+                        <h2
+                            class="title"
+                        >{"google-oauth2"}</h2>
                         <div
                             class="text-muted"
                         >
